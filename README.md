@@ -1,3 +1,3 @@
-# quat
+# quat -- quality analysis tools
 
-quality analysis tools -- a collection of libs for processing of quality related questions
+collection of python methods and tools as a libary for quality analysis

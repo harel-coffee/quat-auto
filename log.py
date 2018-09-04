@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import logging
+import json
 
 formatter = logging.Formatter(
     fmt='%(levelname)s: %(message)s'
@@ -45,5 +46,14 @@ def lWarn(msg):
 def colorgreen(m):
     return "\033[92m" + m + "\033[0m"
 
+
 def colorred(m):
     return "\033[91m" + m + "\033[0m"
+
+
+def jprint(x):
+    print(json.dumps(x, indent=4, sort_keys=True))
+
+
+def jPrint(x):
+    jprint(x)

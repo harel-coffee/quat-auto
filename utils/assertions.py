@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+import os
+import sys
 
-from .log import *
+from ..log import *
 
 
 def msg_assert(cond, message_error="", message_ok=""):

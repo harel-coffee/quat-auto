@@ -35,14 +35,14 @@ class Feature:
         return rfn
 
     def load(self, folder, video, name=""):
+        os.makedirs(folder, exist_ok=True)
         fn = self._feature_filename(folder, video, name)
         if os.path.isfile(fn):
             with open(fn) as ffp:
                 j = json.load(ffp)
                 self._values = j["values"]
                 return j["values"]
-        else:
-            return False
+        return False
 
     def store(self, folder, video, name=""):
         fn = self._feature_filename(folder, video, name)
@@ -53,7 +53,7 @@ class Feature:
         }
         with open(fn, "w") as ffp:
             json.dump(v, ffp, indent=4, sort_keys=True)
-
+        return fn
 
 class MovementFeatures(Feature):
     def __init__(self):
@@ -314,10 +314,13 @@ class UHDSIM2HD(Feature):
     def calc(self, frame):
         frame_gray = skimage.color.rgb2gray(frame).astype(np.float32)
 
-        width_hd, height_hd = int(1080 * frame_gray.shape[1] / frame_gray.shape[0]), 1080
+        # check half of input resolution
+        width_hd, height_hd = frame_gray.shape[1] // 2, frame_gray.shape[0] // 2
         frame_gray_hd = cv2.resize(frame_gray, dsize=(width_hd , height_hd), interpolation=cv2.INTER_CUBIC)
         frame_gray_hd = cv2.resize(frame_gray_hd, dsize=(frame_gray.shape[1] , frame_gray.shape[0]), interpolation=cv2.INTER_CUBIC)
         v = float(skvideo.measure.psnr(frame_gray, frame_gray_hd)[0])
+        if np.isinf(v):
+            v = 1000
         self._values.append(v)
         return v
 
@@ -326,6 +329,7 @@ class ImageFeature(Feature):
     def __init__(self, img_f):
         self._values = []
         self.img_f = img_f
+
     def calc(self, frame):
         v = self.img_f(frame)
         self._values.append(v)

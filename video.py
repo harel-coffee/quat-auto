@@ -3,6 +3,10 @@ import time
 
 import skvideo.io
 from skimage import img_as_uint
+import scipy
+import scipy.stats
+import numpy as np
+import pandas as pd
 
 from .log import *
 
@@ -46,4 +50,34 @@ def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_functio
     except StopIteration:
         lInfo("reached end")
     return results
+
+
+def advanced_pooling(x, name, parts=3):
+    if len(x) > 0 and type(x[0]) == dict:
+        res = {}
+        for k in x[0]:
+            df = pd.DataFrame(x)
+            res = dict(res, **advanced_pooling(df[k], name, parts=3))
+        return res
+
+    values = np.array(x)
+    values = values / values.max()
+    res = {
+        f"{name}_mean": float(values.mean()),
+        f"{name}_std": float(values.std()),
+        f"{name}_skew": float(scipy.stats.skew(values)),
+        f"{name}_kurtosis": float(scipy.stats.kurtosis(values)),
+        f"{name}_iqr": float(scipy.stats.iqr(values)),
+    }
+
+    # split values in `parts` groups, and calculate mean, std
+    groups = np.array_split(values, parts)
+    for i in range(len(groups)):
+        res[f"{name}_p{i}.mean"] = groups[i].mean()
+        res[f"{name}_p{i}.std"] = groups[i].std()
+
+    for i in range(11):
+        quantile = round(0.1 * i, 1)
+        res[f"{name}_{quantile}_quantil"] = float(np.percentile(values, 100 * quantile))
+    return res
 

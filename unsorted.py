@@ -2,6 +2,7 @@
 
 import datetime
 import time
+import json
 
 from .log import *
 
@@ -63,4 +64,13 @@ def align_vectors(x, y):
     y = y[0:min_len]
     return x, y
 
+
+def jdump_file(filename, jo, printing=False):
+    """
+    dump a json file to a filename
+    """
+    if printing:
+        print(json.dumps(jo, indent=4, sort_keys=True))
+    with open(filename, "w") as _fp:
+        json.dump(jo, _fp, indent=4, sort_keys=True)
 

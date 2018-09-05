@@ -61,13 +61,19 @@ def advanced_pooling(x, name, parts=3):
         return res
 
     values = np.array(x)
-    values = values / values.max()
+    last_value = values[-1]
+    first_value = values[-1]
+    _max = values.max() if values.max() != 0 else 1
+    values = values / _max
+
     res = {
         f"{name}_mean": float(values.mean()),
         f"{name}_std": float(values.std()),
         f"{name}_skew": float(scipy.stats.skew(values)),
         f"{name}_kurtosis": float(scipy.stats.kurtosis(values)),
         f"{name}_iqr": float(scipy.stats.iqr(values)),
+        f"{name}_last_value": float(last_value),
+        f"{name}_first_value": float(first_value)
     }
 
     # split values in `parts` groups, and calculate mean, std

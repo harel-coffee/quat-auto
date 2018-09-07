@@ -52,7 +52,7 @@ def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_functio
     return results
 
 
-def advanced_pooling(x, name, parts=3):
+def advanced_pooling(x, name, parts=3, stats=True):
     if len(x) > 0 and type(x[0]) == dict:
         res = {}
         for k in x[0]:
@@ -61,12 +61,20 @@ def advanced_pooling(x, name, parts=3):
         return res
 
     values = np.array(x)
+    # filter only not nans and not inf values
+    values = values[~np.isnan(values)]
+    values = values[np.isfinite(values)]
+    if len(values) == 0:
+        values = np.array([numpy.finfo(numpy.float32).max - 1])
+
     last_value = values[-1]
     first_value = values[-1]
     _max = values.max() if values.max() != 0 else 1
+    """
     values = values / _max
-
+    """
     res = {
+        f"{name}_max": float(_max),
         f"{name}_mean": float(values.mean()),
         f"{name}_std": float(values.std()),
         f"{name}_skew": float(scipy.stats.skew(values)),
@@ -81,9 +89,9 @@ def advanced_pooling(x, name, parts=3):
     for i in range(len(groups)):
         res[f"{name}_p{i}.mean"] = groups[i].mean()
         res[f"{name}_p{i}.std"] = groups[i].std()
-
-    for i in range(11):
-        quantile = round(0.1 * i, 1)
-        res[f"{name}_{quantile}_quantil"] = float(np.percentile(values, 100 * quantile))
+    if stats:
+        for i in range(11):
+            quantile = round(0.1 * i, 1)
+            res[f"{name}_{quantile}_quantil"] = float(np.percentile(values, 100 * quantile))
     return res
 

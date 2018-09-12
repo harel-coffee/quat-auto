@@ -24,25 +24,32 @@ logging.addLevelName(logging.ERROR, "\033[1;31m%s\033[1;0m" % logging.getLevelNa
 logging.addLevelName(logging.WARNING, "\033[1;33m%s\033[1;0m" % logging.getLevelName(logging.WARNING))
 logging.addLevelName(logging.INFO, "\033[1;32m%s\033[1;0m" % logging.getLevelName(logging.INFO))
 logging.addLevelName(logging.DEBUG, "\033[1;35m%s\033[1;0m" % logging.getLevelName(logging.DEBUG))
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.ERROR)
 
-_logger = logging.getLogger("quat logger")
-_logger.setLevel(logging.DEBUG)
 
+LOGGING_LEVEL = logging.DEBUG
 
 def lInfo(msg):
+    _logger = logging.getLogger(__name__)
+    _logger.setLevel(LOGGING_LEVEL)
     _logger.info(msg)
 
 
 def lError(msg):
+    _logger = logging.getLogger(__name__)
+    _logger.setLevel(LOGGING_LEVEL)
     _logger.error(msg)
 
 
 def lDbg(msg):
+    _logger = logging.getLogger(__name__)
+    _logger.setLevel(LOGGING_LEVEL)
     _logger.debug(msg)
 
 
 def lWarn(msg):
+    _logger = logging.getLogger(__name__)
+    _logger.setLevel(LOGGING_LEVEL)
     _logger.warning(msg)
 
 

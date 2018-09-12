@@ -287,6 +287,7 @@ def eval_plots_regression(truth, pred, title="", folder="", plotname=""):
                  kind="scatter",
                  xlim=bounds,
                  ylim=bounds,
+                 alpha=0.5,
                  figsize=(6, 6),
                  title=title)
 

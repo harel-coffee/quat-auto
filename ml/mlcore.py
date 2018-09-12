@@ -45,6 +45,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.externals import joblib
 from sklearn.tree import export_graphviz
 
+from quat.unsorted import timeit
+
 
 def print_trees(pipeline, feature_columns, name="trees"):
     os.makedirs(name, exist_ok=True)
@@ -186,6 +188,44 @@ def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean"):
         "used_features": float(feature_selected_supp.sum()),
         "number_features": len(columns),
     }
+
+
+def train_rf_regression_param_optimization(x, y, threshold="0.001*mean", num_trees=25):
+    X = x.replace([np.inf, -np.inf], np.nan).fillna(0).values
+    Y = y.values
+    columns = x.columns
+
+    pipeline = Pipeline([('feature_selection', SelectFromModel(ExtraTreesRegressor(n_jobs=-1),
+                                                               threshold=threshold)),
+                         ('regressor', RandomForestRegressor(n_estimators=num_trees, n_jobs=-1,
+                                                             criterion="mse"
+                                                             ))])
+    from scipy.stats import randint as sp_randint
+    # specify parameters and distributions to sample from
+    param_dist = {
+        'feature_selection__threshold': ['mean', '0.5*mean', '0.1*mean', '0.01*mean', '0.001*mean', '0.0001*mean'],
+        'regressor__bootstrap': [True, False],
+        'regressor__criterion': ['mse','mae'],
+        'regressor__max_depth': [None, 3, 5, 11, 30],
+        'regressor__max_features': ['auto'],
+        'regressor__max_leaf_nodes': [None],
+        'regressor__n_estimators': sp_randint(2, 80),
+    }
+
+    # run randomized search
+    from sklearn.model_selection import RandomizedSearchCV
+    n_iter_search = 20
+    random_search = RandomizedSearchCV(pipeline,
+        param_distributions=param_dist,
+        n_iter=n_iter_search,
+        cv=10,
+        verbose=10
+    )
+    fitting = timeit(random_search.fit)
+    fitting(X, Y)
+    print(random_search.cv_results_)
+    print(random_search.best_params_)
+    return (random_search.cv_results_, random_search.best_params_)
 
 
 def train_gradboost_regression(x, y, num_trees=10, threshold="0.001*mean"):

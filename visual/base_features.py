@@ -55,6 +55,7 @@ class Feature:
             json.dump(v, ffp, indent=4, sort_keys=True)
         return fn
 
+
 class MovementFeatures(Feature):
     def __init__(self):
         self._fgbg = cv2.createBackgroundSubtractorMOG2()
@@ -113,7 +114,6 @@ class CutDetectionFeatures(Feature):
         return cut
 
 
-
 class SiFeatures(Feature):
     def __init__(self):
         self._values = []
@@ -135,7 +135,6 @@ class SiFeatures(Feature):
         return value
 
 
-
 class TiFeatures(Feature):
     def __init__(self):
         self._values = []
@@ -150,7 +149,6 @@ class TiFeatures(Feature):
         self._previous_frame = frame
         self._values.append(value)
         return value
-
 
 
 class TemporalFeatures(Feature):
@@ -169,7 +167,6 @@ class TemporalFeatures(Feature):
         self._previous_frame = frame
         self._values.append(value)
         return value
-
 
 
 class StrredNoRefFeatures(Feature):
@@ -202,7 +199,6 @@ class StrredNoRefFeatures(Feature):
         self._previous_frame = frame
         self._values.append(value)
         return value
-
 
 
 class BlockMotion(Feature):
@@ -238,7 +234,6 @@ class BlockMotion(Feature):
         return per_frame_values
 
 
-
 class CuboidRow(Feature):
     WINDOW = 60  # maximum number of frames in sliding window
     def __init__(self, row):
@@ -258,7 +253,6 @@ class CuboidRow(Feature):
         return v
 
 
-
 class CuboidCol(Feature):
     WINDOW = 60  # maximum number of frames in sliding window
     def __init__(self, col):
@@ -276,7 +270,6 @@ class CuboidCol(Feature):
         v = ndimage.sobel(self._cols).std()
         self._values.append(v)
         return v
-
 
 
 class Staticness(Feature):
@@ -323,6 +316,53 @@ class UHDSIM2HD(Feature):
             v = 1000
         self._values.append(v)
         return v
+
+
+class Blockiness(Feature):
+    """
+    calculate blockness of a video,
+    assume that compression blocks have the same 8x8 size,
+        * apply canny edge detection, K=[X,Y]-axis, normalued by num-rows/cols
+        * calculate mean for all K summed values (A)
+        * calculate for a shift (0,7) and for every 8th value of the K summed values the mean (B)
+            * all shifts will be considered, and only the one with max_mean value is used
+        * assume that the distribution should differe, if blocks are there
+        * difference of A, and B is then the feature value
+    overall blockiness value -- per frame:
+        value = SQRT(|x_mean_diff * y_mean_diff |) / 2^(|(max_shift_x - max_shift_y)|)
+    """
+    def __estimate_shift(self, values):
+        max_i = 0
+        max_i_mean = values[max_i::8].mean()
+        for i in range(8):
+            curr_i_mean = values[i::8].mean()
+            if max_i_mean < curr_i_mean:
+                max_i_mean = curr_i_mean
+                max_i = i
+        return max_i
+
+    def calc(self, frame):
+        frame_c = cv2.Canny(frame, 50, 50)
+
+        xsums = (frame_c.sum(axis=0) / (frame.shape[0]))
+        ysums = (frame_c.sum(axis=1) / (frame.shape[1]))
+        xaxis_all = xsums.mean()
+        yaxis_all = ysums.mean()
+
+        max_i_x = self.__estimate_shift(xsums)
+        max_i_y = self.__estimate_shift(ysums)
+
+        xaxis_8 = xsums[max_i_x::8].mean()
+        yaxis_8 = ysums[max_i_y::8].mean()
+        v = {
+            "x_mean_diff": xaxis_all - xaxis_8,
+            "y_mean_diff": yaxis_all - yaxis_8,
+            "max_i_x": max_i_x,
+            "max_i_y": max_i_y,
+        }
+        v["diff"] = (np.sqrt(np.abs(v["x_mean_diff"] * v["y_mean_diff"]))) / np.power(2, np.abs(max_i_x - max_i_y))
+        self._values.append(v["diff"])
+        return v["diff"]
 
 
 class ImageFeature(Feature):

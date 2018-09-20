@@ -39,7 +39,13 @@ class Feature:
         fn = self._feature_filename(folder, video, name)
         if os.path.isfile(fn):
             with open(fn) as ffp:
-                j = json.load(ffp)
+                try:
+                    j = json.load(ffp)
+                except:
+                    lError(f"there is something wrong with {video}, {name}")
+                    # loading of feature value is not possible,
+                    # force to calculate it again
+                    return False
                 self._values = j["values"]
                 return j["values"]
         return False
@@ -331,37 +337,42 @@ class Blockiness(Feature):
     overall blockiness value -- per frame:
         value = SQRT(|x_mean_diff * y_mean_diff |) / 2^(|(max_shift_x - max_shift_y)|)
     """
-    def __estimate_shift(self, values):
+    _blocksizes = [8, 16, 32, 64, 128]
+
+    def __estimate_shift(self, values, blocksize):
         max_i = 0
-        max_i_mean = values[max_i::8].mean()
-        for i in range(8):
-            curr_i_mean = values[i::8].mean()
+        max_i_mean = values[max_i::blocksize].mean()
+        for i in range(blocksize):
+            curr_i_mean = values[i::blocksize].mean()
             if max_i_mean < curr_i_mean:
                 max_i_mean = curr_i_mean
                 max_i = i
         return max_i
 
     def calc(self, frame):
-        frame_c = cv2.Canny(frame, 50, 50)
+        frame_c = cv2.Canny(frame, 100, 200)
 
         xsums = (frame_c.sum(axis=0) / (frame.shape[0]))
         ysums = (frame_c.sum(axis=1) / (frame.shape[1]))
         xaxis_all = xsums.mean()
         yaxis_all = ysums.mean()
 
-        max_i_x = self.__estimate_shift(xsums)
-        max_i_y = self.__estimate_shift(ysums)
+        blockiness_values = []
+        for blocksize in self._blocksizes:
+            max_i_x = self.__estimate_shift(xsums, blocksize)
+            max_i_y = self.__estimate_shift(ysums, blocksize)
 
-        xaxis_8 = xsums[max_i_x::8].mean()
-        yaxis_8 = ysums[max_i_y::8].mean()
-        v = {
-            "x_mean_diff": xaxis_all - xaxis_8,
-            "y_mean_diff": yaxis_all - yaxis_8,
-            "max_i_x": max_i_x,
-            "max_i_y": max_i_y,
-        }
-        v["diff"] = (np.sqrt(np.abs(v["x_mean_diff"] * v["y_mean_diff"]))) / np.power(2, np.abs(max_i_x - max_i_y))
-        self._values.append(v["diff"])
+            xaxis_bsize = xsums[max_i_x::blocksize].mean()
+            yaxis_bsize = ysums[max_i_y::blocksize].mean()
+            v = {
+                "x_mean_diff": xaxis_all - xaxis_bsize,
+                "y_mean_diff": yaxis_all - yaxis_bsize,
+                "max_i_x": max_i_x,
+                "max_i_y": max_i_y,
+            }
+            v["diff"] = (np.sqrt(np.abs(v["x_mean_diff"] * v["y_mean_diff"]))) / np.power(2, np.abs(max_i_x - max_i_y) / blocksize)
+            blockiness_values.append(float(blockiness_values))
+        self._values.append(max(blockiness_values))
         return v["diff"]
 
 

@@ -371,7 +371,7 @@ class Blockiness(Feature):
                 "max_i_y": max_i_y,
             }
             v["diff"] = (np.sqrt(np.abs(v["x_mean_diff"] * v["y_mean_diff"]))) / np.power(2, np.abs(max_i_x - max_i_y) / blocksize)
-            blockiness_values.append(float(blockiness_values))
+            blockiness_values.append(float(v["diff"]))
         self._values.append(max(blockiness_values))
         return v["diff"]
 

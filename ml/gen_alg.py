@@ -6,11 +6,13 @@ import sys
 from multiprocessing import Pool
 import multiprocessing
 import copy
-
-import numpy as np
 import random
 
-class Individuum:
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+class Individual:
     _genom = np.array([])
     _fitness = 0
     _age = 0
@@ -35,13 +37,6 @@ class Individuum:
     def calc_fitness(self):
         return 0
 
-    def aging(self):
-        self._age += 1
-        return self
-
-    def dead(self):
-        return self._age > 80
-
     def get_fitness(self):
         return self._fitness
 
@@ -62,49 +57,8 @@ class Individuum:
         self._fitness = 0
 
 
-def _calc_fitness(individuum):
-    individuum.calc_fitness()
-    return individuum.get_fitness()
 
-
-def calc_fitness(population, pool):
-    """
-    for i in population:
-        i.calc_fitness()
-    return
-    """
-    # calculate fitness, parallel
-    r = pool.map(_calc_fitness, population)
-    for i, x in enumerate(r):
-        population[i]._fitness = x
-    """
-    """
-
-def print_population(population):
-    print("\n".join(map(str, population)))
-
-def print_genes(population):
-    print("\n".join(map(lambda x: str(x.get_genom()), population)))
-
-
-def breed(parents, mutation_rate=0.5):
-    childs = []
-    while len(childs) < 2 * len(parents):
-        # grab random parents and "merge them" to get a child
-        p1 = random.choice(parents)
-        p2 = random.choice(parents)
-        child = p1.sex(p2)
-        child.mutate(mutation_rate)
-        childs.append(child)
-
-    return childs
-
-
-def sort_by_fitness(population):
-    return sorted(population, key=lambda x: x.get_fitness())
-
-
-class HelloWorld(Individuum):
+class HelloWorld(Individual):
     target = np.array([ord(x) - 65 for x in "HelloWorld"], dtype=np.int)
 
     def __init__(self, number_genes=len("HelloWorld")):
@@ -130,7 +84,113 @@ class HelloWorld(Individuum):
         return "".join(chars)
 
 
-import matplotlib.pyplot as plt
+def _calc_fitness(individual):
+    individual.calc_fitness()
+    return individual.get_fitness()
+
+
+
+
+class genetic_evolution:
+    def __init__(self, population_size, mutation_rate, max_num_generations, INDIVIDUAL_CLASS, cpu_count=multiprocessing.cpu_count(), verbose=False, live_plot=True):
+         # create multiprocessing pool
+        self._pool = Pool(processes=cpu_count)
+        self._population_size = population_size
+        self._mutation_rate = mutation_rate
+        self._max_num_generations = max_num_generations
+        self._INDIVIDUAL_CLASS = INDIVIDUAL_CLASS
+        self._cpu_count = cpu_count
+
+        # create initial population
+        self._population = []
+        for i in range(self._population_size):
+            self._population.append(self._INDIVIDUAL_CLASS().init_genom())
+        self._population = np.array(self._population)
+
+        self._calc_fitness_of_all(self._population)
+        if verbose:
+            print_population(self._population)
+        if live_plot:
+            plt.show()
+            axes = plt.gca()
+            self._xdata = []
+            self._ydata = []
+            axes.set_xlim(0, self._max_num_generations)
+            max_fitness = max([x.get_fitness() for x in self._population])
+            axes.set_ylim(0, int(max_fitness * 0.1))
+            self._line, = axes.plot(self._xdata, self._ydata, '-')
+
+        self._num_generations = 0
+
+    def next_generation():
+
+        if self._num_generations >= self._max_num_generations:
+            print("done")
+            return self._population
+
+        print("generation:", self._num_generations, "last fittest:", self._population[0].get_fitness(), "genom:", self._population[0].get_genom())
+        if live_plot:
+            self._xdata.append(self._num_generations)
+            self._ydata.append(self._population[0].get_fitness())
+            self._line.set_xdata(self._xdata)
+            self._line.set_ydata(self._ydata)
+            plt.draw()
+            plt.pause(1e-17)
+
+        # sort by fitness
+        population = self._sort_by_fitness(population)
+
+        # select the best-fit individuals for reproduction. (Parents)
+        # we take 25 % of all best individuals
+        parents = population[0:population_size // 4]
+
+        # breed new individuals through crossover and mutation operations to give birth to offspring.
+        childs = crossover(parents, mutation_rate)
+
+        # Evaluate the individual fitness of new individuals.
+        calc_fitness_of_all(childs, pool)
+
+        population = population + childs
+        population = sort_by_fitness(population)
+
+        # replace least-fit population with new individuals.
+        population = population[0:population_size]
+        num_generations += 1
+
+        print(population[0].print())
+        print(population[0].get_genom())
+        return population
+
+    def _calc_fitness_of_all(self, population):
+        # calculate fitness, parallel
+        r = self._pool.map(_calc_fitness, population)
+        for i, x in enumerate(r):
+            population[i]._fitness = x
+        return population
+
+    def _print_population(self, population):
+        print("\n".join(map(str, population)))
+
+    def _print_genes(self, population):
+        print("\n".join(map(lambda x: str(x.get_genom()), population)))
+
+    def _crossover(self, parents, mutation_rate=0.5):
+        childs = []
+        while len(childs) < 2 * len(parents):
+            # grab random parents and "merge them" to get a child
+            p1 = random.choice(parents)
+            p2 = random.choice(parents)
+            child = p1.sex(p2)
+            child.mutate(mutation_rate)
+            childs.append(child)
+
+        return childs
+
+    def _sort_by_fitness(self, population):
+        return sorted(population, key=lambda x: x.get_fitness())
+
+
+
 
 def main(_):
     random.seed(42)
@@ -138,92 +198,12 @@ def main(_):
     population_size = 200
     max_num_generations = 1000
     mutation_rate = 0.1
-
-    INDIVIDUUM_CLASS = HelloWorld
+    INDIVIDUAL_CLASS = HelloWorld
     cpu_count = 4
-    pool = Pool(processes=cpu_count)
-
-    population = []
-    for i in range(population_size):
-        population.append(INDIVIDUUM_CLASS().init_genom())
-    population = np.array(population)
-
-    calc_fitness(population, pool)
-
-    #print_genes(population)
-    print_population(population)
 
 
-    plt.show()
 
-    axes = plt.gca()
-    xdata = []
-    ydata = []
-    axes.set_xlim(0, max_num_generations)
-    max_fitness = max([x.get_fitness() for x in population])
-    axes.set_ylim(0, int(max_fitness * 0.1))
-    line, = axes.plot(xdata, ydata, '-')
 
-    num_generations = 0
-    while num_generations < max_num_generations:
-        print("generation:", num_generations, "last fittest:", population[0].get_fitness(), "genom:", population[0].get_genom_as_char())
-        print([x.get_genom_as_char() for x in population[1:5]])
-        xdata.append(num_generations)
-        ydata.append(population[0].get_fitness())
-        line.set_xdata(xdata)
-        line.set_ydata(ydata)
-        plt.draw()
-        plt.pause(1e-17)
-
-        # sort by fitness
-        population = sort_by_fitness(population)
-
-        # Select the best-fit individuals for reproduction. (Parents)
-        # we take 25 % of all best individuals,
-        parents = population[0:population_size // 4]
-        # + random.sample(population[population_size // 2:], population_size // 4)
-        # 25% from remaining random sampled
-
-        # Breed new individuals through crossover and mutation operations to give birth to offspring.
-        childs = breed(parents, mutation_rate)
-
-        # Evaluate the individual fitness of new individuals.
-        calc_fitness(childs, pool)
-
-        population = population + childs
-        population = sort_by_fitness(population)
-
-        #population = population[0:10] + random.sample(population, population_size - 10)
-        population = population[0:population_size]
-        """
-
-        # Replace least-fit population with new individuals.
-
-        new_population = np.array(population[0:population_size])
-        """
-        num_generations += 1
-
-    print(population[0].print())
-    print(population[0].get_genom())
-
-    return
-    # argument parsing
-    parser = argparse.ArgumentParser(description='train hyfu-- a no reference fume variant',
-                                     epilog="stg7 2018",
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("database", type=str, help="training database csv file (consists of video segment and rating value) or restricted yaml file")
-    parser.add_argument("--feature_folder", type=str, default="features", help="folder for storing the features")
-    parser.add_argument("--skip_feature_extraction", action="store_true", help="skip feature extraction step")
-    parser.add_argument("--feaure_backtrack", action="store_true", help="backtrack all feature sets")
-    parser.add_argument("--train_repetitions", type=int, default=1, help="number of repeatitions for training")
-    parser.add_argument("--use_features_subset", action="store_true", help="use only a defined subset of features ({})".format(features_subset()))
-    parser.add_argument("--model", type=str, default="models/hyfu.npz", help="output model")
-    parser.add_argument("--mode", choices=[0,1], type=int, default=0, help="mode of model")
-    parser.add_argument('--cpu_count', type=int, default=multiprocessing.cpu_count() // 2, help='thread/cpu count')
-    parser.add_argument("--validation_database", type=str, help="database that is used for validation")
-    parser.add_argument("--feature_folder_validation", type=str, default="features", help="folder where validation features are stored")
-
-    a = vars(parser.parse_args())
 
 
 if __name__ == "__main__":

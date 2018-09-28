@@ -13,9 +13,11 @@ import matplotlib.pyplot as plt
 
 
 class Individual:
+    """
+    base class of an individual in a genetic algorithm
+    """
     _genom = np.array([])
     _fitness = 0
-    _age = 0
 
     def __init__(self, number_genes=42):
         self._genom = np.array([0.0] * number_genes)
@@ -27,6 +29,9 @@ class Individual:
 
     def get_genom(self):
         return self._genom
+
+    def str_genom(self):
+        return str(self.get_genom())
 
     def __str__(self):
         return f"""{self.__class__.__name__}: fit: {self._fitness} """ # @genom: {self._genom}"""
@@ -43,7 +48,6 @@ class Individual:
     def sex(self, other):
         c = copy.deepcopy(self)
         c._fitness = 0
-        c._age = 0
         g = c.get_genom()
         go = other.get_genom()
         split = int(random.random() * len(g))
@@ -59,6 +63,10 @@ class Individual:
 
 
 class HelloWorld(Individual):
+    """
+    example individual class, starting from a random string,
+    to get "HelloWorld"
+    """
     target = np.array([ord(x) - 65 for x in "HelloWorld"], dtype=np.int)
 
     def __init__(self, number_genes=len("HelloWorld")):
@@ -70,6 +78,9 @@ class HelloWorld(Individual):
         fit = diff.sum()
         self._fitness = fit
         return fit
+
+    def str_genom(self):
+        return self.get_genom_as_char()
 
     def print(self):
         return f"""
@@ -84,33 +95,45 @@ class HelloWorld(Individual):
         return "".join(chars)
 
 
+
 def _calc_fitness(individual):
+    """ local helper for multiprocessing
+    """
     individual.calc_fitness()
     return individual.get_fitness()
 
 
-
-
-class genetic_evolution:
-    def __init__(self, population_size, mutation_rate, max_num_generations, INDIVIDUAL_CLASS, cpu_count=multiprocessing.cpu_count(), verbose=False, live_plot=True):
-         # create multiprocessing pool
+class GeneticEvolution:
+    """
+    simple base class for genetic evolution
+    """
+    def __init__(self, population_size, mutation_rate, max_num_generations, individual_class, cpu_count=multiprocessing.cpu_count(), verbose=False, live_plot=True, checkpoint_folder="checkpoint", checkpoint_intervall=10):
+        """
+        create GeneticEvolution instance
+        """
+        # create multiprocessing pool
         self._pool = Pool(processes=cpu_count)
         self._population_size = population_size
         self._mutation_rate = mutation_rate
         self._max_num_generations = max_num_generations
-        self._INDIVIDUAL_CLASS = INDIVIDUAL_CLASS
+        self._individual_class = individual_class
         self._cpu_count = cpu_count
+        self._verbose = verbose
+        self._live_plot = live_plot
+        self._checkpoint_folder = checkpoint_folder
+        self._checkpoint_intervall = checkpoint_intervall
+        os.makedirs(self._checkpoint_folder, exist_ok=True)
 
         # create initial population
         self._population = []
         for i in range(self._population_size):
-            self._population.append(self._INDIVIDUAL_CLASS().init_genom())
+            self._population.append(self._individual_class().init_genom())
         self._population = np.array(self._population)
 
         self._calc_fitness_of_all(self._population)
-        if verbose:
-            print_population(self._population)
-        if live_plot:
+        if self._verbose:
+            self._print_population(self._population)
+        if self._live_plot:
             plt.show()
             axes = plt.gca()
             self._xdata = []
@@ -122,14 +145,16 @@ class genetic_evolution:
 
         self._num_generations = 0
 
-    def next_generation():
-
+    def next_generation(self):
+        """
+        evolve the next generation
+        """
         if self._num_generations >= self._max_num_generations:
             print("done")
             return self._population
 
-        print("generation:", self._num_generations, "last fittest:", self._population[0].get_fitness(), "genom:", self._population[0].get_genom())
-        if live_plot:
+        print("generation:", self._num_generations, "last fittest:", self._population[0].get_fitness(), "genom:", self._population[0].str_genom())
+        if self._live_plot:
             self._xdata.append(self._num_generations)
             self._ydata.append(self._population[0].get_fitness())
             self._line.set_xdata(self._xdata)
@@ -138,28 +163,36 @@ class genetic_evolution:
             plt.pause(1e-17)
 
         # sort by fitness
-        population = self._sort_by_fitness(population)
+        self._population = self._sort_by_fitness(self._population)
 
         # select the best-fit individuals for reproduction. (Parents)
         # we take 25 % of all best individuals
-        parents = population[0:population_size // 4]
+        parents = self._population[0:self._population_size // 4]
 
         # breed new individuals through crossover and mutation operations to give birth to offspring.
-        childs = crossover(parents, mutation_rate)
+        childs = self._crossover(parents, self._mutation_rate)
 
         # Evaluate the individual fitness of new individuals.
-        calc_fitness_of_all(childs, pool)
+        self._calc_fitness_of_all(childs)
 
-        population = population + childs
-        population = sort_by_fitness(population)
+        self._population = self._population + childs
+        self._population = self._sort_by_fitness(self._population)
 
         # replace least-fit population with new individuals.
-        population = population[0:population_size]
-        num_generations += 1
+        self._population = self._population[0:self._population_size]
+        self._num_generations += 1
 
-        print(population[0].print())
-        print(population[0].get_genom())
-        return population
+        if self._verbose:
+            print(self._population[0].print())
+            print(self._population[0].str_genom())
+
+        self._checkpoint()
+        return self._population
+
+    def _checkpoint(self):
+        if self._num_generations % self._checkpoint_intervall == 0:
+            print(f"checkpoint: {self._checkpoint_folder}/{self._num_generations}")
+            # TODO
 
     def _calc_fitness_of_all(self, population):
         # calculate fitness, parallel
@@ -189,21 +222,29 @@ class genetic_evolution:
     def _sort_by_fitness(self, population):
         return sorted(population, key=lambda x: x.get_fitness())
 
-
+    def get_number_generations(self):
+        return self._num_generations
 
 
 def main(_):
     random.seed(42)
-    # initialization of initial population
     population_size = 200
     max_num_generations = 1000
     mutation_rate = 0.1
-    INDIVIDUAL_CLASS = HelloWorld
     cpu_count = 4
+    ga = GeneticEvolution(
+        population_size,
+        mutation_rate,
+        max_num_generations,
+        individual_class=HelloWorld,
+        cpu_count=multiprocessing.cpu_count(),
+        verbose=True,
+        live_plot=True,
+        checkpoint_folder="checkpoints"
+    )
 
-
-
-
+    while ga.get_number_generations() < 500:
+        ga.next_generation()
 
 
 if __name__ == "__main__":

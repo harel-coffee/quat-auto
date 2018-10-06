@@ -148,10 +148,14 @@ def train_knn_class(x, y):
     }
 
 
-def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean"):
-    X = x.replace([np.inf, -np.inf], np.nan).fillna(0).values
-    Y = y.values
-    columns = x.columns
+def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
+    try:
+        X = x.replace([np.inf, -np.inf], np.nan).fillna(0).values
+        Y = y.values
+        columns = x.columns
+    except:
+        X = x
+        Y = y
 
     pipeline = Pipeline([('feature_selection', SelectFromModel(ExtraTreesRegressor(n_jobs=-1),
                                                                threshold=threshold)),

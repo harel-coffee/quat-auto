@@ -23,11 +23,17 @@ class Individual:
         self._genom = np.array([0.0] * number_genes)
 
     def init_genom(self):
+        """
+        inititalize genom of individual, with random numbers, [0,1] per default
+        """
         for i in range(len(self._genom)):
-            self._genom[i] = random.random()
+            self._genom[i] = random.uniform(0, 1)
         return self  # return self, simplifies construction
 
     def get_genom(self):
+        """
+        return genom
+        """
         return self._genom
 
     def str_genom(self):

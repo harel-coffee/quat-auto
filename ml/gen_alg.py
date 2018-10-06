@@ -37,21 +37,34 @@ class Individual:
         return self._genom
 
     def str_genom(self):
+        """
+        string version of genom
+        """
         return str(self.get_genom())
 
     def __str__(self):
-        return f"""{self.__class__.__name__}: fit: {self._fitness} """ # @genom: {self._genom}"""
+        return f"""{self.__class__.__name__}: fit: {self._fitness} """
 
     def print(self):
         return str(self)
 
     def calc_fitness(self):
-        return 0
+        """
+        calculate fitness of individual
+        """
+        raise NotImplementedError("this method should be implemented by your subclass")
 
     def get_fitness(self):
+        """
+        return fitnes value
+        """
         return self._fitness
 
-    def sex(self, other):
+    def crossover(self, other):
+        """
+        combine current individual with other,
+        create a new individual (copy)
+        """
         c = copy.deepcopy(self)
         c._fitness = 0
         g = c.get_genom()
@@ -61,6 +74,11 @@ class Individual:
         return c
 
     def mutate(self, mutation_rate):
+        """
+        based on mutation rate, change some genes,
+        mutation rate is the percentage of how many genes are changes
+        (randomly choosen, with repetition)
+        """
         for x in range(0, max(1, int(np.ceil(mutation_rate * len(self._genom))))):
             pos = random.randint(0, len(self._genom) - 1)
             self._genom[pos] = np.clip(self._genom[pos] +  (2 * random.random() - 1), 0, 1)
@@ -71,7 +89,7 @@ class Individual:
 class HelloWorld(Individual):
     """
     example individual class, starting from a random string,
-    to get "HelloWorld"
+    get "HelloWorld"
     """
     target = np.array([ord(x) - 65 for x in "HelloWorld"], dtype=np.int)
 
@@ -79,6 +97,9 @@ class HelloWorld(Individual):
         super().__init__(number_genes)
 
     def calc_fitness(self):
+        """
+        in this case fitness is the difference to the target string
+        """
         nums = [int((122 - 65) * x) for x in self._genom]
         diff = (np.array(nums, dtype=np.int) - self.target) ** 2
         fit = diff.sum()
@@ -219,7 +240,7 @@ class GeneticEvolution:
             # grab random parents and "merge them" to get a child
             p1 = random.choice(parents)
             p2 = random.choice(parents)
-            child = p1.sex(p2)
+            child = p1.crossover(p2)
             child.mutate(mutation_rate)
             childs.append(child)
 
@@ -233,11 +254,18 @@ class GeneticEvolution:
 
 
 def main(_):
+    """
+    example usage of the GeneticEvolution classes
+    """
     random.seed(42)
+
+    # define parameters
     population_size = 200
     max_num_generations = 1000
     mutation_rate = 0.1
     cpu_count = 4
+
+    # create instance
     ga = GeneticEvolution(
         population_size,
         mutation_rate,
@@ -249,6 +277,7 @@ def main(_):
         checkpoint_folder="checkpoints"
     )
 
+    # let evolution run as long as we need it
     while ga.get_number_generations() < 500:
         ga.next_generation()
 

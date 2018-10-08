@@ -27,6 +27,9 @@ class Feature:
     def get_values(self):
         return self._values
 
+    def fullref(self):
+        return False
+
     def _feature_filename(self, folder, video, name):
         bn = os.path.basename(os.path.splitext(video)[0])
         if name == "":

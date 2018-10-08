@@ -20,6 +20,19 @@ def iterate_by_frame(video_filename, convert=True):
             yield frame
 
 
+def iterate_by_frame_two_videos(distortedvideo, referencevideo, convert=True):
+    dis_it = iterate_by_frame(distortedvideo, convert)
+    ref_it = iterate_by_frame(referencevideo, convert)
+    try:
+        while True:
+            x = next(dis_it)
+            y = next(ref_it)
+            yield (x, y)
+    except:
+        pass
+    raise StopIteration
+
+
 def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_function, per_frame_function_additional_params={}, debug=False, stepsize=15):
     lInfo("handle : {} and {}".format(distortedvideo, referencevideo))
     distortedvideo_it = iterate_by_frame(distortedvideo)

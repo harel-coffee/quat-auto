@@ -65,7 +65,7 @@ def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_functio
     return results
 
 
-def advanced_pooling(x, name, parts=3, stats=True):
+def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
     if len(x) > 0 and type(x[0]) == dict:
         res = {}
         for k in x[0]:
@@ -87,15 +87,18 @@ def advanced_pooling(x, name, parts=3, stats=True):
     values = values / _max
     """
     res = {
-        f"{name}_max": float(_max),
         f"{name}_mean": float(values.mean()),
         f"{name}_std": float(values.std()),
-        f"{name}_skew": float(scipy.stats.skew(values)),
-        f"{name}_kurtosis": float(scipy.stats.kurtosis(values)),
-        f"{name}_iqr": float(scipy.stats.iqr(values)),
-        f"{name}_last_value": float(last_value),
-        f"{name}_first_value": float(first_value)
+        f"{name}_first_value": float(first_value),
     }
+    if not minimal:
+        res = dict(res, **{
+            f"{name}_last_value": float(last_value),
+            f"{name}_max": float(_max),
+            f"{name}_skew": float(scipy.stats.skew(values)),
+            f"{name}_kurtosis": float(scipy.stats.kurtosis(values)),
+            f"{name}_iqr": float(scipy.stats.iqr(values)),
+        })
 
     # split values in `parts` groups, and calculate mean, std
     groups = np.array_split(values, parts)

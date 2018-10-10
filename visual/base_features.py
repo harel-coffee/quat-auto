@@ -24,6 +24,24 @@ class Feature:
     def calc(self, frame):
         pass
 
+    def calc_ref_dis(self, dframe, rframe):
+        v1 = self.calc(dframe)
+        self._values = self._values[0:-1]
+        v2 = self.calc(rframe)
+        self._values = self._values[0:-1]
+
+        if type(v1) == dict:
+            res = {}
+            for k in v1:
+                res[k] = v1[k] - v2[k]
+        elif type(v1) == list:
+            res = np.array(v1) - np.array(v2)
+        else:
+            res = v1 - v2
+
+        self._values.append(res)
+        return res
+
     def get_values(self):
         return self._values
 

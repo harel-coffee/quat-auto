@@ -109,7 +109,8 @@ class MovementFeatures(Feature):
         return value
 
     def get_values(self):
-        self._values[0] = 0
+        if len(self._values) > 0:
+            self._values[0] = 0
         return self._values
 
 
@@ -371,8 +372,7 @@ class Blockiness(Feature):
         return max_i
 
     def calc(self, frame):
-        frame_c = cv2.Canny(frame, 100, 200)
-
+        frame_c = cv2.Canny(np.uint8(frame), 100, 200)
         xsums = (frame_c.sum(axis=0) / (frame.shape[0]))
         ysums = (frame_c.sum(axis=1) / (frame.shape[1]))
         xaxis_all = xsums.mean()

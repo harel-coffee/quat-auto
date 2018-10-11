@@ -7,6 +7,7 @@ import scipy
 import scipy.stats
 import numpy as np
 import pandas as pd
+import numpy as np
 
 from .log import *
 
@@ -78,7 +79,7 @@ def advanced_pooling(x, name, parts=3, stats=True):
     values = values[~np.isnan(values)]
     values = values[np.isfinite(values)]
     if len(values) == 0:
-        values = np.array([numpy.finfo(numpy.float32).max - 1])
+        values = np.array([np.finfo(np.float32).max - 1])
 
     last_value = values[-1]
     first_value = values[-1]

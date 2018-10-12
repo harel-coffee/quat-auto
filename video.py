@@ -29,7 +29,7 @@ def iterate_by_frame_two_videos(distortedvideo, referencevideo, convert=True):
             x = next(dis_it)
             y = next(ref_it)
             yield (x, y)
-    except:
+    except Exception as e:
         pass
     raise StopIteration
 

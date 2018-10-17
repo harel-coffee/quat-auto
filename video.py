@@ -71,7 +71,7 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
         res = {}
         for k in x[0]:
             df = pd.DataFrame(x)
-            res = dict(res, **advanced_pooling(df[k], name, parts=3))
+            res = dict(res, **advanced_pooling(df[k], name, parts=3, stats=stats, minimal=minimal))
         return res
 
     values = np.array(x)

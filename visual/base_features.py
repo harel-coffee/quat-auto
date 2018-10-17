@@ -63,7 +63,7 @@ class Feature:
                 try:
                     j = json.load(ffp)
                 except:
-                    lError(f"there is something wrong with {video}, {name}")
+                    lWarn(f"there is something wrong with {video}, feature: {name}, re-calcuation performed")
                     # loading of feature value is not possible,
                     # force to calculate it again
                     return False

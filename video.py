@@ -112,3 +112,14 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
             res[f"{name}_{quantile}_quantil"] = float(np.percentile(values, 100 * quantile))
     return res
 
+
+def calc_per_second_scores(per_frame_scores, segment_duration):
+    """ converts per frame scores to per second scores
+    """
+    per_second_scores = []
+    sec_groups = np.array_split(per_frame_scores, np.ceil(segment_duration))
+    for sec in range(len(sec_groups)):
+        per_second_scores.append(float(sec_groups[sec].mean()))
+
+    return per_second_scores
+

@@ -30,15 +30,16 @@ class Feature:
         v2 = self.calc(rframe)
         self._values = self._values[0:-1]
 
+        res = {}
         if type(v1) == dict:
-            res = {}
             for k in v1:
-                res[k] = v1[k] - v2[k]
+                res["diff_" + k] = v1[k] - v2[k]
         elif type(v1) == list:
-            res = np.array(v1) - np.array(v2)
+            res["diff"] = np.array(v1) - np.array(v2)
         else:
-            res = v1 - v2
-
+            res["diff"] = v1 - v2
+        res["dis"] = v1
+        res["ref"] = v2
         self._values.append(res)
         return res
 

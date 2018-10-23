@@ -115,7 +115,12 @@ class MovementFeatures(Feature):
 
     def get_values(self):
         if len(self._values) > 0:
-            self._values[0] = 0
+            r = 0
+            if type(self._values[0]) == dict:
+                r = self._values[0]
+                for k in r:
+                    r[k] = 0
+            self._values[0] = r
         return self._values
 
 

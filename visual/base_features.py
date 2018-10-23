@@ -34,12 +34,16 @@ class Feature:
         if type(v1) == dict:
             for k in v1:
                 res["diff_" + k] = v1[k] - v2[k]
+                res["dis_" + k] = v1[k]
+                res["ref_" + k] = v2[k]
         elif type(v1) == list:
             res["diff"] = np.array(v1) - np.array(v2)
+            res["dis"] = v1
+            res["ref"] = v2
         else:
             res["diff"] = v1 - v2
-        res["dis"] = v1
-        res["ref"] = v2
+            res["dis"] = v1
+            res["ref"] = v2
         self._values.append(res)
         return res
 

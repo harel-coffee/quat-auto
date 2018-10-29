@@ -67,10 +67,13 @@ def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_functio
 
 
 def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
-    if len(x) > 0 and type(x[0]) == dict:
+    if len(x) > 0 and type(x[0]) in [dict, list]:
         res = {}
-        for k in x[0]:
-            df = pd.DataFrame(x)
+        df = pd.DataFrame(x)
+        for k in df.columns:
+            print(df[k].head())
+            print("here", name)
+            raise Exception()
             res = dict(res, **advanced_pooling(df[k], name + "_" + k, parts=3, stats=stats, minimal=minimal))
         return res
 

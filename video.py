@@ -71,9 +71,6 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
         res = {}
         df = pd.DataFrame(x)
         for k in df.columns:
-            print(df[k].head())
-            print("here", name)
-            raise Exception()
             res = dict(res, **advanced_pooling(df[k], name + "_" + k, parts=3, stats=stats, minimal=minimal))
         return res
 

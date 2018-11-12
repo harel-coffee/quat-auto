@@ -68,7 +68,7 @@ class ResolutionSimilarities(Feature):
         values = np.array(values)
         res = resolutions[np.argmin(values)]
         self._values.append(res)
-        print(res)
+        #print(res)
         return res
 
     def fullref(self):

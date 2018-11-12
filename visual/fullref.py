@@ -41,3 +41,33 @@ class VIFP(Feature):
 
     def fullref(self):
         return True
+
+
+class ResolutionSimilarities(Feature):
+    """ try to estimate resolution of the distorted video
+    """
+    def calc_ref_dis(self, dis, ref):
+        x_g = skimage.color.rgb2gray(ref).astype(np.float32)
+        y_g = skimage.color.rgb2gray(dis).astype(np.float32)
+        resolutions = [2160, 1440, 1080, 720, 480, 360, 240, 144]
+        #resolutions = list(range(2160, 140, -32))
+        scale_factors = [x / resolutions[0] for x in resolutions]
+        #print("scale_factors", scale_factors)
+        height = max(x_g.shape[0], y_g.shape[0])
+        width = max(x_g.shape[1], y_g.shape[1])
+        #print("height", height)
+        aspect = width / height
+        values = []
+        for sc in scale_factors:
+            r = round(sc * height)
+            x_gs = skimage.transform.resize(x_g, (r, round(aspect * r)), mode='reflect')
+            x_gs = skimage.transform.resize(x_gs, (height, round(aspect * height)), mode='reflect')
+            v = float(skvideo.measure.mse(x_gs, y_g)[0]) #** 2 / sc
+            values.append(v)
+        values = np.array(values)
+        res = resolutions[np.argmin(values)]
+        self._values.append(res)
+        return res
+
+    def fullref(self):
+        return True

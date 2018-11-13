@@ -9,6 +9,8 @@ import skimage.transform
 from skimage import img_as_ubyte
 
 from .base_features import Feature
+from .vifp import vifp_mscale
+
 
 class SSIM(Feature):
     def calc_ref_dis(self, dis, ref):

@@ -75,3 +75,50 @@ class ResolutionSimilarities(Feature):
 
     def fullref(self):
         return True
+
+
+class FramerateEstimator(Feature):
+    """
+    could be also an no-reference feature
+
+    based on frame differences of src and distorted video estimate framerate of distorted video
+    """
+    WINDOW = 60  # maximum number of frames in sliding window
+    def __init__(self):
+        self._calculated_values = []
+        self._values = []
+        self._lastframe_ref = None
+        self._lastframe_dis = None
+
+    def rmse(self, x, y):
+        return np.sqrt(((x - y) ** 2).mean())
+
+    def calc_ref_dis(self, dis, ref):
+        v = {
+            "ref": 0,
+            "dis": 0
+        }
+        if self._lastframe_ref is not None and self._lastframe_dis is not None:
+            v = {
+                "ref": self.rmse(self._lastframe_ref.flatten(),  ref.flatten()),
+                "dis": self.rmse(self._lastframe_dis.flatten(),  dis.flatten()),
+            }
+        self._lastframe_ref = ref.copy()
+        self._lastframe_dis = dis.copy()
+        self._calculated_values.append(v)
+        if len(self._calculated_values) > self.WINDOW:
+            self._calculated_values = self._calculated_values[1:]
+
+        zeros_ref = sum(np.array([x["ref"] for x in self._calculated_values]) == 0)
+        zeros_dis = sum(np.array([x["dis"] for x in self._calculated_values]) == 0)
+
+        fps = len(self._calculated_values) - zeros_dis + zeros_ref
+
+        self._values.append(fps)
+        return fps
+
+    def fullref(self):
+        return True
+
+    def get_values(self):
+        return self._values[self.WINDOW:]

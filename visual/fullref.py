@@ -112,7 +112,7 @@ class FramerateEstimator(Feature):
         zeros_ref = sum(np.array([x["ref"] for x in self._calculated_values]) == 0)
         zeros_dis = sum(np.array([x["dis"] for x in self._calculated_values]) == 0)
 
-        fps = len(self._calculated_values) - zeros_dis + zeros_ref
+        fps = int(len(self._calculated_values) - zeros_dis + zeros_ref)
 
         self._values.append(fps)
         return fps

@@ -18,4 +18,4 @@ def create_segments(videofilename, output_folder, segment_time=4, debug=False):
     if debug:
         print(cmd)
     shell_call(cmd)
-    return lglob(f"{output_folder}/{basename}_*.mp4")
+    return sorted(lglob(f"{output_folder}/{basename}_*.mp4"))

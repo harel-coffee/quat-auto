@@ -17,7 +17,7 @@ Clone the `quat` repository, move inside the repository and then you can install
 
 .. code-block:: bash
 
-    pip3 install . --user -e
+    pip3 install --user -e .
 
 `--user` is for a user wide installation, where `-e` uses this repository as main folder, so changes inside here will be python-wide handled, if this is not required because the repository will be deleted later, just remove `-e` flag.
 

@@ -19,7 +19,7 @@ sudo apt install python3 ffmpeg python3-pip
 then you can install `quat` using pip via:
 
 ```bash
-pip3 install . --user -e
+pip3 install --user -e .
 ```
 `--user` is for a user wide installation, where `-e` uses this repository as main folder, so changes inside here will be python-wide handled.
 

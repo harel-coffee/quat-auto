@@ -14,6 +14,14 @@ setup(
         "numpy",
         "pandas",
         "scipy",
-        "scikit-learn"
+        "scikit-learn",
+        "opencv-python"
+    ],
+    scripts=[
+        'quat/tools/do_parallel.py',
+        'quat/tools/do_parallel_by_file.py',
+        'quat/tools/extract_cuts.py',
+        'quat/tools/psnr.py',
+        'quat/tools/siti.py',
     ],
 )

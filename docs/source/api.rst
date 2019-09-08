@@ -95,6 +95,11 @@ psnr.py
 .. automodule:: quat.tools.psnr
     :members:
 
+siti.py
+~~~~~~~
+.. automodule:: quat.tools.siti
+    :members:
+
 module utils
 ------------
 general utils, e.g. filesystem, os related

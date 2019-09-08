@@ -40,7 +40,7 @@ def run_parallel_by_grouping(items, function, arguments, num_cpus=8):
     return pool.starmap(function, params)
 
 
-def run_parallel(items, function, arguments, num_cpus=8):
+def run_parallel(items, function, arguments=[], num_cpus=8):
     """
     run a function call parallel, for each item
     """

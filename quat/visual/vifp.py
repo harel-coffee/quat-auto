@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+"""
+slightly modified VIFP version
+"""
 """
 Portions Copyright (c) 2014 CiiNOW Inc.
 Written by Alex Izvorski <aizvorski@gmail.com>, <alex@ciinow.com>

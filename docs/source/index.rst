@@ -7,24 +7,13 @@ e.g. the `ml` module handles typical machine learning parts, whereas most algori
 
 
 
-Getting started
----------------
-
-First you need to install all requirements,
-
 
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
-   visual.rst
-   ml.rst
-   ff.rst
-   tools.rst
-   utils.rst
-   video.rst
-   parallel.rst
-   unsorted.rst
-   log.rst
+   getting_started.rst
+   api.rst
+

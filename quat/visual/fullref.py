@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """
 Full reference features.
+
+All full-reference features share a common interface,
+e.g. in case of SSIM,
+
+.. code-block:: python
+
+    ...
+    ssim = SSIM()
+    v = ssim.calc_ref_dis(dis_frame, ref_frame)
+    # will return the calculated ssim value in `v`
+
+
 """
 """
     This file is part of quat.
@@ -31,6 +43,7 @@ from .vifp import vifp_mscale
 
 
 class SSIM(Feature):
+    """ Calculate SSIM """
     def calc_ref_dis(self, dis, ref):
         x_g = skimage.color.rgb2gray(ref)
         y_g = skimage.color.rgb2gray(dis)
@@ -43,6 +56,7 @@ class SSIM(Feature):
 
 
 class PSNR(Feature):
+    """ Caclulate PSNR """
     def calc_ref_dis(self, dis, ref):
         x_g = skimage.color.rgb2gray(ref)
         y_g = skimage.color.rgb2gray(dis)
@@ -55,6 +69,7 @@ class PSNR(Feature):
 
 
 class VIFP(Feature):
+    """ Caclulate multi scale (4 scales) VIFP """
     def calc_ref_dis(self, dis, ref):
         v = vifp_mscale(ref, dis, 4)
         self._values.append(v)
@@ -65,7 +80,7 @@ class VIFP(Feature):
 
 
 class ResolutionSimilarities(Feature):
-    """ try to estimate resolution of the distorted video
+    """ Tries to estimate resolution of the distorted video
     """
     def calc_ref_dis(self, dis, ref):
         x_g = skimage.color.rgb2gray(ref).astype(np.float32)
@@ -97,9 +112,9 @@ class ResolutionSimilarities(Feature):
 
 class FramerateEstimator(Feature):
     """
-    TODO: check: could be also an no-reference feature
-
     based on frame differences of src and distorted video estimate framerate of distorted video
+
+    TODO: check: could be also an no-reference feature
     """
     WINDOW = 60  # maximum number of frames in sliding window
     def __init__(self):

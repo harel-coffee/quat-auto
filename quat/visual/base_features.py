@@ -39,17 +39,29 @@ from ..log import *
 
 
 class Feature:
+    """
+    abstract base class for all features,
+    handles automatic storage and loading of calculated feature values
+    """
     def __init__(self):
         self._values = []
 
     @abstractmethod
     def calc(self, frame):
+        """ perform feature calculation for a single frame """
         pass
 
     def calc_ref_dis(self, dframe, rframe):
         """ performs a full-ref style calculation,
         where the resulting features are calculated on both frames,
         and further difference values are stored,
+
+        Parameters
+        ----------
+        dframe : 3d array
+            distorted video frame
+        rframe : 3d array
+            reference video frame
 
         Returns
         -------
@@ -84,12 +96,18 @@ class Feature:
         return res
 
     def get_values(self):
+        """ returns all stored feature values """
         return self._values
 
     def fullref(self):
+        """ used to check if it is a full reference feature """
         return False
 
     def _feature_filename(self, folder, video, name):
+        """ generates a feature filename for a given `video`
+        for a specific feature folder `folder` and
+        adds a feature name `name`
+        """
         bn = os.path.basename(os.path.splitext(video)[0])
         if name == "":
             name = self.__class__.__name__
@@ -97,6 +115,9 @@ class Feature:
         return rfn
 
     def load(self, folder, video, name=""):
+        """ loads a feature from a feature folder `folder`,
+        feature filename is estimated using the _feature_filename
+        """
         os.makedirs(folder, exist_ok=True)
         fn = self._feature_filename(folder, video, name)
         if os.path.isfile(fn):
@@ -113,6 +134,9 @@ class Feature:
         return False
 
     def store(self, folder, video, name=""):
+        """ stores a feature to a feature folder `folder`,
+        feature filename is estimated using the _feature_filename
+        """
         os.makedirs(folder, exist_ok=True)
         fn = self._feature_filename(folder, video, name)
         v = {
@@ -126,6 +150,9 @@ class Feature:
 
 
 class MovementFeatures(Feature):
+    """ Calculates movement feature, using background removement,
+    based on master thesis of julian zebelein
+    """
     def __init__(self):
         self._fgbg = cv2.createBackgroundSubtractorMOG2()
         self._values = []
@@ -162,6 +189,9 @@ class MovementFeatures(Feature):
 
 
 class CutDetectionFeatures(Feature):
+    """ Estimates scene cuts of a given video (approximation),
+    implemented by serge molina
+    """
     def __init__(self):
         self._values = []
         self._last_frame = None
@@ -191,6 +221,7 @@ class CutDetectionFeatures(Feature):
 
 class SiFeatures(Feature):
     """
+    Calculates SI values of a video frame
     important: SI values are finally in a 0..1 range, due to float conversion
     """
     def __init__(self):
@@ -210,6 +241,7 @@ class SiFeatures(Feature):
 
 class TiFeatures(Feature):
     """
+    Calculates TI values
     important: TI values are finally in a 0..1 range, due to float conversion
     """
 
@@ -230,6 +262,9 @@ class TiFeatures(Feature):
 
 
 class TemporalFeatures(Feature):
+    """ A temporal feature, using RMSE of consecutive frames,
+    somehow similar to TI, but not applied on gray frames
+    """
     def __init__(self):
         self._values = []
         self._previous_frame = None
@@ -282,7 +317,8 @@ class StrredNoRefFeatures(Feature):
 class BlockMotion(Feature):
     """
     calculates block motion of two following frames,
-    block size is estimated by 5% of the height of the input frames, to be resolution independent
+    block size is estimated by 5% of the height of the input frame,
+    this is done to be resolution independent and faster
     """
     def __init__(self):
         self._values = []
@@ -313,8 +349,13 @@ class BlockMotion(Feature):
 
 
 class CuboidRow(Feature):
+    """
+    Motion estimation using a window of 60 frames and a cuboid video of the video,
+    handles only rows of the frames
+    """
     WINDOW = 60  # maximum number of frames in sliding window
     def __init__(self, row):
+        """ row specifies the column that should be used in %"""
         self._row = row
         self._rows = []
         self._values = []
@@ -332,8 +373,13 @@ class CuboidRow(Feature):
 
 
 class CuboidCol(Feature):
+    """
+    Motion estimation using a window of 60 frames and a cuboid video of the video,
+    handles only columns of the frames
+    """
     WINDOW = 60  # maximum number of frames in sliding window
     def __init__(self, col):
+        """ col specifies the column that should be used in %"""
         self._col = col
         self._cols = []
         self._values = []
@@ -379,6 +425,10 @@ class Staticness(Feature):
 
 
 class UHDSIM2HD(Feature):
+    """
+    calculates similarity of UHD input resolution to HD,
+    if input frame is not UHD resolution, it takes half of the height and width
+    """
     def __init__(self):
         self._values = []
 
@@ -454,8 +504,15 @@ class Blockiness(Feature):
 
 
 class ImageFeature(Feature):
-    """ a generic image feature """
+    """
+    a generic image feature class,
+    ususally all methods implemented in quat.visual.images
+    can be passes as argument in the constructor
+    """
     def __init__(self, img_f):
+        """
+        img_f needs to be a function that handles one frame
+        """
         self._values = []
         self.img_f = img_f
 

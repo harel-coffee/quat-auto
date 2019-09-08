@@ -30,8 +30,15 @@ from skimage import exposure
 
 
 def color_fulness_features(image_rgb):
-    """ based on serges molina's re-implementation,
-        referring to http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.14.4913&rep=rep1&type=pdf
+    """
+    calculates color fullness
+
+    re-implementated by serges molina
+
+    References
+    ----------
+    - Hasler, David, and Sabine E. Suesstrunk. "Measuring colorfulness in natural images."
+      In: Human vision and electronic imaging VIII. Vol. 5007. International Society for Optics and Photonics, 2003.
     """
     assert(len(image_rgb.shape) == 3)
 
@@ -51,8 +58,15 @@ def color_fulness_features(image_rgb):
 
 
 def calc_tone_features(image, gray=False):
-    """ calculate tone feature
-        based on serges project,
+    """
+    calculate tone feature,
+
+    re-implemented by serge molina
+
+    References
+    ----------
+    - T. O. Aydın, A. Smolic, and M. Gross. "Automated aesthetic analysis of photographic images".
+      In: IEEE transactions on visualization and computer graphics 21.1 (2015), pp. 31–42.
     """
     if not gray:
         image_gray = skimage.color.rgb2gray(image)
@@ -76,7 +90,11 @@ def calc_tone_features(image, gray=False):
 
 
 def calc_contrast_features(frame):
-    """ zebelein """
+    """
+    calculates contrast based on histogram equalization,
+
+    based on julan zebelein's master thesis
+    """
     frame = img_as_ubyte(frame)
     hist, bins = np.histogram(frame.flatten(), 1024, [0, 1024])
     cdf = hist.cumsum()
@@ -106,7 +124,16 @@ def calc_contrast_features(frame):
 
 
 def calc_fft_features(frame, debug=False):
-    """ zebelein """
+    """
+    calculates fft feature,
+
+    based on julan zebelein's master thesis
+
+    References
+    ----------
+    - I. Katsavounidis et al. "Native resolution detection of video sequences".
+      In: Annual Technical Conference and Exhibition, SMPTE 2015. SMPTE. 2015, pp. 1–20.
+    """
 
     def radial_profile(data, center):
         y, x = np.indices((data.shape))
@@ -146,7 +173,16 @@ def calc_fft_features(frame, debug=False):
 
 
 def calc_saturation_features(frame, debug=True):
-    """ serge """
+    """
+    calculates saturation of a given image,
+
+    re-implemented by serge molina
+
+    References
+    ----------
+    - T. O. Aydın, A. Smolic, and M. Gross. "Automated aesthetic analysis of photographic images".
+      In: IEEE transactions on visualization and computer graphics 21.1 2015, pp. 31–42.""
+    """
     file_width = int(frame.shape[1])
     file_height = int(frame.shape[0])
     frame = np.uint8(frame)
@@ -160,7 +196,11 @@ def calc_saturation_features(frame, debug=True):
 
 
 def calc_blur_features(frame, debug=False):
-    """ zebelein """
+    """
+    estimates blurriness using Laplacian filter,
+
+    based on julian zebelein's master thesis
+    """
     def variance_of_laplacian(image):
         # compute the Laplacian of the image and then return the focus
         # measure, which is simply the variance of the Laplacian
@@ -178,7 +218,16 @@ def calc_blur_features(frame, debug=False):
 
 
 def calc_brisque_features(image, gray=False):
-    """ calcualte brisque no-reference features
+    """
+    calcualte brisque no-reference features,
+
+    References
+    ----------
+    - scikit-video
+    - Mittal, A. K. Moorthy and A. C. Bovik, "No-Reference Image Quality Assessment in the Spatial Domain"
+      In: IEEE Transactions on Image Processing, 2012.
+    - Mittal, A. K. Moorthy and A. C. Bovik, "Referenceless Image Spatial Quality Evaluation Engine,"
+      In: 45th Asilomar Conference on Signals, Systems and Computers , November 2011.
     """
     if not gray:
         image = skimage.color.rgb2gray(image)
@@ -187,7 +236,14 @@ def calc_brisque_features(image, gray=False):
 
 
 def calc_niqe_features(image, gray=False):
-    """ calculate niqe features
+    """
+    calculate niqe features
+
+    References
+    ----------
+    - scikit-video
+    - Mittal, Anish, Rajiv Soundararajan, and Alan C. Bovik. "Making a ‘completely blind’ image quality analyzer."
+      In: IEEE Signal Processing Letters 20.3 (2013): 209-212.
     """
     if not gray:
         image = skimage.color.rgb2gray(image)
@@ -196,12 +252,14 @@ def calc_niqe_features(image, gray=False):
 
 
 def ceiq(image, gray=False):
-    """ python re-implementation of https://github.com/mtobeiyf/CEIQ/blob/master/CEIQ.m
+    """
+    re-implementation and extension of https://github.com/mtobeiyf/CEIQ/blob/master/CEIQ.m
     features for "No-Reference Quality Assessment of Contrast-Distorted Images using Contrast Enhancement"
 
     References
     ----------
-    Jia Yan, Jie Li, Xin Fu: No-Reference Quality Assessment of Contrast-Distorted Images using Contrast Enhancement, Journal of Visual Communication and Image Representation, 2018 (Under review)
+    - Jia Yan, Jie Li, Xin Fu: "No-Reference Quality Assessment of Contrast-Distorted Images using Contrast Enhancement",
+      In: Journal of Visual Communication and Image Representation, 2018
     """
     if not gray:
         image = skimage.color.rgb2gray(image)

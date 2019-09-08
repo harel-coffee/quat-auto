@@ -2,8 +2,12 @@
 """
 Re-implementation of sseq features based on matlab version and the research paper, see
 
-* Lixiong Liu, Bao Liu, Hua Huang, and Alan Conrad Bovik, "No-reference Image Quality Assessment Based on Spatial and Spectral Entropies",  Signal Processing: Image Communication, Vol. 29, No. 8, pp. 856-863, Sep. 2014.
-* Lixiong Liu, Bao Liu, Hua Huang, and Alan Conrad Bovik, "SSEQ Software Release", URL: http://live.ece.utexas.edu/research/quality/SSEQ_release.zip, 2014
+References
+----------
+- Lixiong Liu, Bao Liu, Hua Huang, and Alan Conrad Bovik, "No-reference Image Quality Assessment Based on Spatial and Spectral Entropies",
+  In: Signal Processing: Image Communication, Vol. 29, No. 8, pp. 856-863, Sep. 2014.
+- Lixiong Liu, Bao Liu, Hua Huang, and Alan Conrad Bovik, "SSEQ Software Release",
+  URL: http://live.ece.utexas.edu/research/quality/SSEQ_release.zip, 2014
 
 """
 """

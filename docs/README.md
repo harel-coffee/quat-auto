@@ -1,12 +1,8 @@
 # Requirements for building documentation
 
-to build documentation `sphinx` is required, e.g. for Ubuntu run:
+to build documentation `sphinx` and `sphinx_press_theme` is required, install it via pip3
 ```
-    apt-get install python3-sphinx
-```
-or install it via pip3
-```
-pip3 install -U sphinx
+pip3 install -U sphinx sphinx_press_theme
 ```
 
 after this you can run

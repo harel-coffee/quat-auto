@@ -1,25 +1,6 @@
 #!/usr/bin/env python3
 """
 Logging helpers
-
-lInfo, lWarn, lError
---------------------
-.. code-block:: python
-
-    from quat.log import *
-    lInfo("hello")
-
-will printout a info log message
-
-jprint, jPrint
---------------
-.. code-block:: python
-
-    from quat.log import *
-    jPrint({"my": "json"})
-
-will printout a json formatted version of the object
-
 """
 """
     This file is part of quat.

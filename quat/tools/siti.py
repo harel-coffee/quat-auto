@@ -37,6 +37,7 @@ from quat.utils.fileutils import write_json
 
 
 def extract_siti(video):
+    """ extracts siti values of a given video """
     features = {
         "si": SiFeatures(),
         "ti": TiFeatures()

@@ -40,3 +40,13 @@ Reading a video
 ---------------
 
 
+
+
+Included command line tools
+---------------------------
+
+- siti.py
+- do_parallel.py
+- do_parallel_by_file.py
+
+

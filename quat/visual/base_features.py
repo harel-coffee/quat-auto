@@ -22,6 +22,8 @@ using the `calc_ref_dis` method.
 import cv2
 import os
 import json
+from abc import ABC, abstractmethod
+
 import numpy as np
 import skimage.color
 import skimage.io
@@ -40,6 +42,7 @@ class Feature:
     def __init__(self):
         self._values = []
 
+    @abstractmethod
     def calc(self, frame):
         pass
 
@@ -110,6 +113,7 @@ class Feature:
         return False
 
     def store(self, folder, video, name=""):
+        os.makedirs(folder, exist_ok=True)
         fn = self._feature_filename(folder, video, name)
         v = {
             "name": name,
@@ -186,27 +190,29 @@ class CutDetectionFeatures(Feature):
 
 
 class SiFeatures(Feature):
+    """
+    important: SI values are finally in a 0..1 range, due to float conversion
+    """
     def __init__(self):
         self._values = []
 
     def calc(self, frame):
-        def calculate_si(frame_data, magnitude=False):
-            from scipy import ndimage
-            if not magnitude:
-                # P.910 description:
-                return ndimage.sobel(frame_data).std()
-            # Other implementation based on magnitude:
-            dx = ndimage.sobel(frame_data, 1)  # horizontal derivative
-            dy = ndimage.sobel(frame_data, 0)  # vertical derivative
-            mag = np.hypot(dx, dy)  # magnitude
-            mag = np.array(mag, dtype=np.uint8)
-            return mag.std()
+        def calculate_si(frame_data):
+            sobx = ndimage.sobel(frame, axis=0)
+            soby = ndimage.sobel(frame, axis=1)
+            value = np.hypot(sobx, soby).std()
+            return float(value)
+        frame = skimage.color.rgb2gray(frame)
         value = calculate_si(frame)
         self._values.append(value)
         return value
 
 
 class TiFeatures(Feature):
+    """
+    important: TI values are finally in a 0..1 range, due to float conversion
+    """
+
     def __init__(self):
         self._values = []
         self._previous_frame = None
@@ -215,7 +221,8 @@ class TiFeatures(Feature):
         def calculate_ti(frame_data, previous_frame_data):
             if previous_frame_data is None:
                 return 0
-            return (frame_data - previous_frame_data).std()
+            return float((frame_data - previous_frame_data).std())
+        frame = skimage.color.rgb2gray(frame)
         value = calculate_ti(frame, self._previous_frame)
         self._previous_frame = frame
         self._values.append(value)

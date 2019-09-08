@@ -98,10 +98,10 @@ def read_json(filename):
 
 def write_json(j, filename, prettify=False):
     """ writes a json object j to a file """
-    ident = 4 if prettify else 0,
+    indent = 4 if prettify else None
     sort_keys = prettify
     with open(filename, "w") as file:
-        json.dump(j, file, ident=ident, sort_keys=sort_keys)
+        json.dump(j, file, indent=indent, sort_keys=sort_keys)
 
 
 if __name__ == "__main__":

@@ -45,6 +45,7 @@ from .vifp import vifp_mscale
 class SSIM(Feature):
     """ Calculate SSIM """
     def calc_ref_dis(self, dis, ref):
+        """ calculates ssim score """
         x_g = skimage.color.rgb2gray(ref)
         y_g = skimage.color.rgb2gray(dis)
         v = float(skvideo.measure.ssim(x_g, y_g, bitdepth=10, scaleFix=False))
@@ -58,6 +59,7 @@ class SSIM(Feature):
 class PSNR(Feature):
     """ Caclulate PSNR """
     def calc_ref_dis(self, dis, ref):
+        """ calculates psnr score """
         x_g = skimage.color.rgb2gray(ref)
         y_g = skimage.color.rgb2gray(dis)
         v = float(skvideo.measure.psnr(x_g, y_g, bitdepth=10))
@@ -71,6 +73,7 @@ class PSNR(Feature):
 class VIFP(Feature):
     """ Caclulate multi scale (4 scales) VIFP """
     def calc_ref_dis(self, dis, ref):
+        """ calculates ms-vifp scores """
         v = vifp_mscale(ref, dis, 4)
         self._values.append(v)
         return v
@@ -83,6 +86,7 @@ class ResolutionSimilarities(Feature):
     """ Tries to estimate resolution of the distorted video
     """
     def calc_ref_dis(self, dis, ref):
+        """ calculates resoltion based on similarity measurement """
         x_g = skimage.color.rgb2gray(ref).astype(np.float32)
         y_g = skimage.color.rgb2gray(dis).astype(np.float32)
         resolutions = [2160, 1440, 1080, 720, 480, 360, 240, 144]
@@ -127,6 +131,7 @@ class FramerateEstimator(Feature):
         return np.sqrt(((x - y) ** 2).mean())
 
     def calc_ref_dis(self, dis, ref):
+        """ tries to esimate fps"""
         v = {
             "ref": 0,
             "dis": 0

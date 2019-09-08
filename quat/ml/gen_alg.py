@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Genetic evoltion experiments, uses multiprocessing
+Genetic evolution experiments, uses multiprocessing
 """
 """
     This file is part of quat.

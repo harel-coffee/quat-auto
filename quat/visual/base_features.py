@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 Video and image no-reference based features.
+Base features can also be applied for full-ref calculations,
+using the `calc_ref_dis` method.
 """
 """
     This file is part of quat.
@@ -42,10 +44,24 @@ class Feature:
         pass
 
     def calc_ref_dis(self, dframe, rframe):
-        v1 = self.calc(dframe)
-        self._values = self._values[0:-1]
-        v2 = self.calc(rframe)
-        self._values = self._values[0:-1]
+        """ performs a full-ref style calculation,
+        where the resulting features are calculated on both frames,
+        and further difference values are stored,
+
+        Returns
+        -------
+        a dict {"diff": values, "ref": values, "dis": values} or
+        dict {"diff_" + k: values, "ref_" + k: values, "dis_" + k: values} for all keys `k` in the underlying feature.
+        """
+
+        # this creates for each feature stream a new instance of the used feature
+        if not hasattr(self, "_ref_instance"):
+            self._ref_instance = self.__class__()
+        if not hasattr(self, "_dis_instance"):
+            self._dis_instance = self.__class__()
+
+        v1 = self._ref_instance.calc(dframe)
+        v2 = self._dis_instance.calc(rframe)
 
         res = {}
         if type(v1) == dict:

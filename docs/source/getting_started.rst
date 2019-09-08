@@ -57,7 +57,7 @@ Reading a video
 Included command line tools
 ---------------------------
 
-All of the following command line tools are globally available after installation of `quat`.
+All of the following command line tools are globally available after installation of `quat`, see also :ref:`module tools`
 
 - siti.py : calculation of siti feature values for a given video
 - do_parallel.py : perform parallel tasks

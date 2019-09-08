@@ -70,6 +70,7 @@ statistics
 .. automodule:: quat.ml.statistics
     :members:
 
+
 module tools
 ------------
 some useful command line tools, that are mostly independent of `quat`.

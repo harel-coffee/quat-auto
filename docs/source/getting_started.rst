@@ -7,7 +7,7 @@ First you need to install the following requirements
 - pip3
 - ffmpeg (>=3.4.4)
 
-Install it, e.g. using your favorite via package-manager, in case of Ubuntu 18.04 use:
+Install it, e.g. using your favorite package-manager, in case of Ubuntu 18.04 use:
 
 .. code-block:: bash
 

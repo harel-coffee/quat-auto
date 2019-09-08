@@ -45,40 +45,56 @@ logging.basicConfig(level=logging.ERROR)
 LOGGING_LEVEL = logging.DEBUG
 
 def lInfo(msg):
+    """prints `msg` as info log message"""
     _logger = logging.getLogger(__name__)
     _logger.setLevel(LOGGING_LEVEL)
     _logger.info(msg)
 
 
 def lError(msg):
+    """prints `msg` as error log message"""
     _logger = logging.getLogger(__name__)
     _logger.setLevel(LOGGING_LEVEL)
     _logger.error(msg)
 
 
 def lDbg(msg):
+    """prints `msg` as debug log message"""
     _logger = logging.getLogger(__name__)
     _logger.setLevel(LOGGING_LEVEL)
     _logger.debug(msg)
 
 
 def lWarn(msg):
+    """prints `msg` as warning log message"""
     _logger = logging.getLogger(__name__)
     _logger.setLevel(LOGGING_LEVEL)
     _logger.warning(msg)
 
 
 def colorgreen(m):
+    """
+    return m with colored green code, only for linux
+    """
     return "\033[92m" + m + "\033[0m"
 
 
 def colorred(m):
+    """
+    return m with colored red code, only for linux
+    """
     return "\033[91m" + m + "\033[0m"
 
 
 def jprint(x):
+    """
+    prints an object `x` as json formatted to stdout
+    """
     print(json.dumps(x, indent=4, sort_keys=True))
 
 
 def jPrint(x):
+    """
+    renamed version of jprint
+    """
     jprint(x)

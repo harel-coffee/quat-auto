@@ -296,6 +296,7 @@ def main(_):
     )
 
     # let evolution run as long as we need it
+    # could also be a specified fittness criteria
     while ga.get_number_generations() < 500:
         ga.next_generation()
 

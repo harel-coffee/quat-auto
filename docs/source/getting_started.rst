@@ -29,7 +29,7 @@ Open the python3 shell and run the following code.
 .. code-block:: python3
 
     from quat.log import *
-    lInfo("Hello World")
+    lInfo("Hello quat")
     lError("an error?")
     jprint({"a": "dictionary"})
 

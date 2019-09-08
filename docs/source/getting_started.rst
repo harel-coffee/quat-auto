@@ -39,14 +39,30 @@ If there are no errors happening, than `quat` was successfully installed.
 Reading a video
 ---------------
 
+.. code-block:: python3
+
+    from quat.log import *
+    from quat.video import iterate_by_frame
+    from quat.visual.base_features import SiFeatures
+
+    si = SiFeatures()
+    video ="path/to/video"
+    for frame in iterate_by_frame(video):
+        lInfo(frame)
+        v = si.calc(frame)
+        jprint({"si": v})
 
 
 
 Included command line tools
 ---------------------------
 
-- siti.py
-- do_parallel.py
-- do_parallel_by_file.py
+All of the following command line tools are globally available after installation of `quat`.
+
+- siti.py : calculation of siti feature values for a given video
+- do_parallel.py : perform parallel tasks
+- do_parallel_by_file.py : perform parallel tasks
+- extract_cuts.py : extract scene cuts of a given video
+- psnr.py : calculates psnr for a distorted and source video.
 
 

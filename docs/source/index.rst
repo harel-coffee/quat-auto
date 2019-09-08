@@ -12,5 +12,6 @@ e.g. the `ml` module handles typical machine learning parts, whereas most algori
    :caption: Contents:
 
    getting_started.rst
+   examples.rst
    api.rst
 

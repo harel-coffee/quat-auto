@@ -1,4 +1,4 @@
-quat -- a collcetion of python3 methods for video/image quality experiments
+quat -- a collection of python3 methods for video/image quality experiments
 ============================================================================
 `quat` is a collection of tools, python3 code, and wrappers, to simplify daily quality analysis tasks for video or images.
 

@@ -22,6 +22,7 @@ using the `calc_ref_dis` method.
 import cv2
 import os
 import json
+import copy
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -69,11 +70,11 @@ class Feature:
         dict {"diff_" + k: values, "ref_" + k: values, "dis_" + k: values} for all keys `k` in the underlying feature.
         """
 
-        # this creates for each feature stream a new instance of the used feature
+        # this creates for each feature stream a copy instance of the used feature
         if not hasattr(self, "_ref_instance"):
-            self._ref_instance = self.__class__()
+            self._ref_instance = copy.deepcopy(self)
         if not hasattr(self, "_dis_instance"):
-            self._dis_instance = self.__class__()
+            self._dis_instance = copy.deepcopy(self)
 
         v1 = self._ref_instance.calc(dframe)
         v2 = self._dis_instance.calc(rframe)

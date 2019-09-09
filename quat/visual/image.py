@@ -33,7 +33,7 @@ def color_fulness_features(image_rgb):
     """
     calculates color fullness
 
-    re-implementated by serges molina
+    re-implementated by Serge Molina
 
     References
     ----------
@@ -61,7 +61,7 @@ def calc_tone_features(image, gray=False):
     """
     calculate tone feature,
 
-    re-implemented by serge molina
+    re-implemented by Serge Molina
 
     References
     ----------
@@ -176,7 +176,7 @@ def calc_saturation_features(frame, debug=True):
     """
     calculates saturation of a given image,
 
-    re-implemented by serge molina
+    re-implemented by Serge Molina
 
     References
     ----------

@@ -69,7 +69,7 @@ class Feature:
         a dict {"diff": values, "ref": values, "dis": values} or
         dict {"diff_" + k: values, "ref_" + k: values, "dis_" + k: values} for all keys `k` in the underlying feature.
         """
-
+        # TODO: rename calc_ref_dis --> calc_dis_ref
         # this creates for each feature stream a copy instance of the used feature
         if not hasattr(self, "_ref_instance"):
             try:

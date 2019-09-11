@@ -6,6 +6,15 @@ quat -- video/image quality analysis
 It consists of several main modules, with specific tasks,
 e.g. the `ml` module handles typical machine learning parts, whereas most algorithms and approaches are based on scikit-learn.
 
+
+Why you should or should not use `quat`?
+----------------------------------------
+`quat` is a collection of useful parts, it is not a full end-solution or framework that will handle automatically all image/video quality related questions.
+You can use `quat` to develop own models, to extract image/video features, and more.
+
+
+Reference
+---------
 If you use `quat` in any research related project, please cite the following paper:
 
 .. code-block:: bibtex
@@ -28,6 +37,14 @@ If you use `quat` in any research related project, please cite the following pap
 
 `nofu` is a video quality model using features and general video processing methods that are included in `quad`.
 
+Projects using `quat`
+---------------------
+
+- nofu
+- hyfu
+- fume
+- hyfr
+- uhdhd prediction
 
 .. toctree::
    :maxdepth: 3

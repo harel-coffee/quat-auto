@@ -72,9 +72,17 @@ class Feature:
 
         # this creates for each feature stream a copy instance of the used feature
         if not hasattr(self, "_ref_instance"):
-            self._ref_instance = copy.deepcopy(self)
+            try:
+                self._ref_instance = copy.deepcopy(self)
+            except:
+                # TODO: fix to handle MovementFeatures
+                self._ref_instance = self.__class__()
         if not hasattr(self, "_dis_instance"):
-            self._dis_instance = copy.deepcopy(self)
+            try:
+                self._dis_instance = copy.deepcopy(self)
+            except:
+                # TODO: fix to handle MovementFeatures
+                self._dis_instance = self.__class__()
 
         v1 = self._ref_instance.calc(dframe)
         v2 = self._dis_instance.calc(rframe)

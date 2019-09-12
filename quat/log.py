@@ -28,50 +28,65 @@ formatter = logging.Formatter(
 handler = logging.StreamHandler()
 handler.setFormatter(formatter)
 
-# \033[1;30m - black
-# \033[1;31m - red
-# \033[1;32m - green
-# \033[1;33m - yellow
-# \033[1;34m - blue
-# \033[1;35m - magenta
-# \033[1;36m - cyan
-# \033[1;37m - white
+color_codes = {
+    "black": "\033[1;30m",
+    "red": "\033[1;31m",
+    "green": "\033[1;32m",
+    "yellow": "\033[1;33m",
+    "blue": "\033[1;34m",
+    "magenta": "\033[1;35m",
+    "cyan": "\033[1;36m",
+    "white": "\033[1;37m",
+    "end_code": "\033[1;0m"
+}
 
-logging.addLevelName(logging.CRITICAL, "\033[1;31m%s\033[1;0m" % logging.getLevelName(logging.CRITICAL))
-logging.addLevelName(logging.ERROR, "\033[1;31m%s\033[1;0m" % logging.getLevelName(logging.ERROR))
-logging.addLevelName(logging.WARNING, "\033[1;33m%s\033[1;0m" % logging.getLevelName(logging.WARNING))
-logging.addLevelName(logging.INFO, "\033[1;32m%s\033[1;0m" % logging.getLevelName(logging.INFO))
-logging.addLevelName(logging.DEBUG, "\033[1;35m%s\033[1;0m" % logging.getLevelName(logging.DEBUG))
+
+logging.addLevelName(
+    logging.CRITICAL,
+    color_codes["red"] + logging.getLevelName(logging.CRITICAL) + color_codes["end_code"]
+)
+logging.addLevelName(
+    logging.ERROR,
+    color_codes["red"] + logging.getLevelName(logging.ERROR) + color_codes["end_code"]
+)
+logging.addLevelName(
+    logging.WARNING,
+    color_codes["yellow"] + logging.getLevelName(logging.WARNING) + color_codes["end_code"]
+)
+logging.addLevelName(
+    logging.INFO,
+    color_codes["green"] + logging.getLevelName(logging.INFO) + color_codes["end_code"]
+)
+logging.addLevelName(
+    logging.DEBUG,
+    color_codes["blue"] + logging.getLevelName(logging.DEBUG) + color_codes["end_code"]
+)
 logging.basicConfig(level=logging.ERROR)
 
 
 LOGGING_LEVEL = logging.DEBUG
 
+_logger = logging.getLogger(__name__)
+_logger.setLevel(LOGGING_LEVEL)
+
+
 def lInfo(msg):
     """prints `msg` as info log message"""
-    _logger = logging.getLogger(__name__)
-    _logger.setLevel(LOGGING_LEVEL)
     _logger.info(msg)
 
 
 def lError(msg):
     """prints `msg` as error log message"""
-    _logger = logging.getLogger(__name__)
-    _logger.setLevel(LOGGING_LEVEL)
     _logger.error(msg)
 
 
 def lDbg(msg):
     """prints `msg` as debug log message"""
-    _logger = logging.getLogger(__name__)
-    _logger.setLevel(LOGGING_LEVEL)
     _logger.debug(msg)
 
 
 def lWarn(msg):
     """prints `msg` as warning log message"""
-    _logger = logging.getLogger(__name__)
-    _logger.setLevel(LOGGING_LEVEL)
     _logger.warning(msg)
 
 

@@ -37,7 +37,10 @@ from quat.utils.fileutils import write_json
 
 
 def extract_siti(video):
-    """ extracts siti values of a given video """
+    """
+    extracts siti values of a given video
+    the resulting values are [0,1] scaled
+    """
     features = {
         "si": SiFeatures(),
         "ti": TiFeatures()
@@ -60,12 +63,29 @@ def extract_siti(video):
 
 
 def main(_):
-    parser = argparse.ArgumentParser(description='calculate si ti values for a given video',
-                                     epilog="stg7 2019",
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('video', type=str, nargs="+", help='video to measure')
-    parser.add_argument('--reportfolder', type=str, default="siti_reports", help='folder to store all si ti calculations')
-    parser.add_argument('--cpu_count', type=int, default=multiprocessing.cpu_count(), help='thread/cpu count')
+    parser = argparse.ArgumentParser(
+        description='calculate si ti values for a given video',
+        epilog="stg7 2019",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument(
+        'video',
+        type=str,
+        nargs="+",
+        help='video to measure'
+    )
+    parser.add_argument(
+        '--reportfolder',
+        type=str,
+        default="siti_reports",
+        help='folder to store all si ti calculations'
+    )
+    parser.add_argument(
+        '--cpu_count',
+        type=int,
+        default=multiprocessing.cpu_count(),
+        help='thread/cpu count'
+    )
 
     a = vars(parser.parse_args())
     lInfo(f"cli arguments: {a}")

@@ -31,9 +31,8 @@ import argparse
 from multiprocessing import Pool
 import multiprocessing
 
+from quat.log import *
 
-def lInfo(msg):
-    print("[Info] " + str(msg))
 
 def do_it(command):
     lInfo("run {}".format(command))
@@ -43,9 +42,14 @@ def do_it(command):
     lInfo("done {}".format(command))
     return command
 
+
 def main(params):
-    parser = argparse.ArgumentParser(description='run a command on several files parallel', epilog="stg7 2016", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--cpu_count',type=int, default=multiprocessing.cpu_count(), help='thread/cpu count')
+    parser = argparse.ArgumentParser(
+        description='run a command on several files parallel',
+        epilog="stg7 2016",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument('--cpu_count', type=int, default=multiprocessing.cpu_count(), help='thread/cpu count')
     parser.add_argument('infile', type=str, help='inputfile where all commands are stored in each line that should run parallel')
     argsdict = vars(parser.parse_args())
 

@@ -15,25 +15,11 @@ import argparse
 import multiprocessing
 from multiprocessing import Pool
 
+from quat.log import *
+from quat.util.system import shell_call
+
 import numpy as np
 import cv2
-
-
-def lInfo(msg):
-    """ printout logging msg """
-    log = "[INFO ] "
-    print("\033[92m" + log + "\033[0m", end="")
-    print(str(msg))
-
-
-def shell_call(cmd):
-    """ Run a command and return output of stdout as result.
-    """
-    from subprocess import check_output, CalledProcessError
-    try:
-        return str(check_output(cmd, shell=True), "utf-8")
-    except CalledProcessError:
-        return ""
 
 
 def cuts_iterator(video_filename):
@@ -41,6 +27,8 @@ def cuts_iterator(video_filename):
     Function that takes an opencv video stream and yields cuts timing when detected
     The cuts detection is based on detection of peaks in the standard
     deviation of two successive frames
+
+    TODO: some parts can be replaced by cuts-feature inside quat
     '''
     cap = cv2.VideoCapture(video_filename)
 
@@ -139,41 +127,55 @@ def main(_):
             raise argparse.ArgumentTypeError("a not negative integer is required.")
         return num
 
-    parser = argparse.ArgumentParser(description='cuts detector',
-                                     epilog='2017',
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('video_filename',
-                        type=str,
-                        nargs="+",
-                        help="filename of input video")
-    parser.add_argument('--min_cut_duration',
-                        type=not_neg_int,
-                        default=10,
-                        help="minimum duration of an extracted cut; set to 0 for disabling")
-    parser.add_argument('--cpu_count',
-                        type=int,
-                        default=multiprocessing.cpu_count(),
-                        help="cpus/threads that are used for processing")
-    parser.add_argument('--output_dir',
-                        type=str,
-                        default="./results",
-                        help="output_directory for storing calculated features")
-    parser.add_argument('--cmd_filename',
-                        type=str,
-                        default="commands.list",
-                        help="file where all ffmpeg commands are stored")
+    parser = argparse.ArgumentParser(
+        description='cuts detector',
+        epilog='2017',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+    parser.add_argument(
+        'video_filename',
+        type=str,
+        nargs="+",
+        help="filename of input video"
+    )
+    parser.add_argument(
+        '--min_cut_duration',
+        type=not_neg_int,
+        default=10,
+        help="minimum duration of an extracted cut; set to 0 for disabling"
+    )
+    parser.add_argument(
+        '--cpu_count',
+        type=int,
+        default=multiprocessing.cpu_count(),
+        help="cpus/threads that are used for processing"
+    )
+    parser.add_argument(
+        '--output_dir',
+        type=str,
+        default="./results",
+        help="output_directory for storing calculated features"
+    )
+    parser.add_argument(
+        '--cmd_filename',
+        type=str,
+        default="commands.list",
+        help="file where all ffmpeg commands are stored"
+    )
 
     argsdict = vars(parser.parse_args())
-
 
     os.makedirs(argsdict["output_dir"], exist_ok=True)
 
     for video_filename in argsdict["video_filename"]:
-        extract_cuts(video_filename,
-                     argsdict["min_cut_duration"],
-                     argsdict["output_dir"],
-                     argsdict["cmd_filename"],
-                     argsdict["cpu_count"])
+        extract_cuts(
+            video_filename,
+            argsdict["min_cut_duration"],
+            argsdict["output_dir"],
+            argsdict["cmd_filename"],
+            argsdict["cpu_count"]
+        )
 
 
 if __name__ == "__main__":

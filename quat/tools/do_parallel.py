@@ -30,24 +30,18 @@ import argparse
 from multiprocessing import Pool
 import multiprocessing
 
-files_done = 0
-files_count = 0
-
-
-def lInfo(msg):
-    print("[Info] " + str(msg))
+from quat.log import *
 
 
 def do_it(params):
+    # TODO: this could be done via starmap?
     infile = params[0]
     script = params[1]
     res = os.system(script + " " + infile)
     if res != 0:
+        lError(f"something wrong with \"{script} {infile}\"")
         sys.exit(1)
-    global files_done
-    files_done += 1
-    lInfo("done {}".format(infile))
-    lInfo("{}/{}".format(files_done, files_count))
+    lInfo(f"done {infile}")
 
 
 def main(params):
@@ -69,11 +63,8 @@ def main(params):
     for i in range(cpu_count):
         resorted_files += [argsdict["infile"][x] for x in range(0, len(argsdict["infile"])) if x % cpu_count == i]
 
-
     files = zip(resorted_files, [script for x in resorted_files])
 
-    global files_count
-    files_count = len(argsdict["infile"])
     pool = Pool(processes=cpu_count)
 
     params = files

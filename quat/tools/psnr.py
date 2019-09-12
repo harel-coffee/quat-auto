@@ -127,9 +127,11 @@ def psnr_report(video, reference, output_dir):
 
 
 def main(_):
-    parser = argparse.ArgumentParser(description='calculate psnr for videos with different resolutions',
-                                     epilog="stg7 2017",
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description='calculate psnr for videos with different resolutions',
+        epilog="stg7 2017",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
     parser.add_argument('video', type=str, nargs="+", help='video to measure')
     parser.add_argument('--referencevideo', type=str, default=None, help="reference video; required")
     parser.add_argument('--output_dir', type=str, default="psnr", help='output directory')

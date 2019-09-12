@@ -24,6 +24,7 @@ import sys
 import subprocess
 import glob
 
+
 def shell_call(call):
     """
     Run a program via system call and return stdout + stderr.

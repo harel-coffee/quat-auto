@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-Unsorted code methods
-
+Unsorted methods
 """
 """
     This file is part of quat.
@@ -84,7 +83,9 @@ def progress_bar(iterable, max=100):
 
 def powerset(iterable):
     """
-    powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)
+    returns powerset of an iterable,
+
+    powerset([1,2,3]) --> () (1) (2) (3) (1,2) (1,3) (2,3) (1,2,3)
     from: https://stackoverflow.com/a/16915734
     """
     xs = list(iterable)

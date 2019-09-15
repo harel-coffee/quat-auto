@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Script automatic detection of cuts in a video stream
+Script for automatic detection of scene cuts in a video stream
 
 Note: Tuned for big bucks bunny
 

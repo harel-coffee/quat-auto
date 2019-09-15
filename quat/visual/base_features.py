@@ -200,7 +200,7 @@ class MovementFeatures(Feature):
 
 class CutDetectionFeatures(Feature):
     """ Estimates scene cuts of a given video (approximation),
-    implemented by serge molina
+    implemented by Serge Molina
     """
     def __init__(self):
         self._values = []

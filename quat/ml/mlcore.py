@@ -68,8 +68,9 @@ def print_trees(pipeline, feature_columns, name="trees"):
 
     Parameters
     ----------
-    pipeline : scikit learn pipeline, needs to have named_steps["regressor"] and named_steps["feature_selection"]
-        stores all data
+    pipeline : scikit learn pipeline
+        needs to have named_steps["regressor"] and
+        named_steps["feature_selection"] storing all data
     feature_columns : list of str
         name of feature_columns
     name : str

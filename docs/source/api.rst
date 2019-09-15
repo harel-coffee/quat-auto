@@ -43,9 +43,10 @@ encoding
     :members:
 
 recording
-~~~~~~~~-
+~~~~~~~~~
 .. automodule:: quat.ff.recorder
     :members:
+    :show-inheritance:
 
 
 module ml

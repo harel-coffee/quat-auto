@@ -36,7 +36,8 @@ class Recorder:
 
         Parameters
         ----------
-        resultfolder : str folder to store the resulting record
+        resultfolder : str
+            folder to store the resulting record
         """
         os.makedirs(resultfolder, exist_ok=True)
         self._resultfolder = resultfolder
@@ -105,12 +106,18 @@ class Recorder:
 
         Parameters
         ----------
-        filebasename : str basename of recording filename (will be extended by .mkv and stored in the recordfolder)
-        hardwareAcceleration : bool if true try to used hardware acceleration for intel graphics cards (TODO: experimental)
-        width : int recording width (screen resolution must be at least having this width)
-        height : int recording height
-        fps : int frames per second to record
-        shift : str ffmpeg specific shift, e.g. "+100,200" TODO: explain better
+        filebasename : str
+            basename of recording filename (will be extended by .mkv and stored in the recordfolder)
+        hardwareAcceleration : bool
+            if true try to used hardware acceleration for intel graphics cards (TODO: experimental)
+        width : int
+            recording width (screen resolution must be at least having this width)
+        height : int
+            recording height
+        fps : int
+            frames per second to record
+        shift : str
+            ffmpeg specific shift, e.g. "+100,200" TODO: explain better
         """
         outputfile = os.path.join(self._resultfolder, filebasename + ".mkv")
 

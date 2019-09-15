@@ -16,7 +16,7 @@ import multiprocessing
 from multiprocessing import Pool
 
 from quat.log import *
-from quat.util.system import shell_call
+from quat.utils.system import shell_call
 
 import numpy as np
 import cv2

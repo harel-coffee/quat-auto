@@ -156,9 +156,6 @@ sseq
 vifp -- CHECK
 ~~~~~~~~~~~~~
 
-sporco -- CHECK
-~~~~~~~~~~~~~~~
-
 
 
 

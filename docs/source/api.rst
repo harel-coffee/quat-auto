@@ -156,6 +156,13 @@ sseq
 vifp -- CHECK
 ~~~~~~~~~~~~~
 
+Other Video Quality Metrics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For other video quality metrics or methods see scikit-video_ or sporco_
+
+.. _scikit-video: http://www.scikit-video.org/stable/
+.. _sporco: https://sporco.readthedocs.io/en/latest/install.html
+
 
 
 

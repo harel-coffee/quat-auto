@@ -42,6 +42,11 @@ encoding
 .. automodule:: quat.ff.encoder
     :members:
 
+recording
+~~~~~~~~-
+.. automodule:: quat.ff.recorder
+    :members:
+
 
 module ml
 ---------

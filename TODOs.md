@@ -8,5 +8,6 @@
 * add ff.convert
     * raw conversion,
     * cropping
+* store features definitifly in subfolders
 
 # done

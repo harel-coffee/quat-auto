@@ -85,8 +85,8 @@ class Feature:
                 # TODO: fix to handle MovementFeatures
                 self._dis_instance = self.__class__()
 
-        v1 = self._ref_instance.calc(dframe)
-        v2 = self._dis_instance.calc(rframe)
+        v1 = self._ref_instance.calc(rframe)
+        v2 = self._dis_instance.calc(dframe)
 
         res = {}
         if type(v1) == dict:

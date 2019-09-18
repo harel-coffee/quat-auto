@@ -12,6 +12,8 @@
     * noise reduction
     * check blockiness (8x8)
 
+* solve docu bug, that github link is only on some pages
+
 # done
 * add ff.convert
     * raw conversion,

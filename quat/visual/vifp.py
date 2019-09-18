@@ -70,7 +70,7 @@ def vifp_mscale(ref, dist, scale=4):
 
     num = 0.0
     den = 0.0
-    values = {}
+    values = {}  # collect for each scale the value, changed by stg7
     for scale in range(1, scale + 1):
 
         N = 2**(4-scale+1) + 1

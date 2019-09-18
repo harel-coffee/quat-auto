@@ -179,6 +179,8 @@ def build_ffmpeg_command(pvs, output_dir):
 def build_commands_to_convert_to_4k_and_lossless(processes_video_dir, lossless_output_dir):
     """ read all files in processes_video_dir and create commands to convert
         to 4k resolution and lossless codec
+
+    TODO: check if still required
     """
     # global settings for each lossless encoded sequence,
     # TODO(stg7) needs to be modified manually find a better way
@@ -204,6 +206,7 @@ def build_commands_to_convert_to_4k_and_lossless(processes_video_dir, lossless_o
 
 def analyze_video_file(filename):
     """ run ffprobe to get some information of a given video file
+    TODO: check if still required
     """
     if shutil.which("ffprobe") is None:
         raise FFprobeMissingException("you need to have ffprobe installed, please read README.md.")

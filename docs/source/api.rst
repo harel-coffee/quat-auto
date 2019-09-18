@@ -43,7 +43,7 @@ encoding
     :members:
 
 converting
-~~~~~~~~--
+~~~~~~~~~~
 .. automodule:: quat.ff.convert
     :members:
 

@@ -38,9 +38,9 @@ def check_ffmpeg():
     return True
 
 
-def __run_cmd(cmd):
+def __run_multi_line_cmd(cmd):
     """
-    run a command that consists of several lines that are removed
+    run a command that consists of several lines that are combined again
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ def crop_video(input_file, tmp_folder, ccheight=360):
     {output_file} 2>/dev/null"""
 
     lInfo(f"crop video: {input_file} to {output_file}")
-    __run_cmd(cmd)
+    __run_multi_line_cmd(cmd)
     return output_file
 
 
@@ -115,7 +115,7 @@ def rescale_video(input_file, tmp_folder, height=360):
     {output_file}  2>/dev/null"""
 
     lInfo(f"rescale video: {input_file} to {output_file}")
-    __run_cmd(cmd)
+    __run_multi_line_cmd(cmd)
     return output_file
 
 
@@ -161,7 +161,7 @@ def convert_to_avpvs(input_file, tmp_folder, framerate="60/1", width=3840, heigh
     {output_file} 2>/dev/null"""
 
     lInfo(f"convert to avpvs: {input_file} to {output_file}")
-    __run_cmd(cmd)
+    __run_multi_line_cmd(cmd)
     return output_file
 
 
@@ -220,6 +220,6 @@ def convert_to_avpvs_and_crop(input_file, tmp_folder, framerate="60/1", width=38
 
     lInfo(f"convert to cropped-avpvs: {input_file} to {output_file}")
 
-    __run_cmd(cmd)
+    __run_multi_line_cmd(cmd)
     return output_file
 

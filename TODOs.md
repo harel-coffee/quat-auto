@@ -5,9 +5,14 @@
 * cleanup mlcore
 * check general todos inside code
 * add checks for some input handling
+* store features definitifly in subfolders
+* check ff.convert
+
+* add features for
+    * noise reduction
+    * check blockiness (8x8)
+
+# done
 * add ff.convert
     * raw conversion,
     * cropping
-* store features definitifly in subfolders
-
-# done

@@ -42,6 +42,11 @@ encoding
 .. automodule:: quat.ff.encoder
     :members:
 
+converting
+~~~~~~~~--
+.. automodule:: quat.ff.convert
+    :members:
+
 recording
 ~~~~~~~~~
 .. automodule:: quat.ff.recorder

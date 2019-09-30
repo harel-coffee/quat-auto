@@ -46,7 +46,7 @@ Reading a video
     from quat.visual.base_features import SiFeatures
 
     si = SiFeatures()
-    video ="path/to/video"
+    video = "path/to/video"
     for frame in iterate_by_frame(video):
         lInfo(frame)
         v = si.calc(frame)

@@ -7,7 +7,7 @@
 * add checks for some input handling
 * store features definitifly in subfolders
 * check ff.convert
-
+* outlier detection (e.g. https://towardsdatascience.com/outlier-detection-with-hampel-filter-85ddf523c73d, mean + std (see recording part))
 * add features for
     * noise reduction
     * check blockiness (8x8)

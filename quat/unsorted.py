@@ -112,3 +112,24 @@ def jdump_file(filename, jo, printing=False):
     with open(filename, "w") as _fp:
         json.dump(jo, _fp, indent=4, sort_keys=True)
 
+
+def create_colormap(start, mid, end, steps=256):
+    """
+    creates a color map between three color points using steps.
+    """
+    colors = []
+    h_steps = steps // 2
+    step_size = ((mid[0] - start[0]) / h_steps, (mid[1] - start[1]) / h_steps, (mid[2] - start[2]) / h_steps)
+
+    c_color = start
+    for i in range(h_steps):
+        colors.append(c_color)
+        c_color = [round(c_color[i] + x) for i, x in enumerate(step_size)]
+
+    colors.append(mid)
+    step_size = ((end[0] - mid[0]) / h_steps, (end[1] - mid[1]) / h_steps, (end[2] - mid[2]) / h_steps)
+
+    for i in range(h_steps):
+        colors.append(c_color)
+        c_color = [round(c_color[i] + x) for i, x in enumerate(step_size)]
+    return colors

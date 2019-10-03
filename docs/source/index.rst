@@ -54,3 +54,11 @@ Projects using `quat`
    examples.rst
    api.rst
 
+
+Contributors
+------------
+
+- Steve Göring
+- Julian Zebelein
+- Serge Molina
+- Rakesh Rao Ramachandra Rao

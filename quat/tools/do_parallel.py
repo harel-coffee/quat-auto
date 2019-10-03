@@ -34,22 +34,37 @@ from quat.log import *
 
 
 def do_it(params):
-    # TODO: this could be done via starmap?
     infile = params[0]
     script = params[1]
     res = os.system(script + " " + infile)
     if res != 0:
-        lError(f"something wrong with \"{script} {infile}\"")
+        lError(f'something wrong with "{script} {infile}"')
         sys.exit(1)
     lInfo(f"done {infile}")
 
 
 def main(params):
-    parser = argparse.ArgumentParser(description='run a command on several files parallel', epilog="stg7 2016", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--cpu_count',type=int, default=multiprocessing.cpu_count(), help='thread/cpu count')
-    parser.add_argument('--script', type=str, default="echo ", help='script for handling one file')
-    parser.add_argument('-s', dest='sortbysize', action='store_true', help='sort by size starting with smallest file')
-    parser.add_argument('infile',nargs="+", type=str, help='inputfile')
+    parser = argparse.ArgumentParser(
+        description="run a command on several files parallel",
+        epilog="stg7 2016",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--cpu_count",
+        type=int,
+        default=multiprocessing.cpu_count(),
+        help="thread/cpu count",
+    )
+    parser.add_argument(
+        "--script", type=str, default="echo ", help="script for handling one file"
+    )
+    parser.add_argument(
+        "-s",
+        dest="sortbysize",
+        action="store_true",
+        help="sort by size starting with smallest file",
+    )
+    parser.add_argument("infile", nargs="+", type=str, help="inputfile")
     argsdict = vars(parser.parse_args())
 
     cpu_count = argsdict["cpu_count"]
@@ -61,7 +76,11 @@ def main(params):
 
     resorted_files = []
     for i in range(cpu_count):
-        resorted_files += [argsdict["infile"][x] for x in range(0, len(argsdict["infile"])) if x % cpu_count == i]
+        resorted_files += [
+            argsdict["infile"][x]
+            for x in range(0, len(argsdict["infile"]))
+            if x % cpu_count == i
+        ]
 
     files = zip(resorted_files, [script for x in resorted_files])
 

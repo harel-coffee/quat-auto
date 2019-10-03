@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 measure psnr
-TODO/FIXME: use quat methods
+TODO/FIXME: use quat methods, maybe remove
 """
 
 """
@@ -63,7 +63,13 @@ def lInfo(msg):
     print(colorgreen("[INFO ] ") + str(msg), flush=True)
 
 
-def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_function, per_frame_function_additional_params={}, debug=False):
+def read_videos_frame_by_frame(
+    distortedvideo,
+    referencevideo,
+    per_frame_function,
+    per_frame_function_additional_params={},
+    debug=False,
+):
     distortedvideo_it = iterate_by_frame(distortedvideo)
     referencevideo_it = iterate_by_frame(referencevideo)
     k = 0
@@ -77,7 +83,11 @@ def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_functio
 
             x = next(referencevideo_it)
             y = next(distortedvideo_it)
-            results.append(per_frame_function(x, y, last_x, last_y, **per_frame_function_additional_params))
+            results.append(
+                per_frame_function(
+                    x, y, last_x, last_y, **per_frame_function_additional_params
+                )
+            )
             k += 1
             last_x = x
             last_y = y
@@ -91,13 +101,17 @@ def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_functio
     return results
 
 
-def calc_psnr(x, y, last_x, last_y, bitdepth = 10):
-    new_shape = (max(x.shape[0], y.shape[0]), max(x.shape[1], y.shape[1]), max(x.shape[2], y.shape[2]))
+def calc_psnr(x, y, last_x, last_y, bitdepth=10):
+    new_shape = (
+        max(x.shape[0], y.shape[0]),
+        max(x.shape[1], y.shape[1]),
+        max(x.shape[2], y.shape[2]),
+    )
 
     if new_shape != x.shape:
-        x = skimage.transform.resize(x, new_shape[0:2], mode='reflect')
+        x = skimage.transform.resize(x, new_shape[0:2], mode="reflect")
     if new_shape != y.shape:
-        y = skimage.transform.resize(y, new_shape[0:2], mode='reflect')
+        y = skimage.transform.resize(y, new_shape[0:2], mode="reflect")
 
     maxvalue = np.int(2 ** bitdepth - 1)
     maxsq = maxvalue ** 2
@@ -109,7 +123,12 @@ def calc_psnr(x, y, last_x, last_y, bitdepth = 10):
 
 
 def psnr_report(video, reference, output_dir):
-    reportname = output_dir + "/" + os.path.splitext(os.path.basename(video))[0] + "_psnr.json.bz2"
+    reportname = (
+        output_dir
+        + "/"
+        + os.path.splitext(os.path.basename(video))[0]
+        + "_psnr.json.bz2"
+    )
     results = read_videos_frame_by_frame(video, reference, calc_psnr)
     values = {}
     values["per_frame"] = results
@@ -128,14 +147,23 @@ def psnr_report(video, reference, output_dir):
 
 def main(_):
     parser = argparse.ArgumentParser(
-        description='calculate psnr for videos with different resolutions',
+        description="calculate psnr for videos with different resolutions",
         epilog="stg7 2017",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument('video', type=str, nargs="+", help='video to measure')
-    parser.add_argument('--referencevideo', type=str, default=None, help="reference video; required")
-    parser.add_argument('--output_dir', type=str, default="psnr", help='output directory')
-    parser.add_argument('--cpu_count', type=int, default=multiprocessing.cpu_count(), help='thread/cpu count')
+    parser.add_argument("video", type=str, nargs="+", help="video to measure")
+    parser.add_argument(
+        "--referencevideo", type=str, default=None, help="reference video; required"
+    )
+    parser.add_argument(
+        "--output_dir", type=str, default="psnr", help="output directory"
+    )
+    parser.add_argument(
+        "--cpu_count",
+        type=int,
+        default=multiprocessing.cpu_count(),
+        help="thread/cpu count",
+    )
 
     argsdict = vars(parser.parse_args())
     if argsdict["referencevideo"] is None:
@@ -145,10 +173,13 @@ def main(_):
     os.makedirs(argsdict["output_dir"], exist_ok=True)
 
     pool = Pool(argsdict["cpu_count"])
-    params = [(video, argsdict["referencevideo"], argsdict["output_dir"]) for video in argsdict["video"]]
+    params = [
+        (video, argsdict["referencevideo"], argsdict["output_dir"])
+        for video in argsdict["video"]
+    ]
     res = pool.starmap(psnr_report, params)
     print(json.dumps(res, indent=4))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

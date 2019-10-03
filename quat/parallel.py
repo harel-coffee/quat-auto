@@ -32,7 +32,7 @@ def run_parallel_by_grouping(items, function, arguments, num_cpus=8):
     groups = []
     length = len(items) // multiprocessing.cpu_count()
     for x in range(0, len(items), length):
-        groups.append(items[x: x + length])
+        groups.append(items[x : x + length])
     # add for each group the shared arguments
     params = [tuple([item_group] + list(arguments)) for item_group in groups]
     # run parallel
@@ -43,10 +43,24 @@ def run_parallel_by_grouping(items, function, arguments, num_cpus=8):
 def run_parallel(items, function, arguments=[], num_cpus=8):
     """
     run a function call parallel, for each item
+
+    Parameters
+    ----------
+    items : list
+        list of items passed to function
+    function : function name
+        function that should be applied on each item
+    arguments : list
+        constant arguments that are passed to function
+    num_cpus : int
+        number of cpu's that should be used
+
+    Returns
+    -------
+    results of function performed on all items as a list
     """
     params = [tuple([i] + arguments) for i in items]
     # run parallel
     pool = Pool(processes=num_cpus)
-    res =  pool.starmap(function, params)
+    res = pool.starmap(function, params)
     return res
-

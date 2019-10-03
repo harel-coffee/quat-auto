@@ -27,7 +27,7 @@ from quat.log import *
 
 def check_ffmpeg():
     """
-    checks if ffmpeg is accessible
+    checks if ffmpeg is installed in the system
 
     Returns
     -------
@@ -46,6 +46,8 @@ def __run_multi_line_cmd(cmd):
     ----------
     cmd : str
         command to run, e.g. cmd="ls \n -la" will run "ls -la"
+
+    TODO: move to utils/system?
 
     Returns
     -------
@@ -79,8 +81,7 @@ def crop_video(input_file, tmp_folder, ccheight=360):
     os.makedirs(tmp_folder, exist_ok=True)
 
     output_file = os.path.join(
-        tmp_folder,
-        os.path.splitext(os.path.basename(input_file))[0] + "_cropped.mkv"
+        tmp_folder, os.path.splitext(os.path.basename(input_file))[0] + "_cropped.mkv"
     )
     cmd = f"""
     ffmpeg -nostdin -loglevel quiet
@@ -103,8 +104,7 @@ def rescale_video(input_file, tmp_folder, height=360):
     os.makedirs(tmp_folder, exist_ok=True)
 
     output_file = os.path.join(
-        tmp_folder,
-        os.path.splitext(os.path.basename(input_file))[0] + "_rescaled.mkv"
+        tmp_folder, os.path.splitext(os.path.basename(input_file))[0] + "_rescaled.mkv"
     )
     cmd = f"""
     ffmpeg -nostdin -loglevel quiet
@@ -119,7 +119,9 @@ def rescale_video(input_file, tmp_folder, height=360):
     return output_file
 
 
-def convert_to_avpvs(input_file, tmp_folder, framerate="60/1", width=3840, height=-2, pix_fmt="yuv420p"):
+def convert_to_avpvs(
+    input_file, tmp_folder, framerate="60/1", width=3840, height=-2, pix_fmt="yuv420p"
+):
     """
     converts a video to a unified resolution, framerate and pixel format,
     can be used, e.g. in case of a full reference model, to unify a distorted video with the source video
@@ -147,8 +149,7 @@ def convert_to_avpvs(input_file, tmp_folder, framerate="60/1", width=3840, heigh
     os.makedirs(tmp_folder, exist_ok=True)
 
     output_file = os.path.join(
-        tmp_folder,
-        os.path.splitext(os.path.basename(input_file))[0] + ".mkv"
+        tmp_folder, os.path.splitext(os.path.basename(input_file))[0] + ".mkv"
     )
     cmd = f"""
     ffmpeg -nostdin -loglevel quiet
@@ -165,7 +166,15 @@ def convert_to_avpvs(input_file, tmp_folder, framerate="60/1", width=3840, heigh
     return output_file
 
 
-def convert_to_avpvs_and_crop(input_file, tmp_folder, framerate="60/1", width=3840, height=-2, pix_fmt="yuv420p", ccheight=360):
+def convert_to_avpvs_and_crop(
+    input_file,
+    tmp_folder,
+    framerate="60/1",
+    width=3840,
+    height=-2,
+    pix_fmt="yuv420p",
+    ccheight=360,
+):
     """
     converts a video to a unified resolution, framerate and pixel format and
     performs afterwards a center cropping
@@ -192,13 +201,14 @@ def convert_to_avpvs_and_crop(input_file, tmp_folder, framerate="60/1", width=38
     filename and path of the converted and center cropped video
     """
     check_ffmpeg()
-    lInfo(f"avpvs + cropping generation with: {width}x{height}@{framerate}-{pix_fmt} using ccheight:{ccheight}")
+    lInfo(
+        f"avpvs + cropping generation with: {width}x{height}@{framerate}-{pix_fmt} using ccheight:{ccheight}"
+    )
 
     os.makedirs(tmp_folder, exist_ok=True)
 
     output_file = os.path.join(
-        tmp_folder,
-        os.path.splitext(os.path.basename(input_file))[0] + ".mkv"
+        tmp_folder, os.path.splitext(os.path.basename(input_file))[0] + ".mkv"
     )
 
     cmd = f"""
@@ -222,4 +232,3 @@ def convert_to_avpvs_and_crop(input_file, tmp_folder, framerate="60/1", width=38
 
     __run_multi_line_cmd(cmd)
     return output_file
-

@@ -22,6 +22,8 @@ import pandas as pd
 
 from sklearn.manifold import TSNE
 
+from quat.log import *
+
 
 def learn_embedding(df, dims=2):
     """
@@ -33,9 +35,6 @@ def learn_embedding(df, dims=2):
     X_embedded.shape
     return X_embedded
 
+
 if __name__ == "__main__":
-    print("only a lib")
-
-
-
-
+    lInfo("only a lib")

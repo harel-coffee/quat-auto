@@ -50,7 +50,8 @@ try:
     from ..log import *
 except:
     import sys
-    sys.path.append(os.path.dirname(__file__) + '/../')
+
+    sys.path.append(os.path.dirname(__file__) + "/../")
     from log import *
 
 
@@ -58,8 +59,10 @@ def per_block(image, function, block_shape=(8, 8)):
     """ truncate image size to multiple of block_shape,
     otherwise view_as_blocks will not work
     """
-    image = image[:image.shape[0] - image.shape[0] % block_shape[0],
-                  :image.shape[1] - image.shape[1] % block_shape[1]]
+    image = image[
+        : image.shape[0] - image.shape[0] % block_shape[0],
+        : image.shape[1] - image.shape[1] % block_shape[1],
+    ]
     rows = []
     for row in skimage.util.shape.view_as_blocks(image, block_shape):
         cols = []
@@ -71,10 +74,11 @@ def per_block(image, function, block_shape=(8, 8)):
 
 def calc_sseq_features(image, scale=3, gray=False):
     """ calculate sseq features of an images with several scales """
+
     def calc_stats(x, weight=[0.2, 0.8]):
         x = x.flatten()
         x.sort()
-        t = x[math.ceil(len(x) * weight[0]): math.ceil(len(x) * weight[1])]
+        t = x[math.ceil(len(x) * weight[0]) : math.ceil(len(x) * weight[1])]
         mu = t.mean()
         ske = scipy.stats.skew(t)
         return [mu, ske]
@@ -116,20 +120,37 @@ def sseq_features(image_filename, scale=3):
 def main(_):
     """ extract image features """
     # argument parsing
-    parser = argparse.ArgumentParser(description='calculate sseq no reference metric features',
-                                     epilog="stg7 2018",
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description="calculate sseq no reference metric features",
+        epilog="stg7 2018",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument("inputimg", type=str, nargs="+", help="input img for training")
-    parser.add_argument('--output_file', type=str, default="sseq_features.csv", help="output_file for storing calculated features")
-    parser.add_argument('--cpu_count', type=int, default=multiprocessing.cpu_count(), help="cpus/threads that are used for processing")
+    parser.add_argument(
+        "--output_file",
+        type=str,
+        default="sseq_features.csv",
+        help="output_file for storing calculated features",
+    )
+    parser.add_argument(
+        "--cpu_count",
+        type=int,
+        default=multiprocessing.cpu_count(),
+        help="cpus/threads that are used for processing",
+    )
 
     argsdict = vars(parser.parse_args())
 
     start_time = time.time()
 
     cpu_count = argsdict["cpu_count"]
+    # TODO: use parallel methods
     pool = Pool(processes=cpu_count)
-    lInfo("calculate no reference metric features for {} images".format(len(argsdict["inputimg"])))
+    lInfo(
+        "calculate no reference metric features for {} images".format(
+            len(argsdict["inputimg"])
+        )
+    )
 
     params = [image_filename for image_filename in argsdict["inputimg"]]
     results = pool.map(sseq_features, params)

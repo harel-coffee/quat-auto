@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 FFmpeg based screen recorder
+
+# TODO: audio is ususally not synced
 """
 """
     This file is part of quat.
@@ -42,7 +44,9 @@ class Recorder:
         os.makedirs(resultfolder, exist_ok=True)
         self._resultfolder = resultfolder
 
-    def _create_record_command(self, width, height, shift, outputfile, fps, hardwareAcceleration=True):
+    def _create_record_command(
+        self, width, height, shift, outputfile, fps, hardwareAcceleration=True
+    ):
         # no hardware acceleration
         cmd = f"""
         ffmpeg
@@ -100,7 +104,15 @@ class Recorder:
         lDbg(cmd)
         return cmd
 
-    def start(self, filebasename, hardwareAcceleration=False, width=1366, height=768, fps=24, shift=""):
+    def start(
+        self,
+        filebasename,
+        hardwareAcceleration=False,
+        width=1366,
+        height=768,
+        fps=24,
+        shift="",
+    ):
         """
         starts the screen record
 
@@ -122,12 +134,7 @@ class Recorder:
         outputfile = os.path.join(self._resultfolder, filebasename + ".mkv")
 
         cmd = self._create_record_command(
-            width,
-            height,
-            shift,
-            outputfile,
-            fps,
-            hardwareAcceleration
+            width, height, shift, outputfile, fps, hardwareAcceleration
         )
 
         lInfo("start recording")
@@ -137,7 +144,7 @@ class Recorder:
             preexec_fn=os.setsid,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            universal_newlines=True
+            universal_newlines=True,
         )
 
     def stop(self):
@@ -165,4 +172,3 @@ if __name__ == "__main__":
         lInfo("stop recording")
     finally:
         recorder.stop()
-

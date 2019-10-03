@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
 tool to extract si ti values of a given video
+
+Note: the extracted values are [0,1] normalized, due
+to a float conversion of the given video frames,
+if you need values in range [0,255], just multiply
+the extracted values by 255
 """
 
 """
@@ -41,10 +46,7 @@ def extract_siti(video):
     extracts siti values of a given video
     the resulting values are [0,1] scaled
     """
-    features = {
-        "si": SiFeatures(),
-        "ti": TiFeatures()
-    }
+    features = {"si": SiFeatures(), "ti": TiFeatures()}
     results = []
     frame_number = 1
     for frame in iterate_by_frame(video, convert=True):
@@ -56,35 +58,27 @@ def extract_siti(video):
         results.append(r)
         jprint(r)
         frame_number += 1
-    return {
-        "video": video,
-        "values": results
-    }
+    return {"video": video, "values": results}
 
 
 def main(_):
     parser = argparse.ArgumentParser(
-        description='calculate si ti values for a given video',
+        description="calculate si ti values for a given video",
         epilog="stg7 2019",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
+    parser.add_argument("video", type=str, nargs="+", help="video to measure")
     parser.add_argument(
-        'video',
-        type=str,
-        nargs="+",
-        help='video to measure'
-    )
-    parser.add_argument(
-        '--reportfolder',
+        "--reportfolder",
         type=str,
         default="siti_reports",
-        help='folder to store all si ti calculations'
+        help="folder to store all si ti calculations",
     )
     parser.add_argument(
-        '--cpu_count',
+        "--cpu_count",
         type=int,
         default=multiprocessing.cpu_count(),
-        help='thread/cpu count'
+        help="thread/cpu count",
     )
 
     a = vars(parser.parse_args())
@@ -93,7 +87,7 @@ def main(_):
     res = run_parallel(
         a["video"],  # list of videofilenames
         extract_siti,  # apply this function to each videofilename
-        num_cpus=a["cpu_count"]
+        num_cpus=a["cpu_count"],
     )
 
     os.makedirs(a["reportfolder"], exist_ok=True)
@@ -103,5 +97,5 @@ def main(_):
         write_json(r["values"], reportname, prettify=True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

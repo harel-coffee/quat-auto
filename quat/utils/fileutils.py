@@ -25,7 +25,8 @@ import json
 
 
 def get_files_by_extension(base_dir, extension):
-    """ get list of files in a base_dir with specified extension
+    """
+    get list of files in a base_dir with specified extension
 
     Parameters
     ----------
@@ -39,9 +40,12 @@ def get_files_by_extension(base_dir, extension):
     list of files matching the extension
 
     """
-    return list(filter(lambda x: extension in x,
-                       list(map(lambda x: base_dir + "/" + x,
-                                os.listdir(base_dir)))))
+    return list(
+        filter(
+            lambda x: extension in x,
+            list(map(lambda x: base_dir + "/" + x, os.listdir(base_dir))),
+        )
+    )
 
 
 def get_files_by_extensions(base_dir, extensions=[""]):

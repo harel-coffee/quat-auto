@@ -34,6 +34,7 @@ class Individual:
     """
     base class of an individual in a genetic algorithm
     """
+
     _genom = np.array([])
     _fitness = 0
 
@@ -99,16 +100,18 @@ class Individual:
         """
         for x in range(0, max(1, int(np.ceil(mutation_rate * len(self._genom))))):
             pos = random.randint(0, len(self._genom) - 1)
-            self._genom[pos] = np.clip(self._genom[pos] +  (2 * random.random() - 1), 0, 1)
+            self._genom[pos] = np.clip(
+                self._genom[pos] + (2 * random.random() - 1), 0, 1
+            )
         self._fitness = 0
-
 
 
 class HelloWorld(Individual):
     """
     example individual class, starting from a random string,
-    get "HelloWorld"
+    evolution will get "HelloWorld"
     """
+
     target = np.array([ord(x) - 65 for x in "HelloWorld"], dtype=np.int)
 
     def __init__(self, number_genes=len("HelloWorld")):
@@ -140,7 +143,6 @@ class HelloWorld(Individual):
         return "".join(chars)
 
 
-
 def _calc_fitness(individual):
     """ local helper for multiprocessing
     """
@@ -152,7 +154,19 @@ class GeneticEvolution:
     """
     simple base class for genetic evolution
     """
-    def __init__(self, population_size, mutation_rate, max_num_generations, individual_class, cpu_count=multiprocessing.cpu_count(), verbose=False, live_plot=True, checkpoint_folder="checkpoint", checkpoint_intervall=10):
+
+    def __init__(
+        self,
+        population_size,
+        mutation_rate,
+        max_num_generations,
+        individual_class,
+        cpu_count=multiprocessing.cpu_count(),
+        verbose=False,
+        live_plot=True,
+        checkpoint_folder="checkpoint",
+        checkpoint_intervall=10,
+    ):
         """
         create GeneticEvolution instance
         """
@@ -186,7 +200,7 @@ class GeneticEvolution:
             axes.set_xlim(0, self._max_num_generations)
             max_fitness = max([x.get_fitness() for x in self._population])
             axes.set_ylim(0, int(max_fitness * 0.1))
-            self._line, = axes.plot(self._xdata, self._ydata, '-')
+            self._line, = axes.plot(self._xdata, self._ydata, "-")
 
         self._num_generations = 0
 
@@ -198,7 +212,14 @@ class GeneticEvolution:
             print("done")
             return self._population
 
-        print("generation:", self._num_generations, "last fittest:", self._population[0].get_fitness(), "genom:", self._population[0].str_genom())
+        print(
+            "generation:",
+            self._num_generations,
+            "last fittest:",
+            self._population[0].get_fitness(),
+            "genom:",
+            self._population[0].str_genom(),
+        )
         if self._live_plot:
             self._xdata.append(self._num_generations)
             self._ydata.append(self._population[0].get_fitness())
@@ -212,7 +233,7 @@ class GeneticEvolution:
 
         # select the best-fit individuals for reproduction. (Parents)
         # we take 25 % of all best individuals
-        parents = self._population[0:self._population_size // 4]
+        parents = self._population[0 : self._population_size // 4]
 
         # breed new individuals through crossover and mutation operations to give birth to offspring.
         childs = self._crossover(parents, self._mutation_rate)
@@ -224,7 +245,7 @@ class GeneticEvolution:
         self._population = self._sort_by_fitness(self._population)
 
         # replace least-fit population with new individuals.
-        self._population = self._population[0:self._population_size]
+        self._population = self._population[0 : self._population_size]
         self._num_generations += 1
 
         if self._verbose:
@@ -292,7 +313,7 @@ def main(_):
         cpu_count=multiprocessing.cpu_count(),
         verbose=True,
         live_plot=True,
-        checkpoint_folder="checkpoints"
+        checkpoint_folder="checkpoints",
     )
 
     # let evolution run as long as we need it

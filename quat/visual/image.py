@@ -28,7 +28,6 @@ import skimage.color
 from skimage import exposure
 
 
-
 def color_fulness_features(image_rgb):
     """
     calculates color fullness
@@ -40,7 +39,7 @@ def color_fulness_features(image_rgb):
     - Hasler, David, and Sabine E. Suesstrunk. "Measuring colorfulness in natural images."
       In: Human vision and electronic imaging VIII. Vol. 5007. International Society for Optics and Photonics, 2003.
     """
-    assert(len(image_rgb.shape) == 3)
+    assert len(image_rgb.shape) == 3
 
     rg = (image_rgb[:, :, 0] - image_rgb[:, :, 1]).ravel()
     yb = (image_rgb[:, :, 0] / 2 + image_rgb[:, :, 1] / 2 - image_rgb[:, :, 2]).ravel()
@@ -101,8 +100,8 @@ def calc_contrast_features(frame):
     cdf_normalized = cdf * hist.max() / cdf.max()
 
     cdf_m = np.ma.masked_equal(cdf, 0)
-    cdf_m = (cdf_m - cdf_m.min()) * 1024 / (cdf_m.max()-cdf_m.min())
-    cdf = np.ma.filled(cdf_m, 0).astype('uint8')
+    cdf_m = (cdf_m - cdf_m.min()) * 1024 / (cdf_m.max() - cdf_m.min())
+    cdf = np.ma.filled(cdf_m, 0).astype("uint8")
     img2 = cdf[frame]
 
     hist2, bins = np.histogram(img2.flatten(), 1024, [0, 1024])
@@ -137,7 +136,7 @@ def calc_fft_features(frame, debug=False):
 
     def radial_profile(data, center):
         y, x = np.indices((data.shape))
-        r = np.sqrt((x - center[0])**2 + (y - center[1])**2)
+        r = np.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2)
         r = r.astype(np.int)
 
         tbin = np.bincount(r.ravel(), data.ravel())
@@ -151,7 +150,7 @@ def calc_fft_features(frame, debug=False):
     frame = np.uint8(frame)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     prefinal = cv2.resize(gray, (file_width, file_height))
-    #final = cv2.GaussianBlur(prefinal,(5,5),0)
+    # final = cv2.GaussianBlur(prefinal,(5,5),0)
     final = cv2.bilateralFilter(prefinal, 9, 75, 75)
 
     f = np.fft.fft2(final)
@@ -189,8 +188,8 @@ def calc_saturation_features(frame, debug=True):
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    average_hsvValue = hsv[:,:,1].sum() / (file_width * file_height)
-    averageSaturationCurrentFrame = (average_hsvValue*100)/256
+    average_hsvValue = hsv[:, :, 1].sum() / (file_width * file_height)
+    averageSaturationCurrentFrame = (average_hsvValue * 100) / 256
 
     return float(averageSaturationCurrentFrame)
 
@@ -201,6 +200,7 @@ def calc_blur_features(frame, debug=False):
 
     based on julian zebelein's master thesis
     """
+
     def variance_of_laplacian(image):
         # compute the Laplacian of the image and then return the focus
         # measure, which is simply the variance of the Laplacian
@@ -211,7 +211,7 @@ def calc_blur_features(frame, debug=False):
     frame = np.uint8(frame)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     prefinal = cv2.resize(gray, (file_width, file_height))
-    #final = cv2.GaussianBlur(prefinal,(5,5),0)
+    # final = cv2.GaussianBlur(prefinal,(5,5),0)
     final = cv2.bilateralFilter(prefinal, 9, 75, 75)
     fm = variance_of_laplacian(final)
     return float(fm)
@@ -253,7 +253,7 @@ def calc_niqe_features(image, gray=False):
 
 def ceiq(image, gray=False):
     """
-    re-implementation and extension of https://github.com/mtobeiyf/CEIQ/blob/master/CEIQ.m
+    re-implemented and extended version of https://github.com/mtobeiyf/CEIQ/blob/master/CEIQ.m
     features for "No-Reference Quality Assessment of Contrast-Distorted Images using Contrast Enhancement"
 
     References
@@ -287,10 +287,10 @@ def ceiq(image, gray=False):
     log_h2 = np.log2(h2)
 
     # these features are somehow entropy
-    f2 = - sum(h1 *  log_h1)
-    f3 = - sum(h2 *  log_h2)
-    f4 = - sum(h1 *  log_h2)
-    f5 = - sum(h2 *  log_h1)
+    f2 = -sum(h1 * log_h1)
+    f3 = -sum(h2 * log_h2)
+    f4 = -sum(h1 * log_h2)
+    f5 = -sum(h2 * log_h1)
 
     # additional features, that are not in the paper and added by stg7
     add1 = skimage.measure.compare_psnr(image, image_eq)

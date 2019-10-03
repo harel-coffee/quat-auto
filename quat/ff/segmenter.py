@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 Tools to segment videos
+
+TODO: check dash_encoder.py
 """
 """
     This file is part of quat.

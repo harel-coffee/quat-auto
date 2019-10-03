@@ -27,6 +27,7 @@ import scipy.spatial
 def _cohen_d(x, y):
     """ calculates cohen's d,
     based on https://stackoverflow.com/a/33002123
+    TODO: check implementation
 
     Parameters
     ----------
@@ -34,12 +35,15 @@ def _cohen_d(x, y):
     y : list/np.array
     """
     from numpy import std, mean, sqrt
+
     d = (mean(x) - mean(y)) / sqrt((std(x, ddof=1) ** 2 + std(y, ddof=1) ** 2) / 2.0)
-    if (len(x) != len(y)):
+    if len(x) != len(y):
         nx = len(x)
         ny = len(y)
         dof = nx + ny - 2
-        return (mean(x) - mean(y)) / sqrt(((nx - 1)*std(x, ddof=1) ** 2 + (ny - 1) * std(y, ddof=1) ** 2) / dof)
+        return (mean(x) - mean(y)) / sqrt(
+            ((nx - 1) * std(x, ddof=1) ** 2 + (ny - 1) * std(y, ddof=1) ** 2) / dof
+        )
     return d
 
 
@@ -55,7 +59,7 @@ def rmse(data, X, Y):
     Y : str
         Y column to be used
     """
-    assert(X in data and Y in data)
+    assert X in data and Y in data
     return np.sqrt(sklearn.metrics.mean_squared_error(data[X], data[Y]))
 
 
@@ -88,7 +92,7 @@ def r2(data, X, Y):
     Y : str
         Y column to be used
     """
-    assert(X in data and Y in data)
+    assert X in data and Y in data
     return sklearn.metrics.r2_score(data[X], data[Y])
 
 
@@ -104,7 +108,7 @@ def cohen_d(data, X, Y):
     Y : str
         Y column to be used
     """
-    assert(X in data and Y in data)
+    assert X in data and Y in data
     return _cohen_d(data[X], data[Y])
 
 
@@ -125,10 +129,10 @@ def calc_correlations(data, X, Y):
     -------
     dictionary with the following keys: pearson, kendall, spearman
     """
-    assert(X in data and Y in data)
+    assert X in data and Y in data
 
     correlation_values = {}
-    for c in ['pearson', 'kendall', 'spearman']:
+    for c in ["pearson", "kendall", "spearman"]:
         correlation_values[c] = data[[X, Y]].corr(method=c)[Y][X]
     return correlation_values
 
@@ -146,7 +150,7 @@ def mean_absolute_error(data, X, Y):
     Y : str
         Y column to be used
     """
-    assert(X in data and Y in data)
+    assert X in data and Y in data
     return sklearn.metrics.mean_absolute_error(data[X], data[Y])
 
 
@@ -163,7 +167,7 @@ def median_absolute_error(data, X, Y):
     Y : str
         Y column to be used
     """
-    assert(X in data and Y in data)
+    assert X in data and Y in data
     return sklearn.metrics.median_absolute_error(data[X], data[Y])
 
 
@@ -184,7 +188,7 @@ def calc_regression_metrics(data, X, Y):
     -------
     dictionary of all metric values
     """
-    assert(X in data and Y in data)
+    assert X in data and Y in data
     result = calc_correlations(data, X, Y)
     result["r2"] = r2(data, X, Y)
     result["rmse"] = rmse(data, X, Y)

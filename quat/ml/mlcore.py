@@ -25,11 +25,14 @@ import json
 
 import numpy as np
 import matplotlib
-#matplotlib.use('Agg')
+
+# TODO: cleanup imports!
+# matplotlib.use('Agg')
 import itertools
 
 import matplotlib.pyplot as plt
-#plt.style.use('seaborn-whitegrid')
+
+# plt.style.use('seaborn-whitegrid')
 
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
@@ -39,7 +42,12 @@ import itertools
 
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
-from sklearn.ensemble import ExtraTreesRegressor, RandomForestRegressor, GradientBoostingRegressor, GradientBoostingClassifier
+from sklearn.ensemble import (
+    ExtraTreesRegressor,
+    RandomForestRegressor,
+    GradientBoostingRegressor,
+    GradientBoostingClassifier,
+)
 
 import pandas as pd
 
@@ -86,11 +94,13 @@ def print_trees(pipeline, feature_columns, name="trees"):
     feature_columns = [x for x in feature_columns]
     for tree in pipeline.named_steps["regressor"].estimators_:
         treefilename = "{}/tree_".format(name) + str(i) + ".dot"
-        export_graphviz(tree,
-                    out_file=treefilename,
-                    feature_names=list(feature_names),
-                    filled=True,
-                    rounded=True)
+        export_graphviz(
+            tree,
+            out_file=treefilename,
+            feature_names=list(feature_names),
+            filled=True,
+            rounded=True,
+        )
         i += 1
         os.system("dot -Tpdf {} -o {}.pdf".format(treefilename, treefilename))
 
@@ -106,12 +116,8 @@ def train_dummy_class(x, y):
     dummy_clf = DummyClassifier()
     predicted = cross_val_predict(dummy_clf, X, Y, cv=10)
     dummy_clf.fit(X, Y)
-    crossval_result_table = pd.DataFrame({"predicted": predicted,
-                                          "truth": Y})
-    return {
-        "dummyclassifier": dummy_clf,
-        "crossval": crossval_result_table
-    }
+    crossval_result_table = pd.DataFrame({"predicted": predicted, "truth": Y})
+    return {"dummyclassifier": dummy_clf, "crossval": crossval_result_table}
 
 
 def train_gradboost_class(x, y, num_trees=10, threshold="0.001*mean"):
@@ -126,19 +132,21 @@ def train_gradboost_class(x, y, num_trees=10, threshold="0.001*mean"):
     X = X.values
     Y = y.values
     # TODO: rename "regressor?!"
-    pipeline = Pipeline([('feature_selection', SelectFromModel(ExtraTreesClassifier(n_jobs=-1),
-                                                               threshold=threshold)),
-                         ('regressor', GradientBoostingClassifier(n_estimators=num_trees
-                                                                 ))])
+    pipeline = Pipeline(
+        [
+            (
+                "feature_selection",
+                SelectFromModel(ExtraTreesClassifier(n_jobs=-1), threshold=threshold),
+            ),
+            ("regressor", GradientBoostingClassifier(n_estimators=num_trees)),
+        ]
+    )
     predicted = cross_val_predict(pipeline, X, Y, cv=10)
     pipeline.fit(X, Y)
 
     crossval_result_table = pd.DataFrame({"predicted": predicted, "truth": Y})
 
-    return {
-        "gradboost": pipeline,
-        "crossval": crossval_result_table
-    }
+    return {"gradboost": pipeline, "crossval": crossval_result_table}
 
 
 def train_rf_class(x, y, num_trees=10, threshold="0.001*mean", n_splits=10):
@@ -146,21 +154,28 @@ def train_rf_class(x, y, num_trees=10, threshold="0.001*mean", n_splits=10):
     X = X.values
     Y = y.values  # .astype(np.int32)
 
-    pipeline = Pipeline([('feature_selection', SelectFromModel(ExtraTreesClassifier(n_jobs=-1),
-                                                               threshold=threshold)),
-                         ('classifier', RandomForestClassifier(n_estimators=num_trees, n_jobs=-1,
-                                                               criterion="entropy",
-                                                               #class_weight="balanced_subsample",
-                                                               #max_features=None
-                                                               ))])
+    pipeline = Pipeline(
+        [
+            (
+                "feature_selection",
+                SelectFromModel(ExtraTreesClassifier(n_jobs=-1), threshold=threshold),
+            ),
+            (
+                "classifier",
+                RandomForestClassifier(
+                    n_estimators=num_trees,
+                    n_jobs=-1,
+                    criterion="entropy",
+                    # class_weight="balanced_subsample",
+                    # max_features=None
+                ),
+            ),
+        ]
+    )
     predicted = cross_val_predict(pipeline, X, Y, cv=n_splits)
     pipeline.fit(X, Y)
-    crossval_result_table = pd.DataFrame({"predicted": predicted,
-                                          "truth": Y})
-    return {
-        "randomforest": pipeline,
-        "crossval": crossval_result_table
-    }
+    crossval_result_table = pd.DataFrame({"predicted": predicted, "truth": Y})
+    return {"randomforest": pipeline, "crossval": crossval_result_table}
 
 
 def train_knn_class(x, y):
@@ -170,18 +185,22 @@ def train_knn_class(x, y):
 
     Y = y.values  # .astype(np.int32)
 
-    pipeline = Pipeline([('feature_selection', SelectFromModel(ExtraTreesClassifier(n_jobs=-1),
-                                                               threshold="0.001*mean")),
-                         ('classifier', KNeighborsClassifier(n_jobs=-1))
-                        ])
+    pipeline = Pipeline(
+        [
+            (
+                "feature_selection",
+                SelectFromModel(
+                    ExtraTreesClassifier(n_jobs=-1), threshold="0.001*mean"
+                ),
+            ),
+            ("classifier", KNeighborsClassifier(n_jobs=-1)),
+        ]
+    )
     predicted = cross_val_predict(pipeline, X, Y, cv=10)
     pipeline.fit(X, Y)
     crossval_result_table = pd.DataFrame({"predicted": predicted, "truth": Y})
 
-    return {
-        "knn": pipeline,
-        "crossval": crossval_result_table
-    }
+    return {"knn": pipeline, "crossval": crossval_result_table}
 
 
 def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
@@ -193,18 +212,27 @@ def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
         X = x
         Y = y
 
-    pipeline = Pipeline([('feature_selection', SelectFromModel(ExtraTreesRegressor(n_jobs=-1),
-                                                               threshold=threshold)),
-                         ('regressor', RandomForestRegressor(n_estimators=num_trees, n_jobs=-1,
-                                                             criterion="mse"
-                                                             ))])
+    pipeline = Pipeline(
+        [
+            (
+                "feature_selection",
+                SelectFromModel(ExtraTreesRegressor(n_jobs=-1), threshold=threshold),
+            ),
+            (
+                "regressor",
+                RandomForestRegressor(
+                    n_estimators=num_trees, n_jobs=-1, criterion="mse"
+                ),
+            ),
+        ]
+    )
     predicted = cross_val_predict(pipeline, X, Y, cv=10)
     pipeline.fit(X, Y)
 
     feature_importance_threshold = pipeline.named_steps["feature_selection"].threshold_
     feature_selected_supp = pipeline.named_steps["feature_selection"].get_support()
 
-    feature_importances_values_ = pipeline.named_steps['regressor'].feature_importances_
+    feature_importances_values_ = pipeline.named_steps["regressor"].feature_importances_
 
     feature_importance_values = []
     i = 0
@@ -215,9 +243,9 @@ def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
         else:
             feature_importance_values.append(0)
 
-    feature_importance = pd.DataFrame({"feature": list(columns),
-                                       "importance":  feature_importance_values
-                                       })
+    feature_importance = pd.DataFrame(
+        {"feature": list(columns), "importance": feature_importance_values}
+    )
 
     crossval_result_table = pd.DataFrame({"predicted": predicted, "truth": Y})
     return {
@@ -235,31 +263,50 @@ def train_rf_regression_param_optimization(x, y, threshold="0.001*mean", num_tre
     Y = y.values
     columns = x.columns
 
-    pipeline = Pipeline([('feature_selection', SelectFromModel(ExtraTreesRegressor(n_jobs=-1),
-                                                               threshold=threshold)),
-                         ('regressor', RandomForestRegressor(n_estimators=num_trees, n_jobs=-1,
-                                                             criterion="mse"
-                                                             ))])
+    pipeline = Pipeline(
+        [
+            (
+                "feature_selection",
+                SelectFromModel(ExtraTreesRegressor(n_jobs=-1), threshold=threshold),
+            ),
+            (
+                "regressor",
+                RandomForestRegressor(
+                    n_estimators=num_trees, n_jobs=-1, criterion="mse"
+                ),
+            ),
+        ]
+    )
     from scipy.stats import randint as sp_randint
+
     # specify parameters and distributions to sample from
     param_dist = {
-        'feature_selection__threshold': ['mean', '0.5*mean', '0.1*mean', '0.01*mean', '0.001*mean', '0.0001*mean'],
-        'regressor__bootstrap': [True, False],
-        'regressor__criterion': ['mse','mae'],
-        'regressor__max_depth': [None, 3, 5, 11, 30],
-        'regressor__max_features': ['auto'],
-        'regressor__max_leaf_nodes': [None],
-        'regressor__n_estimators': sp_randint(2, 80),
+        "feature_selection__threshold": [
+            "mean",
+            "0.5*mean",
+            "0.1*mean",
+            "0.01*mean",
+            "0.001*mean",
+            "0.0001*mean",
+        ],
+        "regressor__bootstrap": [True, False],
+        "regressor__criterion": ["mse", "mae"],
+        "regressor__max_depth": [None, 3, 5, 11, 30],
+        "regressor__max_features": ["auto"],
+        "regressor__max_leaf_nodes": [None],
+        "regressor__n_estimators": sp_randint(2, 80),
     }
 
     # run randomized search
     from sklearn.model_selection import RandomizedSearchCV
+
     n_iter_search = 20
-    random_search = RandomizedSearchCV(pipeline,
+    random_search = RandomizedSearchCV(
+        pipeline,
         param_distributions=param_dist,
         n_iter=n_iter_search,
         cv=10,
-        verbose=10
+        verbose=10,
     )
     fitting = timeit(random_search.fit)
     fitting(X, Y)
@@ -275,51 +322,63 @@ def train_gradboost_regression(x, y, num_trees=10, threshold="0.001*mean"):
     X = X.values
     Y = y.values
 
-    pipeline = Pipeline([('feature_selection', SelectFromModel(ExtraTreesRegressor(n_jobs=-1),
-                                                               threshold=threshold)),
-                         ('regressor', GradientBoostingRegressor(n_estimators=num_trees,
-                                                                 criterion="friedman_mse"
-                                                                 ))])
+    pipeline = Pipeline(
+        [
+            (
+                "feature_selection",
+                SelectFromModel(ExtraTreesRegressor(n_jobs=-1), threshold=threshold),
+            ),
+            (
+                "regressor",
+                GradientBoostingRegressor(
+                    n_estimators=num_trees, criterion="friedman_mse"
+                ),
+            ),
+        ]
+    )
     predicted = cross_val_predict(pipeline, X, Y, cv=10)
     pipeline.fit(X, Y)
 
     crossval_result_table = pd.DataFrame({"predicted": predicted, "truth": Y})
 
-    return {
-        "gradboost": pipeline,
-        "crossval": crossval_result_table
-    }
+    return {"gradboost": pipeline, "crossval": crossval_result_table}
 
 
-def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.cm.Blues):
+def plot_confusion_matrix(
+    cm, classes, normalize=False, title="Confusion matrix", cmap=plt.cm.Blues
+):
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
     if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        cm = cm.astype("float") / cm.sum(axis=1)[:, np.newaxis]
         print("Normalized confusion matrix")
     else:
-        print('Confusion matrix, without normalization')
+        print("Confusion matrix, without normalization")
 
     print(cm)
 
-    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.imshow(cm, interpolation="nearest", cmap=cmap)
     plt.title(title)
     plt.colorbar()
     tick_marks = np.arange(len(classes))
     plt.xticks(tick_marks, classes, rotation=45)
     plt.yticks(tick_marks, classes)
 
-    fmt = '.2f' if normalize else 'd'
-    thresh = cm.max() / 2.
+    fmt = ".2f" if normalize else "d"
+    thresh = cm.max() / 2.0
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt),
-                 horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
+        plt.text(
+            j,
+            i,
+            format(cm[i, j], fmt),
+            horizontalalignment="center",
+            color="white" if cm[i, j] > thresh else "black",
+        )
 
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
+    plt.ylabel("True label")
+    plt.xlabel("Predicted label")
     plt.tight_layout()
     os.makedirs("figures", exist_ok=True)
     plotname = "figures/confusion_{}.png".format(title.lower().replace(" ", "_"))
@@ -341,38 +400,45 @@ def eval_plots_class(truth, pred, title=""):
 
     plt.figure()
     classes = sorted(list(set(truth) | set(pred)))
-    plot_confusion_matrix(cm,
-                          classes=classes,
-                          normalize=True,
-                          title='Confusion matrix, {}, with normalization'.format(title))
-    metrics = {
-        "title": title,
-        "rmse": rmse,
-        "r2": r2,
-        "acc": acc
-    }
+    plot_confusion_matrix(
+        cm,
+        classes=classes,
+        normalize=True,
+        title="Confusion matrix, {}, with normalization".format(title),
+    )
+    metrics = {"title": title, "rmse": rmse, "r2": r2, "acc": acc}
     print(json.dumps(metrics, indent=4, sort_keys=True))
 
-    #print_roc(truth, pred, title)
+    # print_roc(truth, pred, title)
     return metrics
 
 
 def eval_plots_regression(truth, pred, title="", folder="", plotname=""):
     df = pd.DataFrame({"truth": truth, "predicted": pred})
-    bounds = (min(df["truth"].min(), df["predicted"].min()),
-              max(df["truth"].max(), df["predicted"].max()))
+    bounds = (
+        min(df["truth"].min(), df["predicted"].min()),
+        max(df["truth"].max(), df["predicted"].max()),
+    )
 
-    ax = df.plot(x="predicted",
-                 y="truth",
-                 kind="scatter",
-                 xlim=bounds,
-                 ylim=bounds,
-                 alpha=0.5,
-                 figsize=(6, 6),
-                 title=title)
+    ax = df.plot(
+        x="predicted",
+        y="truth",
+        kind="scatter",
+        xlim=bounds,
+        ylim=bounds,
+        alpha=0.5,
+        figsize=(6, 6),
+        title=title,
+    )
 
-    ax.plot(bounds, bounds, 'k--', lw=2, color="gray")
-    ax.text(-0.5, -0.5, "opt", horizontalalignment='center',  bbox=dict(facecolor='lightgray', alpha=0.5))
+    ax.plot(bounds, bounds, "k--", lw=2, color="gray")
+    ax.text(
+        -0.5,
+        -0.5,
+        "opt",
+        horizontalalignment="center",
+        bbox=dict(facecolor="lightgray", alpha=0.5),
+    )
     os.makedirs(folder, exist_ok=True)
     ax.get_figure().savefig(folder + "/scatter_{}.png".format(plotname))
     ax.get_figure().savefig(folder + "/scatter_{}.pdf".format(plotname))

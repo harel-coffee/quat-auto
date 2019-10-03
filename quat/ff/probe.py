@@ -23,6 +23,8 @@ import json
 
 from quat.utils.system import shell_call
 
+# TODO: think of using local ffprobe/ffmpeg?
+
 
 def ffprobe(filename):
     """ run ffprobe to get some information of a given video file
@@ -33,22 +35,29 @@ def ffprobe(filename):
     if not os.path.isfile(filename):
         raise Exception("{} is not a valid file".format(filename))
 
-    cmd = "ffprobe -show_format -select_streams v:0 -show_streams -of json '{filename}' 2>/dev/null".format(filename=filename)
+    cmd = "ffprobe -show_format -select_streams v:0 -show_streams -of json '{filename}' 2>/dev/null".format(
+        filename=filename
+    )
 
     res = shell_call(cmd).strip()
 
     if len(res) == 0:
-        raise Exception("{} is somehow not valid, so ffprobe could not extract anything".format(filename))
+        raise Exception(
+            "{} is somehow not valid, so ffprobe could not extract anything".format(
+                filename
+            )
+        )
 
     res = json.loads(res)
 
-    needed = {"pix_fmt": "unknown",
-              "bits_per_raw_sample": "unknown",
-              "width": "unknown",
-              "height": "unknown",
-              "avg_frame_rate": "unknown",
-              "codec_name": "unknown"
-             }
+    needed = {
+        "pix_fmt": "unknown",
+        "bits_per_raw_sample": "unknown",
+        "width": "unknown",
+        "height": "unknown",
+        "avg_frame_rate": "unknown",
+        "codec_name": "unknown",
+    }
     for stream in res["streams"]:
         for n in needed:
             if n in stream:
@@ -70,15 +79,20 @@ def ffprobe_framesizes_types(filename):
     if not os.path.isfile(filename):
         raise Exception("{} is not a valid file".format(filename))
 
-    cmd = "ffprobe -show_format -select_streams v:0 -show_frames -show_entries frame=pkt_pts_time,pkt_dts_time,pkt_duration_time,pkt_size,pict_type -of json '{filename}' 2>/dev/null".format(filename=filename)
+    cmd = "ffprobe -show_format -select_streams v:0 -show_frames -show_entries frame=pkt_pts_time,pkt_dts_time,pkt_duration_time,pkt_size,pict_type -of json '{filename}' 2>/dev/null".format(
+        filename=filename
+    )
     res = shell_call(cmd).strip()
 
     if len(res) == 0:
-        raise Exception("{} is somehow not valid, so ffprobe could not extract anything".format(filename))
+        raise Exception(
+            "{} is somehow not valid, so ffprobe could not extract anything".format(
+                filename
+            )
+        )
 
     res = json.loads(res)
     return res
-
 
 
 def run_ffprobe(video_file):

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 Collection of system helper functions.
+
+TODO: unify documentation (e.g. parameters)
 """
 """
     This file is part of quat.

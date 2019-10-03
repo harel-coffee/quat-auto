@@ -12,7 +12,7 @@ e.g. in case of SSIM,
     v = ssim.calc_ref_dis(dis_frame, ref_frame)
     # will return the calculated ssim value in `v`
 
-
+TODO: add references to metrics
 """
 """
     This file is part of quat.
@@ -44,6 +44,7 @@ from .vifp import vifp_mscale
 
 class SSIM(Feature):
     """ Calculate SSIM """
+
     def calc_ref_dis(self, dis, ref):
         """ calculates ssim score """
         x_g = skimage.color.rgb2gray(ref)
@@ -58,6 +59,7 @@ class SSIM(Feature):
 
 class PSNR(Feature):
     """ Caclulate PSNR """
+
     def calc_ref_dis(self, dis, ref):
         """ calculates psnr score """
         x_g = skimage.color.rgb2gray(ref)
@@ -72,6 +74,7 @@ class PSNR(Feature):
 
 class VIFP(Feature):
     """ Caclulate multi scale (4 scales) VIFP """
+
     def calc_ref_dis(self, dis, ref):
         """ calculates ms-vifp scores """
         v = vifp_mscale(ref, dis, 4)
@@ -85,29 +88,32 @@ class VIFP(Feature):
 class ResolutionSimilarities(Feature):
     """ Tries to estimate resolution of the distorted video
     """
+
     def calc_ref_dis(self, dis, ref):
         """ calculates resoltion based on similarity measurement """
         x_g = skimage.color.rgb2gray(ref).astype(np.float32)
         y_g = skimage.color.rgb2gray(dis).astype(np.float32)
         resolutions = [2160, 1440, 1080, 720, 480, 360, 240, 144]
-        #resolutions = list(range(2160, 140, -32))
+        # resolutions = list(range(2160, 140, -32))
         scale_factors = [x / resolutions[0] for x in resolutions]
-        #print("scale_factors", scale_factors)
+        # print("scale_factors", scale_factors)
         height = max(x_g.shape[0], y_g.shape[0])
         width = max(x_g.shape[1], y_g.shape[1])
-        #print("height", height)
+        # print("height", height)
         aspect = width / height
         values = []
         for sc in scale_factors:
             r = round(sc * height)
-            x_gs = skimage.transform.resize(x_g, (r, round(aspect * r)), mode='reflect')
-            x_gs = skimage.transform.resize(x_gs, (height, round(aspect * height)), mode='reflect')
-            v = float(skvideo.measure.mse(x_gs, y_g)[0]) #** 2 / sc
+            x_gs = skimage.transform.resize(x_g, (r, round(aspect * r)), mode="reflect")
+            x_gs = skimage.transform.resize(
+                x_gs, (height, round(aspect * height)), mode="reflect"
+            )
+            v = float(skvideo.measure.mse(x_gs, y_g)[0])  # ** 2 / sc
             values.append(v)
         values = np.array(values)
         res = resolutions[np.argmin(values)]
         self._values.append(res)
-        #print(res)
+        # print(res)
         return res
 
     def fullref(self):
@@ -120,7 +126,9 @@ class FramerateEstimator(Feature):
 
     TODO: check: could be also an no-reference feature
     """
+
     WINDOW = 60  # maximum number of frames in sliding window
+
     def __init__(self):
         self._calculated_values = []
         self._values = []
@@ -132,14 +140,11 @@ class FramerateEstimator(Feature):
 
     def calc_ref_dis(self, dis, ref):
         """ tries to esimate fps"""
-        v = {
-            "ref": 0,
-            "dis": 0
-        }
+        v = {"ref": 0, "dis": 0}
         if self._lastframe_ref is not None and self._lastframe_dis is not None:
             v = {
-                "ref": self.rmse(self._lastframe_ref.flatten(),  ref.flatten()),
-                "dis": self.rmse(self._lastframe_dis.flatten(),  dis.flatten()),
+                "ref": self.rmse(self._lastframe_ref.flatten(), ref.flatten()),
+                "dis": self.rmse(self._lastframe_dis.flatten(), dis.flatten()),
             }
         self._lastframe_ref = ref.copy()
         self._lastframe_dis = dis.copy()
@@ -159,4 +164,4 @@ class FramerateEstimator(Feature):
         return True
 
     def get_values(self):
-        return self._values[self.WINDOW:]
+        return self._values[self.WINDOW :]

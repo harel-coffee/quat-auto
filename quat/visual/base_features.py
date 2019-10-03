@@ -44,6 +44,7 @@ class Feature:
     abstract base class for all features,
     handles automatic storage and loading of calculated feature values
     """
+
     def __init__(self):
         self._values = []
 
@@ -71,13 +72,16 @@ class Feature:
         """
         # TODO: rename calc_ref_dis --> calc_dis_ref
         # this creates for each feature stream a copy instance of the used feature
+        # TODO: prettify the next code part
         if not hasattr(self, "_ref_instance"):
             try:
                 self._ref_instance = copy.deepcopy(self)
             except:
                 # TODO: fix to handle MovementFeatures
                 self._ref_instance = self.__class__()
-                lWarn(f"please check if {self.__name__} does not require parameters for __init__() call")
+                lWarn(
+                    f"please check if {self.__name__} does not require parameters for __init__() call"
+                )
         if not hasattr(self, "_dis_instance"):
             try:
                 self._dis_instance = copy.deepcopy(self)
@@ -135,7 +139,9 @@ class Feature:
                 try:
                     j = json.load(ffp)
                 except:
-                    lWarn(f"there is something wrong with {video}, feature: {name}, re-calcuation performed")
+                    lWarn(
+                        f"there is something wrong with {video}, feature: {name}, re-calcuation performed"
+                    )
                     # loading of feature value is not possible,
                     # force to calculate it again
                     return False
@@ -149,11 +155,7 @@ class Feature:
         """
         os.makedirs(folder, exist_ok=True)
         fn = self._feature_filename(folder, video, name)
-        v = {
-            "name": name,
-            "values": self._values,
-            "video": video
-        }
+        v = {"name": name, "values": self._values, "video": video}
         with open(fn, "w") as ffp:
             json.dump(v, ffp, indent=4, sort_keys=True)
         return fn
@@ -163,6 +165,7 @@ class MovementFeatures(Feature):
     """ Calculates movement feature, using background removement,
     based on master thesis of julian zebelein
     """
+
     def __init__(self):
         self._fgbg = cv2.createBackgroundSubtractorMOG2()
         self._values = []
@@ -175,11 +178,15 @@ class MovementFeatures(Feature):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         final = cv2.bilateralFilter(gray, 9, 75, 75)
         fgmask = self._fgbg.apply(final)
-        #final = cv2.bilateralFilter(fgmask,9,75,75)
+        # final = cv2.bilateralFilter(fgmask,9,75,75)
         if debug:
-            cv2.imshow('o',cv2.resize(frame, (600,int(600 * file_height/file_width))))
-            cv2.imshow('fg',cv2.resize(fgmask, (600,int(600 * file_height/file_width))))
-            k = cv2.waitKey(30) & 0xff
+            cv2.imshow(
+                "o", cv2.resize(frame, (600, int(600 * file_height / file_width)))
+            )
+            cv2.imshow(
+                "fg", cv2.resize(fgmask, (600, int(600 * file_height / file_width)))
+            )
+            k = cv2.waitKey(30) & 0xFF
 
         non_zero = cv2.countNonZero(fgmask)
         moving_percentage = (non_zero * 100) / (file_height * file_width)
@@ -202,6 +209,7 @@ class CutDetectionFeatures(Feature):
     """ Estimates scene cuts of a given video (approximation),
     implemented by Serge Molina
     """
+
     def __init__(self):
         self._values = []
         self._last_frame = None
@@ -210,8 +218,7 @@ class CutDetectionFeatures(Feature):
     def calc(self, frame):
         # TODO change to skiimage
         # Scaling down the image speeds up computations and reduces false positives
-        image = cv2.resize(frame, dsize=(320, 240),
-                           interpolation=cv2.INTER_LANCZOS4)
+        image = cv2.resize(frame, dsize=(320, 240), interpolation=cv2.INTER_LANCZOS4)
         cut = 0
         # Converting the image type to a 16 bits signed integers image prevents over/under flows
         image = np.int16(image)
@@ -223,7 +230,9 @@ class CutDetectionFeatures(Feature):
                 # we detect this as a cut
                 cut = 1
 
-            self._previous_diff_weighted = self._previous_diff_weighted * 0.5 + 0.5 * current_diff
+            self._previous_diff_weighted = (
+                self._previous_diff_weighted * 0.5 + 0.5 * current_diff
+            )
         self._last_frame = image
         self._values.append(cut)
         return cut
@@ -234,6 +243,7 @@ class SiFeatures(Feature):
     Calculates SI values of a video frame
     important: SI values are finally in a 0..1 range, due to float conversion
     """
+
     def __init__(self):
         self._values = []
 
@@ -243,6 +253,7 @@ class SiFeatures(Feature):
             soby = ndimage.sobel(frame, axis=1)
             value = np.hypot(sobx, soby).std()
             return float(value)
+
         frame = skimage.color.rgb2gray(frame)
         value = calculate_si(frame)
         self._values.append(value)
@@ -264,6 +275,7 @@ class TiFeatures(Feature):
             if previous_frame_data is None:
                 return 0
             return float((frame_data - previous_frame_data).std())
+
         frame = skimage.color.rgb2gray(frame)
         value = calculate_ti(frame, self._previous_frame)
         self._previous_frame = frame
@@ -275,6 +287,7 @@ class TemporalFeatures(Feature):
     """ A temporal feature, using RMSE of consecutive frames,
     somehow similar to TI, but not applied on gray frames
     """
+
     def __init__(self):
         self._values = []
         self._previous_frame = None
@@ -297,6 +310,7 @@ class StrredNoRefFeatures(Feature):
     calculate entropy of subbands, with the feature that is used in strred, however, this feature does not
     consider a reference video, it justs calculates mean of spatial and temporal features of strred
     """
+
     def __init__(self):
         self._values = []
         self._previous_frame = None
@@ -308,15 +322,16 @@ class StrredNoRefFeatures(Feature):
                     "spatial.mean": 0,
                     "spatial.std": 0,
                     "temporal.mean": 0,
-                    "temporal.std": 0
+                    "temporal.std": 0,
                 }
             spatial, temporal = strred_extract_info(previous_frame_data, frame_data)
             return {
                 "spatial.mean": spatial.mean(),
                 "spatial.std": spatial.std(),
                 "temporal.mean": temporal.mean(),
-                "temporal.std": temporal.std()
+                "temporal.std": temporal.std(),
             }
+
         frame = skimage.color.rgb2gray(frame).astype(np.float32)
         value = calculate(frame, self._previous_frame)
         self._previous_frame = frame
@@ -330,20 +345,19 @@ class BlockMotion(Feature):
     block size is estimated by 5% of the height of the input frame,
     this is done to be resolution independent and faster
     """
+
     def __init__(self):
         self._values = []
         self._last_frame = None
 
     def calc(self, frame):
-        per_frame_values = {
-            "blkm.zeros": 0,
-            "blkm.ones": 0,
-            "blkm.minusones": 0
-        }
+        per_frame_values = {"blkm.zeros": 0, "blkm.ones": 0, "blkm.minusones": 0}
         if self._last_frame is not None:
             videodata = np.array([self._last_frame, frame])
-            blocksize = int(self._last_frame.shape[0]*0.05)
-            motion = skvideo.motion.blockMotion(videodata, method="SE3SS", mbSize=blocksize)
+            blocksize = int(self._last_frame.shape[0] * 0.05)
+            motion = skvideo.motion.blockMotion(
+                videodata, method="SE3SS", mbSize=blocksize
+            )
             m = motion[0].flatten()
             blk_motion_zeros = np.count_nonzero(m == 0) / len(m)
             blk_motion_ones = np.count_nonzero(m == 1) / len(m)
@@ -351,7 +365,7 @@ class BlockMotion(Feature):
             per_frame_values = {
                 "blkm.zeros": blk_motion_zeros,
                 "blkm.ones": blk_motion_ones,
-                "blkm.minusones": blk_motion_minusones
+                "blkm.minusones": blk_motion_minusones,
             }
             self._values.append(per_frame_values)
         self._last_frame = frame
@@ -363,7 +377,9 @@ class CuboidRow(Feature):
     Motion estimation using a window of 60 frames and a cuboid video of the video,
     handles only rows of the frames
     """
+
     WINDOW = 60  # maximum number of frames in sliding window
+
     def __init__(self, row):
         """ row specifies the column that should be used in %"""
         self._row = row
@@ -387,7 +403,9 @@ class CuboidCol(Feature):
     Motion estimation using a window of 60 frames and a cuboid video of the video,
     handles only columns of the frames
     """
+
     WINDOW = 60  # maximum number of frames in sliding window
+
     def __init__(self, col):
         """ col specifies the column that should be used in %"""
         self._col = col
@@ -399,7 +417,7 @@ class CuboidCol(Feature):
         if len(self._cols) >= self.WINDOW:
             self._cols = self._cols[1:]
         col_i = int(self._col * (frame.shape[1] - 1))
-        tmp = frame_gray[:,col_i].copy()  # copy reduces memory !
+        tmp = frame_gray[:, col_i].copy()  # copy reduces memory !
         self._cols.append(tmp)
         v = ndimage.sobel(self._cols).std()
         self._values.append(v)
@@ -410,6 +428,7 @@ class Staticness(Feature):
     """
     calculates how static the video is
     """
+
     def __init__(self):
         self._values = []
         self._frame_sum = None
@@ -439,6 +458,7 @@ class UHDSIM2HD(Feature):
     calculates similarity of UHD input resolution to HD,
     if input frame is not UHD resolution, it takes half of the height and width
     """
+
     def __init__(self):
         self._values = []
 
@@ -447,8 +467,14 @@ class UHDSIM2HD(Feature):
 
         # check half of input resolution
         width_hd, height_hd = frame_gray.shape[1] // 2, frame_gray.shape[0] // 2
-        frame_gray_hd = cv2.resize(frame_gray, dsize=(width_hd , height_hd), interpolation=cv2.INTER_CUBIC)
-        frame_gray_hd = cv2.resize(frame_gray_hd, dsize=(frame_gray.shape[1] , frame_gray.shape[0]), interpolation=cv2.INTER_CUBIC)
+        frame_gray_hd = cv2.resize(
+            frame_gray, dsize=(width_hd, height_hd), interpolation=cv2.INTER_CUBIC
+        )
+        frame_gray_hd = cv2.resize(
+            frame_gray_hd,
+            dsize=(frame_gray.shape[1], frame_gray.shape[0]),
+            interpolation=cv2.INTER_CUBIC,
+        )
         v = float(skvideo.measure.psnr(frame_gray, frame_gray_hd)[0])
         if np.isinf(v):
             v = 1000
@@ -489,8 +515,8 @@ class Blockiness(Feature):
 
     def calc(self, frame):
         frame_c = cv2.Canny(np.uint8(frame), 100, 200)
-        xsums = (frame_c.sum(axis=0) / (frame.shape[0]))
-        ysums = (frame_c.sum(axis=1) / (frame.shape[1]))
+        xsums = frame_c.sum(axis=0) / (frame.shape[0])
+        ysums = frame_c.sum(axis=1) / (frame.shape[1])
         xaxis_all = xsums.mean()
         yaxis_all = ysums.mean()
 
@@ -507,7 +533,9 @@ class Blockiness(Feature):
                 "max_i_x": max_i_x,
                 "max_i_y": max_i_y,
             }
-            v["diff"] = (np.sqrt(np.abs(v["x_mean_diff"] * v["y_mean_diff"]))) / np.power(2, np.abs(max_i_x - max_i_y) / blocksize)
+            v["diff"] = (
+                np.sqrt(np.abs(v["x_mean_diff"] * v["y_mean_diff"]))
+            ) / np.power(2, np.abs(max_i_x - max_i_y) / blocksize)
             blockiness_values.append(float(v["diff"]))
         self._values.append(max(blockiness_values))
         return v["diff"]
@@ -519,6 +547,7 @@ class ImageFeature(Feature):
     ususally all methods implemented in quat.visual.images
     can be passes as argument in the constructor
     """
+
     def __init__(self, img_f):
         """
         img_f needs to be a function that handles one frame
@@ -530,7 +559,3 @@ class ImageFeature(Feature):
         v = self.img_f(frame)
         self._values.append(v)
         return v
-
-
-
-

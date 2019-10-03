@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 slightly modified VIFP version
+
+TODO: think if it can be part of quat?
 """
 """
 Portions Copyright (c) 2014 CiiNOW Inc.
@@ -64,8 +66,9 @@ import numpy
 import scipy.signal
 import scipy.ndimage
 
+
 def vifp_mscale(ref, dist, scale=4):
-    sigma_nsq=2
+    sigma_nsq = 2
     eps = 1e-10
 
     num = 0.0
@@ -73,10 +76,10 @@ def vifp_mscale(ref, dist, scale=4):
     values = {}  # collect for each scale the value, changed by stg7
     for scale in range(1, scale + 1):
 
-        N = 2**(4-scale+1) + 1
-        sd = N/5.0
+        N = 2 ** (4 - scale + 1) + 1
+        sd = N / 5.0
 
-        if (scale > 1):
+        if scale > 1:
             ref = scipy.ndimage.gaussian_filter(ref, sd)
             dist = scipy.ndimage.gaussian_filter(dist, sd)
             ref = ref[::2, ::2]
@@ -91,27 +94,25 @@ def vifp_mscale(ref, dist, scale=4):
         sigma2_sq = scipy.ndimage.gaussian_filter(dist * dist, sd) - mu2_sq
         sigma12 = scipy.ndimage.gaussian_filter(ref * dist, sd) - mu1_mu2
 
-        sigma1_sq[sigma1_sq<0] = 0
-        sigma2_sq[sigma2_sq<0] = 0
+        sigma1_sq[sigma1_sq < 0] = 0
+        sigma2_sq[sigma2_sq < 0] = 0
 
         g = sigma12 / (sigma1_sq + eps)
         sv_sq = sigma2_sq - g * sigma12
 
-        g[sigma1_sq<eps] = 0
-        sv_sq[sigma1_sq<eps] = sigma2_sq[sigma1_sq<eps]
-        sigma1_sq[sigma1_sq<eps] = 0
+        g[sigma1_sq < eps] = 0
+        sv_sq[sigma1_sq < eps] = sigma2_sq[sigma1_sq < eps]
+        sigma1_sq[sigma1_sq < eps] = 0
 
-        g[sigma2_sq<eps] = 0
-        sv_sq[sigma2_sq<eps] = 0
+        g[sigma2_sq < eps] = 0
+        sv_sq[sigma2_sq < eps] = 0
 
-        sv_sq[g<0] = sigma2_sq[g<0]
-        g[g<0] = 0
-        sv_sq[sv_sq<=eps] = eps
+        sv_sq[g < 0] = sigma2_sq[g < 0]
+        g[g < 0] = 0
+        sv_sq[sv_sq <= eps] = eps
 
         num += numpy.sum(numpy.log10(1 + g * g * sigma1_sq / (sv_sq + sigma_nsq)))
         den += numpy.sum(numpy.log10(1 + sigma1_sq / sigma_nsq))
         values["vifp_scale_{}".format(scale)] = 1 if den == 0 else float(num / den)
 
     return values
-
-

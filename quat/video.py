@@ -33,7 +33,19 @@ from quat.log import *
 
 def iterate_by_frame(video_filename, convert=True):
     """ iterator over all frames a video given by `video_filename`,
-    if convert is true, than a conversion to uint will be performed """
+    if convert is true, than a conversion to uint will be performed
+
+    Parameters
+    ----------
+    video_filename : str
+        filename of a video file
+    convert : bool
+        if true performs a 8 bit conversion of each frame
+
+    Returns
+    -------
+    interator for all video frames
+    """
     for frame in skvideo.io.vreader(video_filename, verbosity=0):
         if convert:
             yield img_as_uint(frame)
@@ -59,7 +71,14 @@ def iterate_by_frame_two_videos(distortedvideo, referencevideo, convert=True):
     raise StopIteration
 
 
-def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_function, per_frame_function_additional_params={}, debug=False, stepsize=15):
+def read_videos_frame_by_frame(
+    distortedvideo,
+    referencevideo,
+    per_frame_function,
+    per_frame_function_additional_params={},
+    debug=False,
+    stepsize=15,
+):
     """read two videos frame by frame, and perform a function with parameters on each pair of frames
     """
     lInfo("handle : {} and {}".format(distortedvideo, referencevideo))
@@ -79,7 +98,11 @@ def read_videos_frame_by_frame(distortedvideo, referencevideo, per_frame_functio
             per_frame_function_additional_params["referencevideo"] = referencevideo
 
             if k % stepsize == 0:
-                results.append(per_frame_function(x, y, last_x, last_y, **per_frame_function_additional_params))
+                results.append(
+                    per_frame_function(
+                        x, y, last_x, last_y, **per_frame_function_additional_params
+                    )
+                )
             k += 1
             last_x = x
             last_y = y
@@ -100,7 +123,12 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
         res = {}
         df = pd.DataFrame(x)
         for k in df.columns:
-            res = dict(res, **advanced_pooling(df[k], name + "_" + str(k), parts=3, stats=stats, minimal=minimal))
+            res = dict(
+                res,
+                **advanced_pooling(
+                    df[k], name + "_" + str(k), parts=3, stats=stats, minimal=minimal
+                ),
+            )
         return res
 
     values = np.array(x)
@@ -122,13 +150,16 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
         f"{name}_first_value": float(first_value),
     }
     if not minimal:
-        res = dict(res, **{
-            f"{name}_last_value": float(last_value),
-            f"{name}_max": float(_max),
-            f"{name}_skew": float(scipy.stats.skew(values)),
-            f"{name}_kurtosis": float(scipy.stats.kurtosis(values)),
-            f"{name}_iqr": float(scipy.stats.iqr(values)),
-        })
+        res = dict(
+            res,
+            **{
+                f"{name}_last_value": float(last_value),
+                f"{name}_max": float(_max),
+                f"{name}_skew": float(scipy.stats.skew(values)),
+                f"{name}_kurtosis": float(scipy.stats.kurtosis(values)),
+                f"{name}_iqr": float(scipy.stats.iqr(values)),
+            },
+        )
 
     # split values in `parts` groups, and calculate mean, std
     groups = np.array_split(values, parts)
@@ -138,7 +169,9 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
     if stats:
         for i in range(11):
             quantile = round(0.1 * i, 1)
-            res[f"{name}_{quantile}_quantil"] = float(np.percentile(values, 100 * quantile))
+            res[f"{name}_{quantile}_quantil"] = float(
+                np.percentile(values, 100 * quantile)
+            )
     return res
 
 
@@ -151,4 +184,3 @@ def calc_per_second_scores(per_frame_scores, segment_duration):
         per_second_scores.append(float(sec_groups[sec].mean()))
 
     return per_second_scores
-

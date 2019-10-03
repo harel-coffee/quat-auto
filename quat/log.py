@@ -21,13 +21,12 @@ Logging helpers
 import logging
 import json
 
-formatter = logging.Formatter(
-    fmt='%(levelname)s: %(message)s'
-)
+formatter = logging.Formatter(fmt="%(levelname)s: %(message)s")
 
 handler = logging.StreamHandler()
 handler.setFormatter(formatter)
 
+# TODO: think about a better way
 color_codes = {
     "black": "\033[1;30m",
     "red": "\033[1;31m",
@@ -37,29 +36,33 @@ color_codes = {
     "magenta": "\033[1;35m",
     "cyan": "\033[1;36m",
     "white": "\033[1;37m",
-    "end_code": "\033[1;0m"
+    "end_code": "\033[1;0m",
 }
 
 
 logging.addLevelName(
     logging.CRITICAL,
-    color_codes["red"] + logging.getLevelName(logging.CRITICAL) + color_codes["end_code"]
+    color_codes["red"]
+    + logging.getLevelName(logging.CRITICAL)
+    + color_codes["end_code"],
 )
 logging.addLevelName(
     logging.ERROR,
-    color_codes["red"] + logging.getLevelName(logging.ERROR) + color_codes["end_code"]
+    color_codes["red"] + logging.getLevelName(logging.ERROR) + color_codes["end_code"],
 )
 logging.addLevelName(
     logging.WARNING,
-    color_codes["yellow"] + logging.getLevelName(logging.WARNING) + color_codes["end_code"]
+    color_codes["yellow"]
+    + logging.getLevelName(logging.WARNING)
+    + color_codes["end_code"],
 )
 logging.addLevelName(
     logging.INFO,
-    color_codes["green"] + logging.getLevelName(logging.INFO) + color_codes["end_code"]
+    color_codes["green"] + logging.getLevelName(logging.INFO) + color_codes["end_code"],
 )
 logging.addLevelName(
     logging.DEBUG,
-    color_codes["blue"] + logging.getLevelName(logging.DEBUG) + color_codes["end_code"]
+    color_codes["blue"] + logging.getLevelName(logging.DEBUG) + color_codes["end_code"],
 )
 logging.basicConfig(level=logging.ERROR)
 

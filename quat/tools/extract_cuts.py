@@ -2,7 +2,7 @@
 """
 Script for automatic detection of scene cuts in a video stream
 
-Note: Tuned for big bucks bunny
+Note: specifically tuned for big bucks bunny
 
 Authors: Serge Molina, Steve Göring
 """
@@ -23,13 +23,13 @@ import cv2
 
 
 def cuts_iterator(video_filename):
-    '''
+    """
     Function that takes an opencv video stream and yields cuts timing when detected
     The cuts detection is based on detection of peaks in the standard
     deviation of two successive frames
 
     TODO: some parts can be replaced by cuts-feature inside quat
-    '''
+    """
     cap = cv2.VideoCapture(video_filename)
 
     fps = cap.get(cv2.CAP_PROP_FPS)
@@ -91,27 +91,53 @@ def extract_cuts(video_filename, min_cut_duration, output_dir, cmd_filename, cpu
     for _, minutes_hr, secondes_hr, time_ms in cuts_iterator(video_filename):
 
         # TODO: extension to hours?
-        curr_cut = "00:" + str(math.floor(minutes_hr)).zfill(2) + ":" + str(math.floor(secondes_hr)).zfill(2)
+        curr_cut = (
+            "00:"
+            + str(math.floor(minutes_hr)).zfill(2)
+            + ":"
+            + str(math.floor(secondes_hr)).zfill(2)
+        )
 
         # TODO: maybe just change time_ms to seconds instead of ms
         if time_ms - last_time_ms >= 1000 * min_cut_duration:
             # found a suitable cut
-            lInfo("found a cut from {} to {}, duration {}s".format(last_cut, curr_cut, (time_ms - last_time_ms) / 1000))
-            outfile = output_dir + "/" + os.path.splitext(os.path.basename(video_filename))[0] + "_" + str(i) + ".mkv"
-            commands.append(cmd.format(infile=video_filename,
-                                       start=last_cut,
-                                       end=curr_cut,
-                                       outfile=outfile))
+            lInfo(
+                "found a cut from {} to {}, duration {}s".format(
+                    last_cut, curr_cut, (time_ms - last_time_ms) / 1000
+                )
+            )
+            outfile = (
+                output_dir
+                + "/"
+                + os.path.splitext(os.path.basename(video_filename))[0]
+                + "_"
+                + str(i)
+                + ".mkv"
+            )
+            commands.append(
+                cmd.format(
+                    infile=video_filename, start=last_cut, end=curr_cut, outfile=outfile
+                )
+            )
             i += 1
         largest_cut_duration = max(time_ms - last_time_ms, largest_cut_duration)
         last_time_ms = time_ms
-        last_cut = "00:" + str(math.ceil(minutes_hr)).zfill(2) + ":" + str(math.ceil(secondes_hr)).zfill(2)
+        last_cut = (
+            "00:"
+            + str(math.ceil(minutes_hr)).zfill(2)
+            + ":"
+            + str(math.ceil(secondes_hr)).zfill(2)
+        )
 
     lInfo("write commands to {}".format(cmd_filename))
     with open(cmd_filename, "a") as cmd_file:
         cmd_file.write("\n".join(commands + ["# end of {}\n".format(video_filename)]))
 
-    lInfo("extract {} sequences via multiprocessing and store in {}".format(len(commands), output_dir))
+    lInfo(
+        "extract {} sequences via multiprocessing and store in {}".format(
+            len(commands), output_dir
+        )
+    )
     pool = Pool(processes=cpu_count)
     pool.map(shell_call, commands)
     lInfo("done")
@@ -128,40 +154,37 @@ def main(_):
         return num
 
     parser = argparse.ArgumentParser(
-        description='cuts detector',
-        epilog='2017',
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        description="cuts detector",
+        epilog="2017",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
     parser.add_argument(
-        'video_filename',
-        type=str,
-        nargs="+",
-        help="filename of input video"
+        "video_filename", type=str, nargs="+", help="filename of input video"
     )
     parser.add_argument(
-        '--min_cut_duration',
+        "--min_cut_duration",
         type=not_neg_int,
         default=10,
-        help="minimum duration of an extracted cut; set to 0 for disabling"
+        help="minimum duration of an extracted cut; set to 0 for disabling",
     )
     parser.add_argument(
-        '--cpu_count',
+        "--cpu_count",
         type=int,
         default=multiprocessing.cpu_count(),
-        help="cpus/threads that are used for processing"
+        help="cpus/threads that are used for processing",
     )
     parser.add_argument(
-        '--output_dir',
+        "--output_dir",
         type=str,
         default="./results",
-        help="output_directory for storing calculated features"
+        help="output_directory for storing calculated features",
     )
     parser.add_argument(
-        '--cmd_filename',
+        "--cmd_filename",
         type=str,
         default="commands.list",
-        help="file where all ffmpeg commands are stored"
+        help="file where all ffmpeg commands are stored",
     )
 
     argsdict = vars(parser.parse_args())
@@ -174,7 +197,7 @@ def main(_):
             argsdict["min_cut_duration"],
             argsdict["output_dir"],
             argsdict["cmd_filename"],
-            argsdict["cpu_count"]
+            argsdict["cpu_count"],
         )
 
 

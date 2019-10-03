@@ -47,31 +47,55 @@ def timeit(func):
         timeit(anotherfucntion())
 
     """
+
     def function_wrapper(*args, **kwargs):
         start_time = time.time()
         lInfo("start {}".format(func.__name__))
         res = func(*args, **kwargs)
         overall_time = time.time() - start_time
-        lInfo("calculation done for {}: {} s; {}".format(func.__name__, overall_time, str(datetime.timedelta(seconds=overall_time))))
+        lInfo(
+            "calculation done for {}: {} s; {}".format(
+                func.__name__,
+                overall_time,
+                str(datetime.timedelta(seconds=overall_time)),
+            )
+        )
         return res
+
     return function_wrapper
 
 
 def p_bar(iterable, total=100):
-    """ progress bar """
+    """ progress bar
+    TODO: mark that this is an internal function
+    """
     step = 0
     progress = 0
-    print('\r' + colorred("[CALC ] ") + '[{0}] {1}%'.format('#' * (progress // 5), progress), end="")
+    print(
+        "\r"
+        + colorred("[CALC ] ")
+        + "[{0}] {1}%".format("#" * (progress // 5), progress),
+        end="",
+    )
 
     for i in iterable:
         progress = int(100 * step / total)
         char = "/" if step % 2 == 0 else "\\"
-        print('\r' + colorred("[CALC{0}] ".format(char)) + '[{0}] {1}%'.format('#' * (progress // 5), progress), end="")
+        print(
+            "\r"
+            + colorred("[CALC{0}] ".format(char))
+            + "[{0}] {1}%".format("#" * (progress // 5), progress),
+            end="",
+        )
         yield i
         step += 1
 
     progress = 100
-    print('\r' + colorred("[CALC ] ") + '[{0}] {1}%'.format('#' * (progress // 5), progress))
+    print(
+        "\r"
+        + colorred("[CALC ] ")
+        + "[{0}] {1}%".format("#" * (progress // 5), progress)
+    )
 
 
 def progress_bar(iterable, max=100):
@@ -133,7 +157,11 @@ def create_colormap(start, mid, end, steps=256):
     """
     colors = []
     h_steps = steps // 2
-    step_size = ((mid[0] - start[0]) / h_steps, (mid[1] - start[1]) / h_steps, (mid[2] - start[2]) / h_steps)
+    step_size = (
+        (mid[0] - start[0]) / h_steps,
+        (mid[1] - start[1]) / h_steps,
+        (mid[2] - start[2]) / h_steps,
+    )
 
     c_color = start
     for i in range(h_steps):
@@ -141,7 +169,11 @@ def create_colormap(start, mid, end, steps=256):
         c_color = [round(c_color[i] + x) for i, x in enumerate(step_size)]
 
     colors.append(mid)
-    step_size = ((end[0] - mid[0]) / h_steps, (end[1] - mid[1]) / h_steps, (end[2] - mid[2]) / h_steps)
+    step_size = (
+        (end[0] - mid[0]) / h_steps,
+        (end[1] - mid[1]) / h_steps,
+        (end[2] - mid[2]) / h_steps,
+    )
 
     for i in range(h_steps):
         colors.append(c_color)

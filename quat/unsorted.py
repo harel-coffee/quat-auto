@@ -115,7 +115,21 @@ def jdump_file(filename, jo, printing=False):
 
 def create_colormap(start, mid, end, steps=256):
     """
-    creates a color map between three color points using steps.
+    creates a color map between three color points using
+    `steps` intermediate colors.
+
+    Parameters
+    ----------
+    start : tuple(int)
+        defined start color as tuple (R, G, B)
+    mid : tuple(int)
+        defined middle color as tuple (R, G, B)
+    end : tuple(int)
+        defined end color as tuple (R, G, B)
+
+    Returns
+    -------
+    list of in total `steps` colors statring from start, to mid, to end
     """
     colors = []
     h_steps = steps // 2

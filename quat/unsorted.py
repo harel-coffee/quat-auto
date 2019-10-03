@@ -119,7 +119,7 @@ def powerset(iterable):
 
 def align_vectors(x, y):
     """
-    align the length of two vectors `x` and `y`
+    align the length of two vectors `x` and `y` using the min length of both
     """
     min_len = min(len(x), len(y))
     x = x[0:min_len]

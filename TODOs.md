@@ -18,3 +18,4 @@
 * add ff.convert
     * raw conversion,
     * cropping
+* add contributors in documentation

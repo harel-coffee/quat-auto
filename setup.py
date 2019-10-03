@@ -9,11 +9,11 @@ setup(
     author_email='stg7@gmx.de',
     packages=['quat'],
     install_requires=[
-        "scikit-image",
-        "scikit-video",
         "numpy",
         "pandas",
         "scipy",
+        "scikit-image",
+        "scikit-video",
         "scikit-learn",
         "opencv-python"
     ],

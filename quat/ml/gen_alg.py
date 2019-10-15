@@ -199,7 +199,7 @@ class GeneticEvolution:
             self._ydata = []
             axes.set_xlim(0, self._max_num_generations)
             max_fitness = max([x.get_fitness() for x in self._population])
-            axes.set_ylim(0, int(max_fitness * 0.1))
+            axes.set_ylim(0, int(max_fitness))
             self._line, = axes.plot(self._xdata, self._ydata, "-")
 
         self._num_generations = 0

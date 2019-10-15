@@ -88,7 +88,7 @@ class Individual:
         c._fitness = 0
         g = c.get_genom()
         go = other.get_genom()
-        split = int(random.random() * len(g))
+        split = max(1, int(random.random() * len(g)))
         c._genom = np.concatenate([g[0:split], go[split:]])
         return c
 

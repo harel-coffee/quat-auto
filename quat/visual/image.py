@@ -22,7 +22,7 @@ import numpy as np
 import pandas as pd
 import cv2
 import skimage.measure
-import skvideo.measure
+import skimage.restoration
 from skimage import img_as_ubyte
 import skimage.color
 from skimage import exposure

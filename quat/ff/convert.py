@@ -21,6 +21,7 @@ import os
 import sys
 import argparse
 import glob
+import shutil
 
 from quat.log import *
 

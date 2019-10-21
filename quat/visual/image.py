@@ -269,7 +269,7 @@ def ceiq(image, gray=False):
     image_eq = exposure.equalize_hist(image)
 
     # calculate similarity feature
-    f1 = skimage.measure.compare_ssim(image, image_eq)
+    f1 = skimage.measure.structural_similarity(image, image_eq)
 
     # create histograms
     h1, _ = np.histogram(image.flatten(), bins=128)

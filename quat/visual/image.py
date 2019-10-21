@@ -18,6 +18,7 @@ Purely image based features
     Author: Steve Göring
 """
 import json
+
 import numpy as np
 import pandas as pd
 import cv2
@@ -26,6 +27,7 @@ import skimage.restoration
 from skimage import img_as_ubyte
 import skimage.color
 from skimage import exposure
+import skvideo.measure
 
 
 def color_fulness_features(image_rgb):

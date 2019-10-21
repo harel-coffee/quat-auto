@@ -22,7 +22,7 @@ import json
 import numpy as np
 import pandas as pd
 import cv2
-import skimage.measure
+import skimage.metrics
 import skimage.restoration
 from skimage import img_as_ubyte
 import skimage.color
@@ -269,7 +269,7 @@ def ceiq(image, gray=False):
     image_eq = exposure.equalize_hist(image)
 
     # calculate similarity feature
-    f1 = skimage.measure.structural_similarity(image, image_eq)
+    f1 = skimage.metrics.structural_similarity(image, image_eq)
 
     # create histograms
     h1, _ = np.histogram(image.flatten(), bins=128)
@@ -295,7 +295,7 @@ def ceiq(image, gray=False):
     f5 = -sum(h2 * log_h1)
 
     # additional features, that are not in the paper and added by stg7
-    add1 = skimage.measure.compare_psnr(image, image_eq)
+    add1 = skimage.metrics.peak_signal_noise_ratio(image, image_eq)
     hd = h1 - h2
     add2 = hd.max()
     add3 = hd.min()

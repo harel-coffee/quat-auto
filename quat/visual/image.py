@@ -301,3 +301,15 @@ def ceiq(image, gray=False):
     add5 = hd.std()
 
     return [f1, f2, f3, f4, f5, add1, add2, add3, add4, add5]
+
+
+def calc_noise(frame):
+    """
+    calcualtes noise std based on skimage.restoration.estimate_sigma
+    "Robust wavelet-based estimator of the (Gaussian) noise standard deviation."
+
+    Returns
+    -------
+    mean value of all channels for std value of noise assuming that the noise has a Gaussian distribution
+    """
+    return skimage.restoration.estimate_sigma(frame, average_sigmas=True, multichannel=True)

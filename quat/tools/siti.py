@@ -45,6 +45,20 @@ def extract_siti(video):
     """
     extracts siti values of a given video
     the resulting values are [0,1] scaled
+
+    Parameters
+    ----------
+    video : str
+        filename of the video that should be processed
+
+    Returns
+    -------
+    dict of per frame results and filename
+
+    Examples
+    --------
+    >>> import quat.tools.siti extract_siti
+    >>> res = extract_siti("myvideo.mkv")
     """
     features = {"si": SiFeatures(), "ti": TiFeatures()}
     results = []

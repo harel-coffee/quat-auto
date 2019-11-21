@@ -537,8 +537,9 @@ class Blockiness(Feature):
                 np.sqrt(np.abs(v["x_mean_diff"] * v["y_mean_diff"]))
             ) / np.power(2, np.abs(max_i_x - max_i_y) / blocksize)
             blockiness_values.append(float(v["diff"]))
-        self._values.append(max(blockiness_values))
-        return v["diff"]
+        r = max(blockiness_values)
+        self._values.append(r)
+        return r
 
 
 class ImageFeature(Feature):

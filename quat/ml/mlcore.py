@@ -216,7 +216,7 @@ def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
         [
             (
                 "feature_selection",
-                SelectFromModel(ExtraTreesRegressor(n_jobs=-1), threshold=threshold),
+                SelectFromModel(ExtraTreesRegressor(n_jobs=-1), threshold=threshold, n_estimators=10),
             ),
             (
                 "regressor",

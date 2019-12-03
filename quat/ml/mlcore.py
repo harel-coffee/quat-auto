@@ -136,7 +136,7 @@ def train_gradboost_class(x, y, num_trees=10, threshold="0.001*mean"):
         [
             (
                 "feature_selection",
-                SelectFromModel(ExtraTreesClassifier(n_jobs=-1), threshold=threshold),
+                SelectFromModel(ExtraTreesClassifier(n_jobs=-1, n_estimators=10), threshold=threshold),
             ),
             ("regressor", GradientBoostingClassifier(n_estimators=num_trees)),
         ]

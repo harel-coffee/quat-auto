@@ -13,6 +13,7 @@
     * check blockiness (8x8)
 * performance improvements
 * solve docu bug, that github link is only on some pages
+* scenecut tool (similar to SITI)
 
 # done
 * add ff.convert

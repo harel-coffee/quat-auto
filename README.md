@@ -6,7 +6,7 @@ collection of python methods and tools as a libary for video/image quality analy
 
 first you need:
 
-* python3 (>=3.5)
+* python3 (>=3.6)
 * pip3
 * ffmpeg
 

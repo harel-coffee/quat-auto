@@ -385,7 +385,60 @@ def plot_confusion_matrix(
     plotname = "figures/confusion_{}.png".format(title.lower().replace(" ", "_"))
     plt.savefig(plotname)
     plt.savefig(plotname.replace(".png", ".pdf"))
+"""
+# TODO: checkout the following
+def plot_confusion_matrix(confusion_matrix, display_labels, include_values=True, values_format=None,
+                          xticks_rotation=0, pdf=None,
+                         cmap=plt.cm.Blues):
+    import matplotlib.pyplot as plt
+    import itertools
+    fig, ax = plt.subplots(figsize=(5, 4))
 
+
+    cm = confusion_matrix
+    n_classes = cm.shape[0]
+    im_ = ax.imshow(cm, interpolation='nearest', cmap=cmap)
+    text_ = None
+
+    cmap_min, cmap_max = im_.cmap(0), im_.cmap(256)
+
+    if include_values:
+        text_ = np.empty_like(cm, dtype=object)
+        if values_format is None:
+            values_format = '.2g'
+
+        # print text with appropriate color depending on background
+        thresh = (cm.max() + cm.min()) / 2.0
+        for i, j in itertools.product(range(n_classes), range(n_classes)):
+            color = cmap_max if cm[i, j] < thresh else cmap_min
+            text_[i, j] = ax.text(j, i,
+                                       format(cm[i, j], values_format),
+                                       ha="center", va="center",
+                                       color=color)
+
+    fig.colorbar(im_, ax=ax)
+    ax.set(xticks=np.arange(n_classes),
+           yticks=np.arange(n_classes),
+           xticklabels=display_labels,
+           yticklabels=display_labels,
+           ylabel="True label",
+           xlabel="Predicted label")
+
+    ax.set_ylim((n_classes - 0.5, -0.5))
+    plt.setp(ax.get_xticklabels(), rotation=xticks_rotation)
+    figure_ = fig
+    if pdf is None:
+        return
+    ax.get_figure().savefig(pdf, bbox_inches="tight")
+    return ax
+
+
+fig = plot_confusion_matrix(
+    confusion_matrix=cm_norm,
+    display_labels=["1pass", "2pass"],
+    pdf="../figures/confusion_rf_norm.pdf"
+)
+"""
 
 def eval_plots_class(truth, pred, title=""):
     rmse = np.sqrt(mean_squared_error(truth, pred))

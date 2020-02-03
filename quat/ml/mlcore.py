@@ -50,12 +50,13 @@ from sklearn.ensemble import (
 )
 
 import pandas as pd
+import joblib
 
 try:
     from sklearn.model_selection import cross_val_predict
 except:
     from sklearn.cross_validation import cross_val_predict
-from sklearn.externals import joblib
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.feature_selection import SelectFromModel
@@ -64,7 +65,7 @@ from sklearn.metrics import roc_curve, auc
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.dummy import DummyClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.externals import joblib
+
 from sklearn.tree import export_graphviz
 
 from quat.unsorted import timeit

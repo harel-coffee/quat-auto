@@ -326,10 +326,10 @@ class StrredNoRefFeatures(Feature):
                 }
             spatial, temporal = strred_extract_info(previous_frame_data, frame_data)
             return {
-                "spatial.mean": spatial.mean(),
-                "spatial.std": spatial.std(),
-                "temporal.mean": temporal.mean(),
-                "temporal.std": temporal.std(),
+                "spatial.mean": float(spatial.mean()),
+                "spatial.std": float(spatial.std()),
+                "temporal.mean": float(temporal.mean()),
+                "temporal.std": float(temporal.std()),
             }
 
         frame = skimage.color.rgb2gray(frame).astype(np.float32)

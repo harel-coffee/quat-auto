@@ -54,6 +54,17 @@ def assert_file(file, withassert=False):
     lInfo("{} exists.".format(file))
 
 
+def assert_dir(directory, withassert=False):
+    """ checks if a dir exists
+    """
+    if not os.path.isdir(directory):
+        lError("{} does not exists".format(directory))
+        if withassert:
+            assert False
+        return
+    lInfo("{} exists.".format(directory))
+
+
 def json_assert(json, required_keys):
     """ checks if required_keys are present in json object """
     if type(required_keys) is list:

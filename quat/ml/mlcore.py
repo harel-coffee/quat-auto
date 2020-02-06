@@ -446,6 +446,7 @@ def plot_confusion_matrix_new(confusion_matrix, display_labels, include_values=T
     if pdf is None:
         return
     ax.get_figure().savefig(pdf, bbox_inches="tight")
+    ax.get_figure().savefig(pdf.replace(".pdf", ".png"), bbox_inches="tight")
     return ax
 
 

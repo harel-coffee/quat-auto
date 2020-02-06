@@ -474,7 +474,7 @@ def eval_plots_class(truth, pred, title="", folder="figures"):
         "recall": recall_score(truth, pred, average="weighted"),
         "f1": f1_score(truth, pred, average="weighted"),
         "mcc": matthews_corrcoef(truth, pred),
-        "roc_auc": roc_auc_score(truth, pred, average="weighted"),
+        #"roc_auc": roc_auc_score(truth, pred, average="weighted"),
         "confusion_matrix": cm
     }
     #print(json.dumps(metrics, indent=4, sort_keys=True))

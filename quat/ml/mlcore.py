@@ -37,6 +37,13 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.metrics import (
+    matthews_corrcoef,
+    roc_auc_score,
+    recall_score,
+    average_precision_score,
+    f1_score
+)
 from sklearn.metrics import roc_curve, auc
 import itertools
 
@@ -347,7 +354,7 @@ def train_gradboost_regression(x, y, num_trees=10, threshold="0.001*mean"):
 
 
 def plot_confusion_matrix(
-    cm, classes, normalize=False, title="Confusion matrix", cmap=plt.cm.Blues
+    cm, classes, normalize=False, title="Confusion matrix", cmap=plt.cm.Blues, folder="figures"
 ):
     """
     This function prints and plots the confusion matrix.
@@ -382,15 +389,22 @@ def plot_confusion_matrix(
     plt.ylabel("True label")
     plt.xlabel("Predicted label")
     plt.tight_layout()
-    os.makedirs("figures", exist_ok=True)
-    plotname = "figures/confusion_{}.png".format(title.lower().replace(" ", "_"))
+    os.makedirs(folder, exist_ok=True)
+    plotname = folder + "/confusion_{}.png".format(title.lower().replace(" ", "_"))
     plt.savefig(plotname)
     plt.savefig(plotname.replace(".png", ".pdf"))
-"""
-# TODO: checkout the following
-def plot_confusion_matrix(confusion_matrix, display_labels, include_values=True, values_format=None,
+
+
+def plot_confusion_matrix_new(confusion_matrix, display_labels, include_values=True, values_format=None,
                           xticks_rotation=0, pdf=None,
                          cmap=plt.cm.Blues):
+    """
+    fig = plot_confusion_matrix(
+        confusion_matrix=cm_norm,
+        display_labels=["1pass", "2pass"],
+        pdf="../figures/confusion_rf_norm.pdf"
+    )
+    """
     import matplotlib.pyplot as plt
     import itertools
     fig, ax = plt.subplots(figsize=(5, 4))
@@ -434,35 +448,36 @@ def plot_confusion_matrix(confusion_matrix, display_labels, include_values=True,
     return ax
 
 
-fig = plot_confusion_matrix(
-    confusion_matrix=cm_norm,
-    display_labels=["1pass", "2pass"],
-    pdf="../figures/confusion_rf_norm.pdf"
-)
-"""
 
-def eval_plots_class(truth, pred, title=""):
-    rmse = np.sqrt(mean_squared_error(truth, pred))
-    r2 = r2_score(truth, pred)
-    acc = accuracy_score(truth, pred)
 
-    print(title)
-    res = classification_report(truth, pred)
-    print("classification report")
-    print(res)
+def eval_plots_class(truth, pred, title="", folder="figures"):
+    #print(title)
+    #res = classification_report(truth, pred)
+    #print("classification report")
+    #print(res)
 
     cm = confusion_matrix(truth, pred)
 
     plt.figure()
     classes = sorted(list(set(truth) | set(pred)))
-    plot_confusion_matrix(
-        cm,
-        classes=classes,
-        normalize=True,
-        title="Confusion matrix, {}, with normalization".format(title),
+    os.makedirs(folder, exist_ok=True)
+    plot_confusion_matrix_new(
+        cm.astype('float') / cm.sum(axis=1)[:, np.newaxis],  # normalize
+        display_labels=classes,
+        pdf=folder +"/confusion_matrix.pdf"
     )
-    metrics = {"title": title, "rmse": rmse, "r2": r2, "acc": acc}
-    print(json.dumps(metrics, indent=4, sort_keys=True))
+    metrics = {
+        "title": title,
+        "rmse": np.sqrt(mean_squared_error(truth, pred)),
+        "accuracy": accuracy_score(truth, pred),
+        "precision": average_precision_score(truth, pred),
+        "recall": recall_score(truth, pred),
+        "f1": f1_score(truth, pred),
+        "mcc": matthews_corrcoef(truth, pred),
+        "roc_auc": roc_auc_score(truth, pred),
+        "confusion_matrix": cm
+    }
+    #print(json.dumps(metrics, indent=4, sort_keys=True))
 
     # print_roc(truth, pred, title)
     return metrics

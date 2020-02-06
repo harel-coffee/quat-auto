@@ -76,6 +76,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import export_graphviz
 
 from quat.unsorted import timeit
+from quat.ml.statistics import calc_regression_metrics
 
 
 def print_trees(pipeline, feature_columns, name="trees"):
@@ -466,8 +467,8 @@ def eval_plots_class(truth, pred, title="", folder="figures"):
         display_labels=classes,
         pdf=folder +"/confusion_matrix.pdf"
     )
+    # TODO: move to statistics
     metrics = {
-        "title": title,
         "rmse": float(np.sqrt(mean_squared_error(truth, pred))),
         "accuracy": float(accuracy_score(truth, pred)),
         "precision": float(precision_score(truth, pred, average="weighted")),
@@ -512,6 +513,9 @@ def eval_plots_regression(truth, pred, title="", folder="", plotname=""):
     os.makedirs(folder, exist_ok=True)
     ax.get_figure().savefig(folder + "/scatter_{}.png".format(plotname))
     ax.get_figure().savefig(folder + "/scatter_{}.pdf".format(plotname))
+
+    metrics = calc_regression_metrics(df, "truth", "predicted")
+    return metrics
 
 
 def load_serialized(filename_with_path):

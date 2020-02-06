@@ -449,8 +449,6 @@ def plot_confusion_matrix_new(confusion_matrix, display_labels, include_values=T
     return ax
 
 
-
-
 def eval_plots_class(truth, pred, title="", folder="figures"):
     #print(title)
     #res = classification_report(truth, pred)

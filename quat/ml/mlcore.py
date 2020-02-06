@@ -470,7 +470,7 @@ def eval_plots_class(truth, pred, title="", folder="figures"):
         "title": title,
         "rmse": np.sqrt(mean_squared_error(truth, pred)),
         "accuracy": accuracy_score(truth, pred),
-        "precision": precision_score(truth, pred),
+        "precision": precision_score(truth, pred, average="weighted"),
         "recall": recall_score(truth, pred),
         "f1": f1_score(truth, pred),
         "mcc": matthews_corrcoef(truth, pred),

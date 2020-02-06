@@ -41,7 +41,7 @@ from sklearn.metrics import (
     matthews_corrcoef,
     roc_auc_score,
     recall_score,
-    average_precision_score,
+    precision_score,
     f1_score
 )
 from sklearn.metrics import roc_curve, auc
@@ -470,7 +470,7 @@ def eval_plots_class(truth, pred, title="", folder="figures"):
         "title": title,
         "rmse": np.sqrt(mean_squared_error(truth, pred)),
         "accuracy": accuracy_score(truth, pred),
-        "precision": average_precision_score(truth, pred),
+        "precision": precision_score(truth, pred),
         "recall": recall_score(truth, pred),
         "f1": f1_score(truth, pred),
         "mcc": matthews_corrcoef(truth, pred),

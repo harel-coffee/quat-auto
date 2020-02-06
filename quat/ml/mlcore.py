@@ -491,6 +491,14 @@ def eval_plots_regression(truth, pred, title="", folder="", plotname=""):
         max(df["truth"].max(), df["predicted"].max()),
     )
 
+    metrics = calc_regression_metrics(df, "truth", "predicted")
+    metrics_str = "P:{}, S:{}, K:{}, RMSE:{}".format(
+        metrics["pearson"].round(2),
+        metrics["spearman"].round(2),
+        metrics["kendall"].round(2),
+        metrics["rmse"].round(3)
+    )
+
     ax = df.plot(
         x="predicted",
         y="truth",
@@ -499,7 +507,7 @@ def eval_plots_regression(truth, pred, title="", folder="", plotname=""):
         ylim=bounds,
         alpha=0.5,
         figsize=(6, 6),
-        title=title,
+        title=title + "\n" + metrics_str,
     )
 
     ax.plot(bounds, bounds, "k--", lw=2, color="gray")
@@ -514,7 +522,6 @@ def eval_plots_regression(truth, pred, title="", folder="", plotname=""):
     ax.get_figure().savefig(folder + "/scatter_{}.png".format(plotname))
     ax.get_figure().savefig(folder + "/scatter_{}.pdf".format(plotname))
 
-    metrics = calc_regression_metrics(df, "truth", "predicted")
     return metrics
 
 

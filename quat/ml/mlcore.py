@@ -468,14 +468,14 @@ def eval_plots_class(truth, pred, title="", folder="figures"):
     )
     metrics = {
         "title": title,
-        "rmse": np.sqrt(mean_squared_error(truth, pred)),
-        "accuracy": accuracy_score(truth, pred),
-        "precision": precision_score(truth, pred, average="weighted"),
-        "recall": recall_score(truth, pred, average="weighted"),
-        "f1": f1_score(truth, pred, average="weighted"),
-        "mcc": matthews_corrcoef(truth, pred),
+        "rmse": float(np.sqrt(mean_squared_error(truth, pred))),
+        "accuracy": float(accuracy_score(truth, pred)),
+        "precision": float(precision_score(truth, pred, average="weighted")),
+        "recall": float(recall_score(truth, pred, average="weighted")),
+        "f1": float(f1_score(truth, pred, average="weighted")),
+        "mcc": float(matthews_corrcoef(truth, pred)),
         #"roc_auc": roc_auc_score(truth, pred, average="weighted"),
-        "confusion_matrix": cm
+        #"confusion_matrix": cm
     }
     #print(json.dumps(metrics, indent=4, sort_keys=True))
 

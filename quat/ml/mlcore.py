@@ -268,6 +268,37 @@ def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
     }
 
 
+def train_rf_multi_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
+    """
+    train multi instance regression, so Y is not a scalar, it is a vector
+    """
+    X = x.copy()
+    Y = y.copy()
+    pipeline = Pipeline(
+        [
+            (
+                "regressor",
+                RandomForestRegressor(
+                    n_estimators=num_trees, n_jobs=-1, criterion="mse"
+                ),
+            ),
+        ]
+    )
+    predicted = cross_val_predict(pipeline, X, Y, cv=10)
+    pipeline.fit(X, Y)
+    # copy results to unified dataframe
+    crossval_result_table = pd.DataFrame()
+    for c in Y.columns:
+        crossval_result_table["truth_" + str(c)] = Y[c]
+    for i, c in enumerate(Y.columns):
+        crossval_result_table["predicted_" + str(c)] = predicted[:,i]
+
+    return {
+        "randomforest": pipeline,
+        "crossval": crossval_result_table
+    }
+
+
 def train_rf_regression_param_optimization(x, y, threshold="0.001*mean", num_trees=25):
     X = x.replace([np.inf, -np.inf], np.nan).fillna(0).values
     Y = y.values

@@ -121,7 +121,7 @@ def rescale_video(input_file, tmp_folder, height=360):
 
 
 def convert_to_avpvs(
-    input_file, tmp_folder, framerate="60/1", width=3840, height=-2, pix_fmt="yuv422p"
+    input_file, tmp_folder, framerate="60/1", width=3840, height=-2, pix_fmt="yuv422p10le"
 ):
     """
     converts a video to a unified resolution, framerate and pixel format,

@@ -173,7 +173,7 @@ def convert_to_avpvs_and_crop(
     framerate="60/1",
     width=3840,
     height=-2,
-    pix_fmt="yuv422p",
+    pix_fmt="yuv422p10le",
     ccheight=360,
 ):
     """

@@ -76,7 +76,7 @@ class Feature:
         if not hasattr(self, "_ref_instance"):
             try:
                 self._ref_instance = copy.deepcopy(self)
-            except:
+            except TypeError as te:
                 # TODO: fix to handle MovementFeatures
                 self._ref_instance = self.__class__()
                 lWarn(
@@ -85,7 +85,7 @@ class Feature:
         if not hasattr(self, "_dis_instance"):
             try:
                 self._dis_instance = copy.deepcopy(self)
-            except:
+            except TypeError as te:
                 # TODO: fix to handle MovementFeatures
                 self._dis_instance = self.__class__()
 

@@ -109,6 +109,10 @@ class Feature:
         self._values.append(res)
         return res
 
+    def calc_dis_ref(self, dframe, rframe):
+        """ fix for consistent naming scheme """
+        return self.calc_ref_dis(dframe, rframe)
+
     def get_values(self):
         """ returns all stored feature values """
         return self._values

@@ -80,7 +80,7 @@ class Feature:
                 # TODO: fix to handle MovementFeatures
                 self._ref_instance = self.__class__()
                 lWarn(
-                    f"please check if {self.__name__} does not require parameters for __init__() call"
+                    f"please check if {self.__class__.__name__} does not require parameters for __init__() call"
                 )
         if not hasattr(self, "_dis_instance"):
             try:

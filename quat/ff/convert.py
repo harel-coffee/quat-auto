@@ -219,6 +219,7 @@ def convert_to_avpvs_and_crop(
     -filter:v scale={width}:{height},fps={framerate},setsar=1/1
     -an
     -pix_fmt {pix_fmt}
+    -strict -1
     -f yuv4mpegpipe pipe:
     |
     ffmpeg -nostdin -loglevel quiet -threads 4

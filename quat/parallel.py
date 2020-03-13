@@ -40,7 +40,7 @@ def run_parallel_by_grouping(items, function, arguments, num_cpus=8):
     return pool.starmap(function, params)
 
 
-def run_parallel(items, function, arguments=[], num_cpus=8):
+def run_parallel(items, function, arguments=[], num_cpus=8, multi_item=False):
     """
     run a function call parallel, for each item
 
@@ -54,12 +54,17 @@ def run_parallel(items, function, arguments=[], num_cpus=8):
         constant arguments that are passed to function
     num_cpus : int
         number of cpu's that should be used
+    multi_item : bool
+        in case multi_item is true, it is assumed each item is a list
 
     Returns
     -------
     results of function performed on all items as a list
     """
-    params = [tuple([i] + arguments) for i in items]
+    if multi_item:
+        params = [tuple(list(i) + arguments) for i in items]
+    else:
+        params = [tuple([i] + arguments) for i in items]
     # run parallel
     pool = Pool(processes=num_cpus)
     res = pool.starmap(function, params)

@@ -1,6 +1,5 @@
 # open
 
-* check method signatures (unify, e.g. calc_ref_dis(dis, ref) --> calc_ref_dis(ref, dis))
 * check unsorted.py, can be moved to other parts?
 * cleanup mlcore
 * check general todos inside code
@@ -17,6 +16,8 @@
 * automate `black`
 
 # done
+* check method signatures (unify, e.g. calc_ref_dis(dis, ref) --> calc_ref_dis(ref, dis))
+    * added second method that behaves uniformed
 * unify code style, e.g. using `black` tool?
 * add ff.convert
     * raw conversion,

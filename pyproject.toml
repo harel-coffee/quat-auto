@@ -10,7 +10,7 @@ numpy = "^1.18.2"
 pandas = "^1.0.3"
 scipy = "^1.4.1"
 scikit-image = "^0.16.2"
-scikit-video = "^1.1.11"
+scikit-video = {git="https://github.com/scikit-video/scikit-video.git", branch="master"}  # latest is required for working brisque niqe
 scikit-learn = "^0.22.2"
 opencv-python = "^4.2.0"
 

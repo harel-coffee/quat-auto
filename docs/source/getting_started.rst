@@ -3,23 +3,26 @@ Getting started
 
 First you need to install the following requirements
 
-- python3 (>=3.5)
+- python3 (>=3.6.1)
 - pip3
 - ffmpeg (>=3.4.4)
+- poetry
 
-Install it, e.g. using your favorite package-manager, in case of Ubuntu 18.04 use:
+Install it, e.g. using your favorite package-manager, in case of Ubuntu >=18.04 use:
 
 .. code-block:: bash
 
     sudo apt install python3 ffmpeg python3-pip
+    pip3 install --user poetry
 
 Clone the `quat` repository, move inside the repository and then you can install `quat` using pip3 via:
 
 .. code-block:: bash
 
-    pip3 install --user -e .
+    poetry build
+    pip3 install dist/*.whl
 
-`--user` is for a user wide installation, where `-e` uses this repository as main folder, so changes inside here will be python-wide handled, if this is not required because the repository will be deleted later, just remove `-e` flag.
+Beside this you can also just use `quat` with the poetry tool.
 
 
 Hello `quat`
@@ -59,10 +62,12 @@ Included command line tools
 
 All of the following command line tools are globally available after installation of `quat`, see also :ref:`module tools`
 
-- siti.py : calculation of siti feature values for a given video
-- do_parallel.py : perform parallel tasks
-- do_parallel_by_file.py : perform parallel tasks
-- extract_cuts.py : extract scene cuts of a given video
-- psnr.py : calculates psnr for a distorted and source video.
+- siti : calculation of siti feature values for a given video
+- do_parallel : perform parallel tasks
+- do_parallel_by_file : perform parallel tasks
+- extract_cuts : extract scene cuts of a given video
+- psnr : calculates psnr for a distorted and source video.
+
+All command line tools can be started with `poetry run`.
 
 

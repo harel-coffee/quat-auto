@@ -43,7 +43,7 @@ def do_it(command):
     return command
 
 
-def main(params):
+def main(params=[]):
     parser = argparse.ArgumentParser(
         description="run a command on several files parallel",
         epilog="stg7 2016",

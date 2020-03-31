@@ -75,7 +75,7 @@ def extract_siti(video):
     return {"video": video, "values": results}
 
 
-def main(_):
+def main(_=[]):
     parser = argparse.ArgumentParser(
         description="calculate si ti values for a given video",
         epilog="stg7 2019",

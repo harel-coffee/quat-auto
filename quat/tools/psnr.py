@@ -145,7 +145,7 @@ def psnr_report(video, reference, output_dir):
     return {"video": video, "psnr_mean": values["mean"]}
 
 
-def main(_):
+def main(_=[]):
     parser = argparse.ArgumentParser(
         description="calculate psnr for videos with different resolutions",
         epilog="stg7 2017",

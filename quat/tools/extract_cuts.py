@@ -143,7 +143,7 @@ def extract_cuts(video_filename, min_cut_duration, output_dir, cmd_filename, cpu
     lInfo("done")
 
 
-def main(_):
+def main(params=[]):
     """ extracts cuts of a video file """
 
     def not_neg_int(maybe_number):

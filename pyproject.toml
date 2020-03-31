@@ -1,8 +1,12 @@
+[build-system]
+requires = [ "poetry>=0.12",]
+build-backend = "poetry.masonry.api"
+
 [tool.poetry]
 name = "quat"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
-authors = ["Steve <stg7@gmx.de>"]
+authors = [ "Steve <stg7@gmx.de>",]
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
@@ -10,7 +14,6 @@ numpy = "^1.18.2"
 pandas = "^1.0.3"
 scipy = "^1.4.1"
 scikit-image = "^0.16.2"
-scikit-video = {git="https://github.com/scikit-video/scikit-video.git", branch="master"}  # latest is required for working brisque niqe
 scikit-learn = "^0.22.2"
 opencv-python = "^4.2.0"
 
@@ -24,8 +27,6 @@ extract_cuts = "quat.tools.extract_cuts:main"
 psnr = "quat.tools.psnr:main"
 siti = "quat.tools.siti:main"
 
-
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
-
+[tool.poetry.dependencies.scikit-video]
+git = "https://github.com/scikit-video/scikit-video.git"
+branch = "master"

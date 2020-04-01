@@ -126,7 +126,8 @@ class Feature:
         for a specific feature folder `folder` and
         adds a feature name `name`
         """
-        bn = os.path.basename(os.path.splitext(video)[0])
+        dn = os.path.basename(os.path.dirname(video))
+        bn = dn + "_" + os.path.basename(os.path.splitext(video)[0])
         if name == "":
             name = self.__class__.__name__
         rfn = os.path.join(folder, bn + "_" + name + ".json")

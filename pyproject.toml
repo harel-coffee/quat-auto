@@ -5,8 +5,9 @@ build-backend = "poetry.masonry.api"
 [tool.poetry]
 name = "quat"
 version = "0.1.1"
-description = ""
+description = "collection of python methods and tools as a libary for video/image quality analysis."
 authors = [ "Steve <stg7@gmx.de>",]
+license = "GPL 3"
 
 [tool.poetry.dependencies]
 python = "^3.6.1"

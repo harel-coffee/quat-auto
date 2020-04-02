@@ -1,4 +1,5 @@
 # open
+* store models also as json, with `sklearn-json`
 
 * check unsorted.py, can be moved to other parts?
 * cleanup mlcore

@@ -126,11 +126,11 @@ class Feature:
         for a specific feature folder `folder` and
         adds a feature name `name`
         """
-        dn = os.path.dirname(video).replace(os.sep, "_")
+        dn = "_".join(os.path.split(os.path.dirname(video)))
         bn = dn + "_" + os.path.basename(os.path.splitext(video)[0])
         if name == "":
             name = self.__class__.__name__
-        rfn = os.path.join(folder, bn + "_" + name + ".json")
+        rfn = os.path.normpath(os.path.join(folder, bn + "_" + name + ".json"))
         return rfn
 
     def load(self, folder, video, name=""):

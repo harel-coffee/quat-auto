@@ -126,7 +126,7 @@ class Feature:
         for a specific feature folder `folder` and
         adds a feature name `name`
         """
-        dn = "_".join(os.path.split(os.path.dirname(video)))
+        dn = os.path.normpath(os.path.dirname(video)).replace(os.sep, "_")
         bn = dn + "_" + os.path.basename(os.path.splitext(video)[0])
         if name == "":
             name = self.__class__.__name__

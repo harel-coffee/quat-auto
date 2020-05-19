@@ -27,6 +27,7 @@ do_parallel_by_file = "quat.tools.do_parallel_by_file:main"
 extract_cuts = "quat.tools.extract_cuts:main"
 psnr = "quat.tools.psnr:main"
 siti = "quat.tools.siti:main"
+brisque_niqe = "quat.tools.brisque_niqe:main"
 
 [tool.poetry.dependencies.scikit-video]
 git = "https://github.com/scikit-video/scikit-video.git"

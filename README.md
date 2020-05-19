@@ -46,6 +46,7 @@ poetry run do_parallel --help
 poetry run do_parallel_by_file --help
 poetry run extract_cuts --help
 poetry run psnr --help
+poetry run brisque_niqe --help
 ```
 
 

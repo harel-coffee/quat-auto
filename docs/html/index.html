@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>quat – video/image quality analysis</title>
+    
+      <link rel="stylesheet" href="_static/pygments.css">
+      <link rel="stylesheet" href="_static/theme.css">
+      <link rel="stylesheet" href="_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+      
+      <script src="_static/theme-vendors.js"></script>
+      <script src="_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+  <link rel="next" title="Getting started" href="getting_started.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="#" class="home-link">
+    
+      <span class="site-name">quat</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="#projects-using-quat">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="getting_started.html" class="reference internal ">Getting started</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="examples.html" class="reference internal ">Examples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="api.html" class="reference internal ">API documentation</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+    
+    <li>quat – video/image quality analysis</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="next">
+    <a href="getting_started.html"
+       title="next chapter">Getting started →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <div class="section" id="quat-video-image-quality-analysis">
+<h1>quat – video/image quality analysis<a class="headerlink" href="#quat-video-image-quality-analysis" title="Permalink to this headline">¶</a></h1>
+<p><cite>quat</cite> is a collection of tools, python3 code, and wrappers, to simplify daily quality analysis tasks for video or images.
+<cite>quat</cite> is the outcome of several video/image quality models that were developed by Steve Göring.</p>
+<p>It consists of several main modules, with specific tasks,
+e.g. the <cite>ml</cite> module handles typical machine learning parts, whereas most algorithms and approaches are based on scikit-learn.</p>
+<div class="section" id="why-you-should-or-should-not-use-quat">
+<h2>Why you should or should not use <cite>quat</cite>?<a class="headerlink" href="#why-you-should-or-should-not-use-quat" title="Permalink to this headline">¶</a></h2>
+<p><cite>quat</cite> is a collection of useful parts, it is not a full end-solution or framework that will handle automatically all image/video quality related questions.
+You can use <cite>quat</cite> to develop own models, to extract image/video features, and more.</p>
+</div>
+<div class="section" id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<p>If you use <cite>quat</cite> in any research related project, please cite one of the following papers:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@inproceedings</span><span class="p">{</span><span class="nl">goering2019qomex</span><span class="p">,</span>
+  <span class="na">author</span><span class="p">=</span><span class="s">{Steve {G{\&quot;o}ring} and Rakesh Rao {Ramachandra Rao} and Alexander Raake}</span><span class="p">,</span>
+  <span class="na">title</span><span class="p">=</span><span class="s">&quot;nofu - A Lightweight {No-Reference} Pixel Based Video Quality Model for</span>
+<span class="s">  Gaming Content&quot;</span><span class="p">,</span>
+  <span class="na">BOOKTITLE</span><span class="p">=</span><span class="s">&quot;2019 Eleventh International Conference on Quality of Multimedia Experience</span>
+<span class="s">  (QoMEX) (QoMEX 2019)&quot;</span><span class="p">,</span>
+  <span class="na">address</span><span class="p">=</span><span class="s">&quot;Berlin, Germany&quot;</span><span class="p">,</span>
+  <span class="na">days</span><span class="p">=</span><span class="m">4</span><span class="p">,</span>
+  <span class="na">month</span><span class="p">=</span><span class="nv">jun</span><span class="p">,</span>
+  <span class="na">year</span><span class="p">=</span><span class="m">2019</span><span class="p">,</span>
+  <span class="na">doi</span><span class="p">=</span><span class="s">{10.1109/QoMEX.2019.8743262}</span><span class="p">,</span>
+  <span class="na">ISSN</span><span class="p">=</span><span class="s">{2472-7814}</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">=</span><span class="s">{https://ieeexplore.ieee.org/document/8743262}</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="nc">@article</span><span class="p">{</span><span class="nl">goering2020pixel</span><span class="p">,</span>
+  <span class="na">title</span><span class="p">=</span><span class="s">{Pixel based Video Quality Models for 4K}</span><span class="p">,</span>
+  <span class="na">author</span><span class="p">=</span><span class="s">{Steve G\&quot;oring and Rakesh {Rao Ramachandra Rao} and Bernhard Feiten and Alexander Raake}</span><span class="p">,</span>
+  <span class="na">journal</span><span class="p">=</span><span class="s">{IEEE Access}</span><span class="p">,</span>
+  <span class="na">volume</span><span class="p">=</span><span class="s">{}</span><span class="p">,</span>
+  <span class="na">pages</span><span class="p">=</span><span class="s">{}</span><span class="p">,</span>
+  <span class="na">year</span><span class="p">=</span><span class="s">{2020}</span><span class="p">,</span>
+  <span class="na">publisher</span><span class="p">=</span><span class="s">{IEEE}</span><span class="p">,</span>
+  <span class="na">note</span><span class="p">=</span><span class="s">{to appear}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><cite>nofu</cite> is a video quality model using features and general video processing methods that are included in <cite>quad</cite>.</p>
+</div>
+<div class="section" id="projects-using-quat">
+<h2>Projects using <cite>quat</cite><a class="headerlink" href="#projects-using-quat" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>nofu</p></li>
+<li><p>hyfu</p></li>
+<li><p>fume</p></li>
+<li><p>hyfr</p></li>
+<li><p>uhdhd prediction</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#hello-quat">Hello <cite>quat</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#reading-a-video">Reading a video</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#included-command-line-tools">Included command line tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-quat.video">video.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-quat.log">log.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-quat.parallel">parallel.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-quat.unsorted">unsorted.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-ff">module ff</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.ff.segmenter">segmenting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.ff.probe">ffprobe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.ff.encoder">encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.ff.convert">converting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.ff.recorder">recording</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-ml">module ml</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.ml.dim_vis">dimension visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.ml.gen_alg">genetic evolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.ml.mlcore">classification/regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.ml.statistics">statistics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-tools">module tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.tools.do_parallel">do_parallel.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.tools.do_parallel_by_file">do_parallel_by_file.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.tools.extract_cuts">extract_cuts.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.tools.psnr">psnr.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.tools.siti">siti.py</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-utils">module utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.utils.assertions">assertions.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.utils.fileutils">fileutils.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.utils.system">system</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-visual">module visual</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.visual.base_features">base_features.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.visual.fullref">fullref.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.visual.image">image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#module-quat.visual.sseq">sseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#vifp-check">vifp – CHECK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#other-video-quality-metrics">Other Video Quality Metrics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Steve Göring</p></li>
+<li><p>Julian Zebelein</p></li>
+<li><p>Serge Molina</p></li>
+<li><p>Rakesh Rao Ramachandra Rao</p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="next">
+    <a href="getting_started.html"
+       title="next chapter">Getting started →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2019, Steve Göring.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

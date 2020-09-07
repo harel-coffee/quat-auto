@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>quat.visual.base_features</title>
+    
+      <link rel="stylesheet" href="../../../_static/pygments.css">
+      <link rel="stylesheet" href="../../../_static/theme.css">
+      <link rel="stylesheet" href="../../../_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+      
+      <script src="../../../_static/theme-vendors.js"></script>
+      <script src="../../../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../../../genindex.html" />
+  <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../../index.html" class="home-link">
+    
+      <span class="site-name">quat</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../../index.html#projects-using-quat">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../../getting_started.html" class="reference internal ">Getting started</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples.html" class="reference internal ">Examples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../api.html" class="reference internal ">API documentation</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="../../index.html">Module code</a> &raquo;</li>
+    
+    <li>quat.visual.base_features</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <h1>Source code for quat.visual.base_features</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Video and image no-reference based features.</span>
+<span class="sd">Base features can also be applied for full-ref calculations,</span>
+<span class="sd">using the `calc_ref_dis` method.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This file is part of quat.</span>
+<span class="sd">    quat is free software: you can redistribute it and/or modify</span>
+<span class="sd">    it under the terms of the GNU General Public License as published by</span>
+<span class="sd">    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd">    (at your option) any later version.</span>
+<span class="sd">    quat is distributed in the hope that it will be useful,</span>
+<span class="sd">    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="sd">    GNU General Public License for more details.</span>
+<span class="sd">    You should have received a copy of the GNU General Public License</span>
+<span class="sd">    along with quat. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">    Author: Steve Göring</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">skimage.color</span>
+<span class="kn">import</span> <span class="nn">skimage.io</span>
+<span class="kn">import</span> <span class="nn">skvideo.motion</span>
+<span class="kn">import</span> <span class="nn">skvideo</span>
+<span class="kn">from</span> <span class="nn">skvideo.measure.strred</span> <span class="kn">import</span> <span class="n">extract_info</span> <span class="k">as</span> <span class="n">strred_extract_info</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">img_as_ubyte</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">ndimage</span>
+
+
+<span class="kn">from</span> <span class="nn">..log</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="Feature"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Feature">[docs]</a><span class="k">class</span> <span class="nc">Feature</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    abstract base class for all features,</span>
+<span class="sd">    handles automatic storage and loading of calculated feature values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Feature.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Feature.calc">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; perform feature calculation for a single frame &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Feature.calc_ref_dis"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Feature.calc_ref_dis">[docs]</a>    <span class="k">def</span> <span class="nf">calc_ref_dis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dframe</span><span class="p">,</span> <span class="n">rframe</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; performs a full-ref style calculation,</span>
+<span class="sd">        where the resulting features are calculated on both frames,</span>
+<span class="sd">        and further difference values are stored,</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dframe : 3d array</span>
+<span class="sd">            distorted video frame</span>
+<span class="sd">        rframe : 3d array</span>
+<span class="sd">            reference video frame</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        a dict {&quot;diff&quot;: values, &quot;ref&quot;: values, &quot;dis&quot;: values} or</span>
+<span class="sd">        dict {&quot;diff_&quot; + k: values, &quot;ref_&quot; + k: values, &quot;dis_&quot; + k: values} for all keys `k` in the underlying feature.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: rename calc_ref_dis --&gt; calc_dis_ref</span>
+        <span class="c1"># this creates for each feature stream a copy instance of the used feature</span>
+        <span class="c1"># TODO: prettify the next code part</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_ref_instance&quot;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ref_instance</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">te</span><span class="p">:</span>
+                <span class="c1"># TODO: fix to handle MovementFeatures</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ref_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">()</span>
+                <span class="n">lWarn</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;please check if </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not require parameters for __init__() call&quot;</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_dis_instance&quot;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dis_instance</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">te</span><span class="p">:</span>
+                <span class="c1"># TODO: fix to handle MovementFeatures</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dis_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">()</span>
+
+        <span class="n">v1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref_instance</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="n">rframe</span><span class="p">)</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dis_instance</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="n">dframe</span><span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">v1</span><span class="p">:</span>
+                <span class="n">res</span><span class="p">[</span><span class="s2">&quot;diff_&quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">v2</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="n">res</span><span class="p">[</span><span class="s2">&quot;dis_&quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="n">res</span><span class="p">[</span><span class="s2">&quot;ref_&quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v2</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">res</span><span class="p">[</span><span class="s2">&quot;diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+            <span class="n">res</span><span class="p">[</span><span class="s2">&quot;dis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v1</span>
+            <span class="n">res</span><span class="p">[</span><span class="s2">&quot;ref&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res</span><span class="p">[</span><span class="s2">&quot;diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">-</span> <span class="n">v2</span>
+            <span class="n">res</span><span class="p">[</span><span class="s2">&quot;dis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v1</span>
+            <span class="n">res</span><span class="p">[</span><span class="s2">&quot;ref&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">v2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="Feature.calc_dis_ref"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Feature.calc_dis_ref">[docs]</a>    <span class="k">def</span> <span class="nf">calc_dis_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dframe</span><span class="p">,</span> <span class="n">rframe</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; fix for consistent naming scheme &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_ref_dis</span><span class="p">(</span><span class="n">dframe</span><span class="p">,</span> <span class="n">rframe</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Feature.get_values"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Feature.get_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns all stored feature values &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span></div>
+
+<div class="viewcode-block" id="Feature.fullref"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Feature.fullref">[docs]</a>    <span class="k">def</span> <span class="nf">fullref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; used to check if it is a full reference feature &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="k">def</span> <span class="nf">_feature_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; generates a feature filename for a given `video`</span>
+<span class="sd">        for a specific feature folder `folder` and</span>
+<span class="sd">        adds a feature name `name`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">video</span><span class="p">))</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+        <span class="n">bn</span> <span class="o">=</span> <span class="n">dn</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">video</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">rfn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">bn</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">rfn</span>
+
+<div class="viewcode-block" id="Feature.load"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Feature.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; loads a feature from a feature folder `folder`,</span>
+<span class="sd">        feature filename is estimated using the _feature_filename</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_filename</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span> <span class="k">as</span> <span class="n">ffp</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">j</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ffp</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">lWarn</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;there is something wrong with </span><span class="si">{</span><span class="n">video</span><span class="si">}</span><span class="s2">, feature: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">, re-calcuation performed&quot;</span>
+                    <span class="p">)</span>
+                    <span class="c1"># loading of feature value is not possible,</span>
+                    <span class="c1"># force to calculate it again</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Feature.store"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Feature.store">[docs]</a>    <span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; stores a feature to a feature folder `folder`,</span>
+<span class="sd">        feature filename is estimated using the _feature_filename</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_feature_filename</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">,</span> <span class="s2">&quot;video&quot;</span><span class="p">:</span> <span class="n">video</span><span class="p">}</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ffp</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ffp</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fn</span></div></div>
+
+
+<div class="viewcode-block" id="MovementFeatures"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.MovementFeatures">[docs]</a><span class="k">class</span> <span class="nc">MovementFeatures</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculates movement feature, using background removement,</span>
+<span class="sd">    based on master thesis of julian zebelein</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fgbg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">createBackgroundSubtractorMOG2</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="MovementFeatures.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.MovementFeatures.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">file_height</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">file_width</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">img_as_ubyte</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+        <span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+        <span class="n">final</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">75</span><span class="p">)</span>
+        <span class="n">fgmask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fgbg</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
+        <span class="c1"># final = cv2.bilateralFilter(fgmask,9,75,75)</span>
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+                <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mi">600</span> <span class="o">*</span> <span class="n">file_height</span> <span class="o">/</span> <span class="n">file_width</span><span class="p">)))</span>
+            <span class="p">)</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+                <span class="s2">&quot;fg&quot;</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">fgmask</span><span class="p">,</span> <span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mi">600</span> <span class="o">*</span> <span class="n">file_height</span> <span class="o">/</span> <span class="n">file_width</span><span class="p">)))</span>
+            <span class="p">)</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span>
+
+        <span class="n">non_zero</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">countNonZero</span><span class="p">(</span><span class="n">fgmask</span><span class="p">)</span>
+        <span class="n">moving_percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">non_zero</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">file_height</span> <span class="o">*</span> <span class="n">file_width</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">moving_percentage</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span></div>
+
+<div class="viewcode-block" id="MovementFeatures.get_values"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.MovementFeatures.get_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                    <span class="n">r</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span></div></div>
+
+
+<div class="viewcode-block" id="CutDetectionFeatures"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.CutDetectionFeatures">[docs]</a><span class="k">class</span> <span class="nc">CutDetectionFeatures</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Estimates scene cuts of a given video (approximation),</span>
+<span class="sd">    implemented by Serge Molina</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_frame</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_diff_weighted</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="CutDetectionFeatures.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.CutDetectionFeatures.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="c1"># TODO change to skiimage</span>
+        <span class="c1"># Scaling down the image speeds up computations and reduces false positives</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_LANCZOS4</span><span class="p">)</span>
+        <span class="n">cut</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Converting the image type to a 16 bits signed integers image prevents over/under flows</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">current_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">((</span><span class="n">image</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_frame</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+
+            <span class="k">if</span> <span class="n">current_diff</span> <span class="o">&gt;</span> <span class="mi">30</span> <span class="ow">and</span> <span class="n">current_diff</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_previous_diff_weighted</span><span class="p">:</span>
+                <span class="c1"># we detect this as a cut</span>
+                <span class="n">cut</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_previous_diff_weighted</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_previous_diff_weighted</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">current_diff</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_frame</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cut</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cut</span></div></div>
+
+
+<div class="viewcode-block" id="SiFeatures"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.SiFeatures">[docs]</a><span class="k">class</span> <span class="nc">SiFeatures</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates SI values of a video frame</span>
+<span class="sd">    important: SI values are finally in a 0..1 range, due to float conversion</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="SiFeatures.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.SiFeatures.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">calculate_si</span><span class="p">(</span><span class="n">frame_data</span><span class="p">):</span>
+            <span class="n">sobx</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">sobel</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">soby</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">sobel</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">sobx</span><span class="p">,</span> <span class="n">soby</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">calculate_si</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span></div></div>
+
+
+<div class="viewcode-block" id="TiFeatures"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.TiFeatures">[docs]</a><span class="k">class</span> <span class="nc">TiFeatures</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates TI values</span>
+<span class="sd">    important: TI values are finally in a 0..1 range, due to float conversion</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="TiFeatures.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.TiFeatures.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">calculate_ti</span><span class="p">(</span><span class="n">frame_data</span><span class="p">,</span> <span class="n">previous_frame_data</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">previous_frame_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">((</span><span class="n">frame_data</span> <span class="o">-</span> <span class="n">previous_frame_data</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">calculate_ti</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span></div></div>
+
+
+<div class="viewcode-block" id="TemporalFeatures"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.TemporalFeatures">[docs]</a><span class="k">class</span> <span class="nc">TemporalFeatures</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A temporal feature, using RMSE of consecutive frames,</span>
+<span class="sd">    somehow similar to TI, but not applied on gray frames</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">rmse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<div class="viewcode-block" id="TemporalFeatures.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.TemporalFeatures.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span></div></div>
+
+
+<div class="viewcode-block" id="StrredNoRefFeatures"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.StrredNoRefFeatures">[docs]</a><span class="k">class</span> <span class="nc">StrredNoRefFeatures</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculate entropy of subbands, with the feature that is used in strred, however, this feature does not</span>
+<span class="sd">    consider a reference video, it justs calculates mean of spatial and temporal features of strred</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="StrredNoRefFeatures.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.StrredNoRefFeatures.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">frame_data</span><span class="p">,</span> <span class="n">previous_frame_data</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">previous_frame_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">{</span>
+                    <span class="s2">&quot;spatial.mean&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s2">&quot;spatial.std&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s2">&quot;temporal.mean&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s2">&quot;temporal.std&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="n">spatial</span><span class="p">,</span> <span class="n">temporal</span> <span class="o">=</span> <span class="n">strred_extract_info</span><span class="p">(</span><span class="n">previous_frame_data</span><span class="p">,</span> <span class="n">frame_data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;spatial.mean&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">spatial</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
+                <span class="s2">&quot;spatial.std&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">spatial</span><span class="o">.</span><span class="n">std</span><span class="p">()),</span>
+                <span class="s2">&quot;temporal.mean&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">temporal</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
+                <span class="s2">&quot;temporal.std&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">temporal</span><span class="o">.</span><span class="n">std</span><span class="p">()),</span>
+            <span class="p">}</span>
+
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">calculate</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span></div></div>
+
+
+<div class="viewcode-block" id="BlockMotion"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.BlockMotion">[docs]</a><span class="k">class</span> <span class="nc">BlockMotion</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculates block motion of two following frames,</span>
+<span class="sd">    block size is estimated by 5% of the height of the input frame,</span>
+<span class="sd">    this is done to be resolution independent and faster</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_frame</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="BlockMotion.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.BlockMotion.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="n">per_frame_values</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;blkm.zeros&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;blkm.ones&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;blkm.minusones&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">videodata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_last_frame</span><span class="p">,</span> <span class="n">frame</span><span class="p">])</span>
+            <span class="n">blocksize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_last_frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">)</span>
+            <span class="n">motion</span> <span class="o">=</span> <span class="n">skvideo</span><span class="o">.</span><span class="n">motion</span><span class="o">.</span><span class="n">blockMotion</span><span class="p">(</span>
+                <span class="n">videodata</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;SE3SS&quot;</span><span class="p">,</span> <span class="n">mbSize</span><span class="o">=</span><span class="n">blocksize</span>
+            <span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">motion</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">blk_motion_zeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">m</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">blk_motion_ones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">m</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">blk_motion_minusones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">m</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">per_frame_values</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;blkm.zeros&quot;</span><span class="p">:</span> <span class="n">blk_motion_zeros</span><span class="p">,</span>
+                <span class="s2">&quot;blkm.ones&quot;</span><span class="p">:</span> <span class="n">blk_motion_ones</span><span class="p">,</span>
+                <span class="s2">&quot;blkm.minusones&quot;</span><span class="p">:</span> <span class="n">blk_motion_minusones</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">per_frame_values</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="k">return</span> <span class="n">per_frame_values</span></div></div>
+
+
+<div class="viewcode-block" id="CuboidRow"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.CuboidRow">[docs]</a><span class="k">class</span> <span class="nc">CuboidRow</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Motion estimation using a window of 60 frames and a cuboid video of the video,</span>
+<span class="sd">    handles only rows of the frames</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">WINDOW</span> <span class="o">=</span> <span class="mi">60</span>  <span class="c1"># maximum number of frames in sliding window</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; row specifies the column that should be used in %&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_row</span> <span class="o">=</span> <span class="n">row</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="CuboidRow.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.CuboidRow.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="n">frame_gray</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINDOW</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rows</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">row_i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_row</span> <span class="o">*</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">frame_gray</span><span class="p">[</span><span class="n">row_i</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># copy reduces memory !</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">sobel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rows</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div></div>
+
+
+<div class="viewcode-block" id="CuboidCol"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.CuboidCol">[docs]</a><span class="k">class</span> <span class="nc">CuboidCol</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Motion estimation using a window of 60 frames and a cuboid video of the video,</span>
+<span class="sd">    handles only columns of the frames</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">WINDOW</span> <span class="o">=</span> <span class="mi">60</span>  <span class="c1"># maximum number of frames in sliding window</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; col specifies the column that should be used in %&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_col</span> <span class="o">=</span> <span class="n">col</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="CuboidCol.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.CuboidCol.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="n">frame_gray</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cols</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINDOW</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">col_i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_col</span> <span class="o">*</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">frame_gray</span><span class="p">[:,</span> <span class="n">col_i</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># copy reduces memory !</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">sobel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cols</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div></div>
+
+
+<div class="viewcode-block" id="Staticness"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Staticness">[docs]</a><span class="k">class</span> <span class="nc">Staticness</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculates how static the video is</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_frame_sum</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_frame_no</span> <span class="o">=</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="Staticness.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Staticness.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="c1"># convert datatype, required otherwise overflows</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img_as_ubyte</span><span class="p">(</span><span class="n">frame</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame_sum</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_frame_sum</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_frame_sum</span> <span class="o">+=</span> <span class="n">frame</span>
+
+        <span class="n">sobeled_image</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">sobel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_sum</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame_no</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_frame_no</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">sobeled_image</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="c1"># skimage.io.imshow(sobeled_image)</span>
+        <span class="c1"># skimage.io.show()</span>
+
+        <span class="k">return</span> <span class="n">v</span></div></div>
+
+
+<div class="viewcode-block" id="UHDSIM2HD"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.UHDSIM2HD">[docs]</a><span class="k">class</span> <span class="nc">UHDSIM2HD</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculates similarity of UHD input resolution to HD,</span>
+<span class="sd">    if input frame is not UHD resolution, it takes half of the height and width</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="UHDSIM2HD.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.UHDSIM2HD.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="n">frame_gray</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="c1"># check half of input resolution</span>
+        <span class="n">width_hd</span><span class="p">,</span> <span class="n">height_hd</span> <span class="o">=</span> <span class="n">frame_gray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">frame_gray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">frame_gray_hd</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
+            <span class="n">frame_gray</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">width_hd</span><span class="p">,</span> <span class="n">height_hd</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_CUBIC</span>
+        <span class="p">)</span>
+        <span class="n">frame_gray_hd</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
+            <span class="n">frame_gray_hd</span><span class="p">,</span>
+            <span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">frame_gray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">frame_gray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_CUBIC</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">skvideo</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">psnr</span><span class="p">(</span><span class="n">frame_gray</span><span class="p">,</span> <span class="n">frame_gray_hd</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="mi">1000</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div></div>
+
+
+<div class="viewcode-block" id="Blockiness"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Blockiness">[docs]</a><span class="k">class</span> <span class="nc">Blockiness</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculate blockness of a video, assume that compression blocks have the same NxN size, where N = [8, 16, 32, 64, 128],</span>
+
+<span class="sd">    calculation performs the following steps, explained for N=8:</span>
+
+<span class="sd">    - apply canny edge detection, K=[X,Y]-axis, normalized by num-rows/cols</span>
+<span class="sd">    - calculate mean for all K summed values (A)</span>
+<span class="sd">    - calculate for a shift (0,7) and for every 8th value of the K summed values the mean (B)</span>
+<span class="sd">      - all shifts will be considered, and only the one with max_mean value is used</span>
+<span class="sd">    - assume that the distribution should differe, if blocks are there</span>
+<span class="sd">    - difference of A, and B is then the feature value</span>
+
+<span class="sd">    overall blockiness value -- per frame:</span>
+
+<span class="sd">    - value = :math:`\sqrt{(|x\_mean\_diff \cdot y\_mean\_diff | / 2^{(|max\_shift_x - max\_shift_y|/N)}}`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_blocksizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__estimate_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">blocksize</span><span class="p">):</span>
+        <span class="n">max_i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">max_i_mean</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">max_i</span><span class="p">::</span><span class="n">blocksize</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">blocksize</span><span class="p">):</span>
+            <span class="n">curr_i_mean</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">::</span><span class="n">blocksize</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">max_i_mean</span> <span class="o">&lt;</span> <span class="n">curr_i_mean</span><span class="p">:</span>
+                <span class="n">max_i_mean</span> <span class="o">=</span> <span class="n">curr_i_mean</span>
+                <span class="n">max_i</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="n">max_i</span>
+
+<div class="viewcode-block" id="Blockiness.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.Blockiness.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="n">frame_c</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Canny</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">frame</span><span class="p">),</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="n">xsums</span> <span class="o">=</span> <span class="n">frame_c</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">ysums</span> <span class="o">=</span> <span class="n">frame_c</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">xaxis_all</span> <span class="o">=</span> <span class="n">xsums</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">yaxis_all</span> <span class="o">=</span> <span class="n">ysums</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="n">blockiness_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">blocksize</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocksizes</span><span class="p">:</span>
+            <span class="n">max_i_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__estimate_shift</span><span class="p">(</span><span class="n">xsums</span><span class="p">,</span> <span class="n">blocksize</span><span class="p">)</span>
+            <span class="n">max_i_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__estimate_shift</span><span class="p">(</span><span class="n">ysums</span><span class="p">,</span> <span class="n">blocksize</span><span class="p">)</span>
+
+            <span class="n">xaxis_bsize</span> <span class="o">=</span> <span class="n">xsums</span><span class="p">[</span><span class="n">max_i_x</span><span class="p">::</span><span class="n">blocksize</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="n">yaxis_bsize</span> <span class="o">=</span> <span class="n">ysums</span><span class="p">[</span><span class="n">max_i_y</span><span class="p">::</span><span class="n">blocksize</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;x_mean_diff&quot;</span><span class="p">:</span> <span class="n">xaxis_all</span> <span class="o">-</span> <span class="n">xaxis_bsize</span><span class="p">,</span>
+                <span class="s2">&quot;y_mean_diff&quot;</span><span class="p">:</span> <span class="n">yaxis_all</span> <span class="o">-</span> <span class="n">yaxis_bsize</span><span class="p">,</span>
+                <span class="s2">&quot;max_i_x&quot;</span><span class="p">:</span> <span class="n">max_i_x</span><span class="p">,</span>
+                <span class="s2">&quot;max_i_y&quot;</span><span class="p">:</span> <span class="n">max_i_y</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">v</span><span class="p">[</span><span class="s2">&quot;diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;x_mean_diff&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">v</span><span class="p">[</span><span class="s2">&quot;y_mean_diff&quot;</span><span class="p">]))</span>
+            <span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">max_i_x</span> <span class="o">-</span> <span class="n">max_i_y</span><span class="p">)</span> <span class="o">/</span> <span class="n">blocksize</span><span class="p">)</span>
+            <span class="n">blockiness_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;diff&quot;</span><span class="p">]))</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">blockiness_values</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span></div></div>
+
+
+<div class="viewcode-block" id="ImageFeature"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.ImageFeature">[docs]</a><span class="k">class</span> <span class="nc">ImageFeature</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    a generic image feature class,</span>
+<span class="sd">    ususally all methods implemented in quat.visual.images</span>
+<span class="sd">    can be passes as argument in the constructor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_f</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        img_f needs to be a function that handles one frame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img_f</span> <span class="o">=</span> <span class="n">img_f</span>
+
+<div class="viewcode-block" id="ImageFeature.calc"><a class="viewcode-back" href="../../../api.html#quat.visual.base_features.ImageFeature.calc">[docs]</a>    <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_f</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div></div>
+</pre></div>
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2019, Steve Göring.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

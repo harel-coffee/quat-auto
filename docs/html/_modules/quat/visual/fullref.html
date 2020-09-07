@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>quat.visual.fullref</title>
+    
+      <link rel="stylesheet" href="../../../_static/pygments.css">
+      <link rel="stylesheet" href="../../../_static/theme.css">
+      <link rel="stylesheet" href="../../../_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+      
+      <script src="../../../_static/theme-vendors.js"></script>
+      <script src="../../../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../../../genindex.html" />
+  <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../../index.html" class="home-link">
+    
+      <span class="site-name">quat</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../../index.html#projects-using-quat">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../../getting_started.html" class="reference internal ">Getting started</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples.html" class="reference internal ">Examples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../api.html" class="reference internal ">API documentation</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="../../index.html">Module code</a> &raquo;</li>
+    
+    <li>quat.visual.fullref</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <h1>Source code for quat.visual.fullref</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Full reference features.</span>
+
+<span class="sd">All full-reference features share a common interface,</span>
+<span class="sd">e.g. in case of SSIM,</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">    ...</span>
+<span class="sd">    ssim = SSIM()</span>
+<span class="sd">    v = ssim.calc_ref_dis(dis_frame, ref_frame)</span>
+<span class="sd">    # will return the calculated ssim value in `v`</span>
+
+<span class="sd">TODO: add references to metrics</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This file is part of quat.</span>
+<span class="sd">    quat is free software: you can redistribute it and/or modify</span>
+<span class="sd">    it under the terms of the GNU General Public License as published by</span>
+<span class="sd">    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd">    (at your option) any later version.</span>
+<span class="sd">    quat is distributed in the hope that it will be useful,</span>
+<span class="sd">    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="sd">    GNU General Public License for more details.</span>
+<span class="sd">    You should have received a copy of the GNU General Public License</span>
+<span class="sd">    along with quat. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">    Author: Steve Göring</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">skvideo</span>
+<span class="kn">import</span> <span class="nn">skvideo.measure</span>
+
+<span class="kn">import</span> <span class="nn">skimage.color</span>
+<span class="kn">import</span> <span class="nn">skimage.io</span>
+<span class="kn">import</span> <span class="nn">skimage.transform</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">img_as_ubyte</span>
+
+<span class="kn">from</span> <span class="nn">.base_features</span> <span class="kn">import</span> <span class="n">Feature</span>
+<span class="kn">from</span> <span class="nn">.vifp</span> <span class="kn">import</span> <span class="n">vifp_mscale</span>
+
+
+<div class="viewcode-block" id="SSIM"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.SSIM">[docs]</a><span class="k">class</span> <span class="nc">SSIM</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate SSIM &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SSIM.calc_ref_dis"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.SSIM.calc_ref_dis">[docs]</a>    <span class="k">def</span> <span class="nf">calc_ref_dis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dis</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; calculates ssim score &quot;&quot;&quot;</span>
+        <span class="n">x_g</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+        <span class="n">y_g</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">dis</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">skvideo</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">ssim</span><span class="p">(</span><span class="n">x_g</span><span class="p">,</span> <span class="n">y_g</span><span class="p">,</span> <span class="n">bitdepth</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scaleFix</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+<div class="viewcode-block" id="SSIM.fullref"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.SSIM.fullref">[docs]</a>    <span class="k">def</span> <span class="nf">fullref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="PSNR"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.PSNR">[docs]</a><span class="k">class</span> <span class="nc">PSNR</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Caclulate PSNR &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PSNR.calc_ref_dis"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.PSNR.calc_ref_dis">[docs]</a>    <span class="k">def</span> <span class="nf">calc_ref_dis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dis</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; calculates psnr score &quot;&quot;&quot;</span>
+        <span class="n">x_g</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+        <span class="n">y_g</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">dis</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">skvideo</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">psnr</span><span class="p">(</span><span class="n">x_g</span><span class="p">,</span> <span class="n">y_g</span><span class="p">,</span> <span class="n">bitdepth</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+<div class="viewcode-block" id="PSNR.fullref"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.PSNR.fullref">[docs]</a>    <span class="k">def</span> <span class="nf">fullref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="VIFP"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.VIFP">[docs]</a><span class="k">class</span> <span class="nc">VIFP</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Caclulate multi scale (4 scales) VIFP &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VIFP.calc_ref_dis"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.VIFP.calc_ref_dis">[docs]</a>    <span class="k">def</span> <span class="nf">calc_ref_dis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dis</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; calculates ms-vifp scores &quot;&quot;&quot;</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">vifp_mscale</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">dis</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+<div class="viewcode-block" id="VIFP.fullref"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.VIFP.fullref">[docs]</a>    <span class="k">def</span> <span class="nf">fullref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="ResolutionSimilarities"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.ResolutionSimilarities">[docs]</a><span class="k">class</span> <span class="nc">ResolutionSimilarities</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Tries to estimate resolution of the distorted video</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ResolutionSimilarities.calc_ref_dis"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.ResolutionSimilarities.calc_ref_dis">[docs]</a>    <span class="k">def</span> <span class="nf">calc_ref_dis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dis</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; calculates resoltion based on similarity measurement &quot;&quot;&quot;</span>
+        <span class="n">x_g</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">y_g</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">dis</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">resolutions</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2160</span><span class="p">,</span> <span class="mi">1440</span><span class="p">,</span> <span class="mi">1080</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">480</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">144</span><span class="p">]</span>
+        <span class="c1"># resolutions = list(range(2160, 140, -32))</span>
+        <span class="n">scale_factors</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">/</span> <span class="n">resolutions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">resolutions</span><span class="p">]</span>
+        <span class="c1"># print(&quot;scale_factors&quot;, scale_factors)</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_g</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_g</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_g</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_g</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># print(&quot;height&quot;, height)</span>
+        <span class="n">aspect</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="n">height</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sc</span> <span class="ow">in</span> <span class="n">scale_factors</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">sc</span> <span class="o">*</span> <span class="n">height</span><span class="p">)</span>
+            <span class="n">x_gs</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">x_g</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">aspect</span> <span class="o">*</span> <span class="n">r</span><span class="p">)),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reflect&quot;</span><span class="p">)</span>
+            <span class="n">x_gs</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
+                <span class="n">x_gs</span><span class="p">,</span> <span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">aspect</span> <span class="o">*</span> <span class="n">height</span><span class="p">)),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reflect&quot;</span>
+            <span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">skvideo</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">mse</span><span class="p">(</span><span class="n">x_gs</span><span class="p">,</span> <span class="n">y_g</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># ** 2 / sc</span>
+            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">resolutions</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">values</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="c1"># print(res)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="ResolutionSimilarities.fullref"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.ResolutionSimilarities.fullref">[docs]</a>    <span class="k">def</span> <span class="nf">fullref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="FramerateEstimator"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.FramerateEstimator">[docs]</a><span class="k">class</span> <span class="nc">FramerateEstimator</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    based on frame differences of src and distorted video estimate framerate of distorted video</span>
+
+<span class="sd">    TODO: check: could be also an no-reference feature</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">WINDOW</span> <span class="o">=</span> <span class="mi">60</span>  <span class="c1"># maximum number of frames in sliding window</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastframe_ref</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastframe_dis</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">rmse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<div class="viewcode-block" id="FramerateEstimator.calc_ref_dis"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.FramerateEstimator.calc_ref_dis">[docs]</a>    <span class="k">def</span> <span class="nf">calc_ref_dis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dis</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; tries to esimate fps&quot;&quot;&quot;</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ref&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;dis&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastframe_ref</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lastframe_dis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;ref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lastframe_ref</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">ref</span><span class="o">.</span><span class="n">flatten</span><span class="p">()),</span>
+                <span class="s2">&quot;dis&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lastframe_dis</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">dis</span><span class="o">.</span><span class="n">flatten</span><span class="p">()),</span>
+            <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastframe_ref</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastframe_dis</span> <span class="o">=</span> <span class="n">dis</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculated_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">WINDOW</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+        <span class="n">zeros_ref</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;ref&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_values</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">zeros_dis</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;dis&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_values</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">fps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculated_values</span><span class="p">)</span> <span class="o">-</span> <span class="n">zeros_dis</span> <span class="o">+</span> <span class="n">zeros_ref</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fps</span></div>
+
+<div class="viewcode-block" id="FramerateEstimator.fullref"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.FramerateEstimator.fullref">[docs]</a>    <span class="k">def</span> <span class="nf">fullref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="FramerateEstimator.get_values"><a class="viewcode-back" href="../../../api.html#quat.visual.fullref.FramerateEstimator.get_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">WINDOW</span> <span class="p">:]</span></div></div>
+</pre></div>
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2019, Steve Göring.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

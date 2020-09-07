@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>quat.ff.encoder</title>
+    
+      <link rel="stylesheet" href="../../../_static/pygments.css">
+      <link rel="stylesheet" href="../../../_static/theme.css">
+      <link rel="stylesheet" href="../../../_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+      
+      <script src="../../../_static/theme-vendors.js"></script>
+      <script src="../../../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../../../genindex.html" />
+  <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../../index.html" class="home-link">
+    
+      <span class="site-name">quat</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../../index.html#projects-using-quat">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../../getting_started.html" class="reference internal ">Getting started</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples.html" class="reference internal ">Examples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../api.html" class="reference internal ">API documentation</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="../../index.html">Module code</a> &raquo;</li>
+    
+    <li>quat.ff.encoder</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <h1>Source code for quat.ff.encoder</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Collected python methods for building up automated ffmpeg commands</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This file is part of quat.</span>
+<span class="sd">    quat is free software: you can redistribute it and/or modify</span>
+<span class="sd">    it under the terms of the GNU General Public License as published by</span>
+<span class="sd">    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd">    (at your option) any later version.</span>
+<span class="sd">    quat is distributed in the hope that it will be useful,</span>
+<span class="sd">    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="sd">    GNU General Public License for more details.</span>
+<span class="sd">    You should have received a copy of the GNU General Public License</span>
+<span class="sd">    along with quat. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">    Author: Steve Göring</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">quat.log</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">quat.utils.system</span> <span class="kn">import</span> <span class="n">shell_call</span>
+
+<span class="c1"># some general defined exceptions</span>
+<div class="viewcode-block" id="MissingCodecImplementationException"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.MissingCodecImplementationException">[docs]</a><span class="k">class</span> <span class="nc">MissingCodecImplementationException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FFmpegMissingError"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.FFmpegMissingError">[docs]</a><span class="k">class</span> <span class="nc">FFmpegMissingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FFprobeMissingException"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.FFprobeMissingException">[docs]</a><span class="k">class</span> <span class="nc">FFprobeMissingException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="NoValidVideoFileException"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.NoValidVideoFileException">[docs]</a><span class="k">class</span> <span class="nc">NoValidVideoFileException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1"># TODO: are these exceptions required?</span>
+
+
+<div class="viewcode-block" id="generic_two_pass"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.generic_two_pass">[docs]</a><span class="k">def</span> <span class="nf">generic_two_pass</span><span class="p">(</span>
+    <span class="n">inputfile</span><span class="p">,</span>
+    <span class="n">bitrate</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="p">,</span>
+    <span class="n">framerate</span><span class="p">,</span>
+    <span class="n">outputfilename</span><span class="p">,</span>
+    <span class="n">profile</span><span class="p">,</span>
+    <span class="n">logfile</span><span class="p">,</span>
+    <span class="n">ffmpeg_base_command</span><span class="p">,</span>
+    <span class="n">codecsettings</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; a general two pass command building, e.g. for vp9 and h264 usable &quot;&quot;&quot;</span>
+    <span class="n">first_pass</span> <span class="o">=</span> <span class="n">ffmpeg_base_command</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">inputfile</span><span class="o">=</span><span class="n">inputfile</span><span class="p">,</span>
+        <span class="n">codecsettings</span><span class="o">=</span><span class="s2">&quot;-pass 1 -passlogfile </span><span class="si">{}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span> <span class="o">+</span> <span class="n">codecsettings</span><span class="p">,</span>
+        <span class="n">bitrate</span><span class="o">=</span><span class="n">bitrate</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+        <span class="n">framerate</span><span class="o">=</span><span class="n">framerate</span><span class="p">,</span>
+        <span class="n">outputfilename</span><span class="o">=</span><span class="n">outputfilename</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">second_pass</span> <span class="o">=</span> <span class="n">ffmpeg_base_command</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">inputfile</span><span class="o">=</span><span class="n">inputfile</span><span class="p">,</span>
+        <span class="n">codecsettings</span><span class="o">=</span><span class="s2">&quot;-pass 2 -passlogfile </span><span class="si">{}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span> <span class="o">+</span> <span class="n">codecsettings</span><span class="p">,</span>
+        <span class="n">bitrate</span><span class="o">=</span><span class="n">bitrate</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+        <span class="n">framerate</span><span class="o">=</span><span class="n">framerate</span><span class="p">,</span>
+        <span class="n">outputfilename</span><span class="o">=</span><span class="n">outputfilename</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">first_pass</span> <span class="o">+</span> <span class="s2">&quot; &amp;&amp; &quot;</span> <span class="o">+</span> <span class="n">second_pass</span></div>
+
+
+<div class="viewcode-block" id="h264_encoding"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.h264_encoding">[docs]</a><span class="k">def</span> <span class="nf">h264_encoding</span><span class="p">(</span>
+    <span class="n">inputfile</span><span class="p">,</span>
+    <span class="n">bitrate</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="p">,</span>
+    <span class="n">framerate</span><span class="p">,</span>
+    <span class="n">outputfilename</span><span class="p">,</span>
+    <span class="n">profile</span><span class="p">,</span>
+    <span class="n">passes</span><span class="p">,</span>
+    <span class="n">logfile</span><span class="p">,</span>
+    <span class="n">ffmpeg_base_command</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; h264 encoding &quot;&quot;&quot;</span>
+    <span class="n">codecsettings</span> <span class="o">=</span> <span class="s2">&quot;-preset slow -c:v h264 -profile:v </span><span class="si">{profile}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">profile</span><span class="o">=</span><span class="n">profile</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">passes</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ffmpeg_base_command</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">inputfile</span><span class="o">=</span><span class="n">inputfile</span><span class="p">,</span>
+            <span class="n">codecsettings</span><span class="o">=</span><span class="n">codecsettings</span><span class="p">,</span>
+            <span class="n">bitrate</span><span class="o">=</span><span class="n">bitrate</span><span class="p">,</span>
+            <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+            <span class="n">framerate</span><span class="o">=</span><span class="n">framerate</span><span class="p">,</span>
+            <span class="n">outputfilename</span><span class="o">=</span><span class="n">outputfilename</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">generic_two_pass</span><span class="p">(</span>
+        <span class="n">inputfile</span><span class="p">,</span>
+        <span class="n">bitrate</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="p">,</span>
+        <span class="n">framerate</span><span class="p">,</span>
+        <span class="n">outputfilename</span><span class="p">,</span>
+        <span class="n">profile</span><span class="p">,</span>
+        <span class="n">logfile</span><span class="p">,</span>
+        <span class="n">ffmpeg_base_command</span><span class="p">,</span>
+        <span class="n">codecsettings</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="hevc_encoding"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.hevc_encoding">[docs]</a><span class="k">def</span> <span class="nf">hevc_encoding</span><span class="p">(</span>
+    <span class="n">inputfile</span><span class="p">,</span>
+    <span class="n">bitrate</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="p">,</span>
+    <span class="n">framerate</span><span class="p">,</span>
+    <span class="n">outputfilename</span><span class="p">,</span>
+    <span class="n">profile</span><span class="p">,</span>
+    <span class="n">passes</span><span class="p">,</span>
+    <span class="n">logfile</span><span class="p">,</span>
+    <span class="n">ffmpeg_base_command</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; specific handling of hevc encoding settings &quot;&quot;&quot;</span>
+    <span class="n">codecsettings</span> <span class="o">=</span> <span class="s2">&quot;-preset slow -c:v hevc &quot;</span>
+    <span class="c1"># FIXME(stg7) + &quot;-x265-params \&quot;profile={}\&quot;&quot;.format(profile) should force profile, but does not change profile</span>
+    <span class="k">if</span> <span class="n">passes</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ffmpeg_base_command</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">inputfile</span><span class="o">=</span><span class="n">inputfile</span><span class="p">,</span>
+            <span class="n">codecsettings</span><span class="o">=</span><span class="n">codecsettings</span><span class="p">,</span>
+            <span class="n">bitrate</span><span class="o">=</span><span class="n">bitrate</span><span class="p">,</span>
+            <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+            <span class="n">framerate</span><span class="o">=</span><span class="n">framerate</span><span class="p">,</span>
+            <span class="n">outputfilename</span><span class="o">=</span><span class="n">outputfilename</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">first_pass</span> <span class="o">=</span> <span class="n">ffmpeg_base_command</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">inputfile</span><span class="o">=</span><span class="n">inputfile</span><span class="p">,</span>
+        <span class="n">codecsettings</span><span class="o">=</span><span class="n">codecsettings</span> <span class="o">+</span> <span class="s1">&#39;-x265-params &quot;pass=1:stats=</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">logfile</span><span class="p">),</span>
+        <span class="n">bitrate</span><span class="o">=</span><span class="n">bitrate</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+        <span class="n">framerate</span><span class="o">=</span><span class="n">framerate</span><span class="p">,</span>
+        <span class="n">outputfilename</span><span class="o">=</span><span class="n">outputfilename</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">second_pass</span> <span class="o">=</span> <span class="n">ffmpeg_base_command</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">inputfile</span><span class="o">=</span><span class="n">inputfile</span><span class="p">,</span>
+        <span class="n">codecsettings</span><span class="o">=</span><span class="n">codecsettings</span> <span class="o">+</span> <span class="s1">&#39;-x265-params &quot;pass=2:stats=</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">logfile</span><span class="p">),</span>
+        <span class="n">bitrate</span><span class="o">=</span><span class="n">bitrate</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+        <span class="n">framerate</span><span class="o">=</span><span class="n">framerate</span><span class="p">,</span>
+        <span class="n">outputfilename</span><span class="o">=</span><span class="n">outputfilename</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">first_pass</span> <span class="o">+</span> <span class="s2">&quot; &amp;&amp; &quot;</span> <span class="o">+</span> <span class="n">second_pass</span></div>
+
+
+<div class="viewcode-block" id="vp9_encoding"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.vp9_encoding">[docs]</a><span class="k">def</span> <span class="nf">vp9_encoding</span><span class="p">(</span>
+    <span class="n">inputfile</span><span class="p">,</span>
+    <span class="n">bitrate</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="p">,</span>
+    <span class="n">framerate</span><span class="p">,</span>
+    <span class="n">outputfilename</span><span class="p">,</span>
+    <span class="n">profile</span><span class="p">,</span>
+    <span class="n">passes</span><span class="p">,</span>
+    <span class="n">logfile</span><span class="p">,</span>
+    <span class="n">ffmpeg_base_command</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; generate settings for vp9 encoding &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    -quality    May be set to good, best, or realtime</span>
+<span class="sd">    -speed  This parameter has different meanings depending upon whether quality is set to good or realtime.</span>
+<span class="sd">            Good valid values are 0-5, with 0 being the highest quality and 5 being the lowest.</span>
+<span class="sd">            Realtime valid values are 0-15; lower numbers mean higher quality.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">codecsettings</span> <span class="o">=</span> <span class="s2">&quot;-quality good -speed 3 -c:v vp9 -profile:v </span><span class="si">{profile}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">profile</span><span class="o">=</span><span class="n">profile</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">passes</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+
+        <span class="k">return</span> <span class="n">ffmpeg_base_command</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">inputfile</span><span class="o">=</span><span class="n">inputfile</span><span class="p">,</span>
+            <span class="n">codecsettings</span><span class="o">=</span><span class="n">codecsettings</span><span class="p">,</span>
+            <span class="n">bitrate</span><span class="o">=</span><span class="n">bitrate</span><span class="p">,</span>
+            <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+            <span class="n">framerate</span><span class="o">=</span><span class="n">framerate</span><span class="p">,</span>
+            <span class="n">outputfilename</span><span class="o">=</span><span class="n">outputfilename</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">generic_two_pass</span><span class="p">(</span>
+        <span class="n">inputfile</span><span class="p">,</span>
+        <span class="n">bitrate</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="p">,</span>
+        <span class="n">framerate</span><span class="p">,</span>
+        <span class="n">outputfilename</span><span class="p">,</span>
+        <span class="n">profile</span><span class="p">,</span>
+        <span class="n">logfile</span><span class="p">,</span>
+        <span class="n">ffmpeg_base_command</span><span class="p">,</span>
+        <span class="n">codecsettings</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="build_ffmpeg_command"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.build_ffmpeg_command">[docs]</a><span class="k">def</span> <span class="nf">build_ffmpeg_command</span><span class="p">(</span><span class="n">pvs</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates strings out of PVS information for running a ffmpeg instances in a separate shell</span>
+<span class="sd">    :param pvs: complete PVS (= dict)</span>
+<span class="sd">    :return: return built string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Read metadata from files</span>
+    <span class="n">src_lst</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;ffmpeg&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FFmpegMissingError</span><span class="p">(</span>
+            <span class="s2">&quot;you do not have ffmpeg installed, please find a creative way for getting it started.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">ffmpeg_base_command</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;ffmpeg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-hide_banner&quot;</span><span class="p">,</span>  <span class="c1"># display less information when ffmpeg initialises</span>
+        <span class="s2">&quot;-loglevel error&quot;</span><span class="p">,</span>  <span class="c1"># show only ffmpeg errors</span>
+        <span class="s2">&quot;-y&quot;</span><span class="p">,</span>  <span class="c1"># auto overwrite if file exists</span>
+        <span class="s2">&quot;-i </span><span class="si">{inputfile}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># input video file name</span>
+        <span class="s2">&quot;</span><span class="si">{codecsettings}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># codec settings</span>
+        <span class="s2">&quot;-b:v </span><span class="si">{bitrate}</span><span class="s2">k&quot;</span><span class="p">,</span>  <span class="c1"># used video bitrate</span>
+        <span class="s2">&quot;-vf scale=-2:</span><span class="si">{resolution}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># rescale to specific resolution</span>
+        <span class="s2">&quot;-r </span><span class="si">{framerate}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># defined framerate</span>
+        <span class="s2">&quot;-an&quot;</span><span class="p">,</span>  <span class="c1"># remove audio streams, replace with &quot;-c:a copy&quot; to copy it</span>
+        <span class="s2">&quot;</span><span class="si">{outputfilename}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># name of output file</span>
+    <span class="p">]</span>
+
+    <span class="n">implemented_codecs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;h264&quot;</span><span class="p">:</span> <span class="n">h264_encoding</span><span class="p">,</span>
+        <span class="s2">&quot;hevc&quot;</span><span class="p">:</span> <span class="n">hevc_encoding</span><span class="p">,</span>
+        <span class="s2">&quot;vp9&quot;</span><span class="p">:</span> <span class="n">vp9_encoding</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">required_codec</span> <span class="o">=</span> <span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">required_codec</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">implemented_codecs</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">MissingCodecImplementationException</span><span class="p">(</span>
+            <span class="s2">&quot;your selected codec </span><span class="si">{}</span><span class="s2"> is not implemented so far, add it or cry&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">required_codec</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">basefilename</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">,</span>
+                <span class="p">[</span>
+                    <span class="n">src_lst</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;targetBitrate&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;kbps&quot;</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;fps&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;fps&quot;</span><span class="p">,</span>
+                    <span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;resolution&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;p&quot;</span><span class="p">,</span>
+                    <span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;passes&quot;</span><span class="p">],</span>
+                <span class="p">],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="s2">&quot;.mkv&quot;</span>
+    <span class="p">)</span>  <span class="c1"># out filename + container type (e,g. `Beauty-h264-baseline-3750kbps-60fps-720p.mkv`)</span>
+
+    <span class="n">output_filename</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">basefilename</span>
+
+    <span class="n">logfile</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;./logs/&quot;</span> <span class="o">+</span> <span class="n">output_filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_log.log&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">ff_command</span> <span class="o">=</span> <span class="n">implemented_codecs</span><span class="p">[</span><span class="n">required_codec</span><span class="p">](</span>
+        <span class="n">inputfile</span><span class="o">=</span><span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">],</span>
+        <span class="n">bitrate</span><span class="o">=</span><span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;targetBitrate&quot;</span><span class="p">],</span>
+        <span class="n">resolution</span><span class="o">=</span><span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;resolution&quot;</span><span class="p">],</span>
+        <span class="n">framerate</span><span class="o">=</span><span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;fps&quot;</span><span class="p">],</span>
+        <span class="n">outputfilename</span><span class="o">=</span><span class="n">output_filename</span><span class="p">,</span>
+        <span class="n">profile</span><span class="o">=</span><span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;profile&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">passes</span><span class="o">=</span><span class="n">pvs</span><span class="p">[</span><span class="s2">&quot;passes&quot;</span><span class="p">],</span>
+        <span class="n">logfile</span><span class="o">=</span><span class="n">logfile</span><span class="p">,</span>
+        <span class="n">ffmpeg_base_command</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ffmpeg_base_command</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">ff_command</span></div>
+
+
+<div class="viewcode-block" id="build_commands_to_convert_to_4k_and_lossless"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.build_commands_to_convert_to_4k_and_lossless">[docs]</a><span class="k">def</span> <span class="nf">build_commands_to_convert_to_4k_and_lossless</span><span class="p">(</span>
+    <span class="n">processes_video_dir</span><span class="p">,</span> <span class="n">lossless_output_dir</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; read all files in processes_video_dir and create commands to convert</span>
+<span class="sd">        to 4k resolution and lossless codec</span>
+
+<span class="sd">    TODO: check if still required</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># global settings for each lossless encoded sequence,</span>
+    <span class="c1"># TODO(stg7) needs to be modified manually find a better way</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;pixel_format&quot;</span><span class="p">:</span> <span class="s2">&quot;yuv422p10le&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;infile&quot;</span><span class="p">:</span> <span class="s2">&quot;infile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="s2">&quot;-2:2160&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;outputfile&quot;</span><span class="p">:</span> <span class="s2">&quot;outputfile&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;codec&quot;</span><span class="p">:</span> <span class="s2">&quot;ffvhuff&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">base_cmd</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;ffmpeg -i &quot;</span><span class="si">{infile}</span><span class="s2">&quot; -y -c:v </span><span class="si">{codec}</span><span class="s2"> -vf scale=</span><span class="si">{scale}</span><span class="s2"> -pix_fmt </span><span class="si">{pixel_format}</span><span class="s2"> &quot;</span><span class="si">{outputfile}</span><span class="s2">&quot; -pix_fmt </span><span class="si">{pixel_format}</span><span class="s2">&quot;&quot;&quot;</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">lossless_output_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">commands</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">infile</span> <span class="ow">in</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_files</span><span class="p">(</span><span class="n">processes_video_dir</span><span class="p">):</span>
+        <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;infile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">infile</span>
+        <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;outputfile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">infile</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="n">processes_video_dir</span><span class="p">,</span> <span class="n">lossless_output_dir</span>
+        <span class="p">)</span>
+        <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">base_cmd</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">settings</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">commands</span></div>
+
+
+<div class="viewcode-block" id="analyze_video_file"><a class="viewcode-back" href="../../../api.html#quat.ff.encoder.analyze_video_file">[docs]</a><span class="k">def</span> <span class="nf">analyze_video_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; run ffprobe to get some information of a given video file</span>
+<span class="sd">    TODO: check if still required</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;ffprobe&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FFprobeMissingException</span><span class="p">(</span>
+            <span class="s2">&quot;you need to have ffprobe installed, please read README.md.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">NoValidVideoFileException</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is not a valid file&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;ffprobe -show_format -select_streams v:0 -show_streams -of json </span><span class="si">{filename}</span><span class="s2"> 2&gt;/dev/null&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">filename</span><span class="o">=</span><span class="n">filename</span>
+    <span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">shell_call</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> is somehow not valid, so ffprobe could not extract anything&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">filename</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">needed</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;pix_fmt&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bits_per_raw_sample&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;avg_frame_rate&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;streams&quot;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">needed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+                <span class="n">needed</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">stream</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="s2">&quot;avg_frame_rate&quot;</span><span class="p">:</span>  <span class="c1"># convert framerate to numeric integer value</span>
+                    <span class="n">needed</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">needed</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+    <span class="n">needed</span><span class="p">[</span><span class="s2">&quot;target_bitrate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bit_rate&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">needed</span><span class="p">[</span><span class="s2">&quot;processed_video_sequence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">needed</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;this is just a lib&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2019, Steve Göring.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

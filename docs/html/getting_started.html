@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Getting started</title>
+    
+      <link rel="stylesheet" href="_static/pygments.css">
+      <link rel="stylesheet" href="_static/theme.css">
+      <link rel="stylesheet" href="_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+      
+      <script src="_static/theme-vendors.js"></script>
+      <script src="_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+  <link rel="next" title="Examples" href="examples.html" />
+  <link rel="prev" title="quat – video/image quality analysis" href="index.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="index.html" class="home-link">
+    
+      <span class="site-name">quat</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="index.html#projects-using-quat">Contents:</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">Getting started</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#hello-quat" class="reference internal">Hello quat</a></li>
+                
+                  <li class="toctree-l2"><a href="#reading-a-video" class="reference internal">Reading a video</a></li>
+                
+                  <li class="toctree-l2"><a href="#included-command-line-tools" class="reference internal">Included command line tools</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="examples.html" class="reference internal ">Examples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="api.html" class="reference internal ">API documentation</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+    
+    <li>Getting started</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="index.html"
+       title="previous chapter">← quat – video/image quality analysis</a>
+  </li>
+  <li class="next">
+    <a href="examples.html"
+       title="next chapter">Examples →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <div class="section" id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>First you need to install the following requirements</p>
+<ul class="simple">
+<li><p>python3 (&gt;=3.6.1)</p></li>
+<li><p>pip3</p></li>
+<li><p>ffmpeg (&gt;=3.4.4)</p></li>
+<li><p>poetry</p></li>
+</ul>
+<p>Install it, e.g. using your favorite package-manager, in case of Ubuntu &gt;=18.04 use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install python3 ffmpeg python3-pip
+pip3 install --user poetry
+</pre></div>
+</div>
+<p>Clone the <cite>quat</cite> repository, move inside the repository and then you can install <cite>quat</cite> using pip3 via:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry build
+pip3 install dist/*.whl
+</pre></div>
+</div>
+<p>Beside this you can also just use <cite>quat</cite> with the poetry tool.</p>
+<div class="section" id="hello-quat">
+<h2>Hello <cite>quat</cite><a class="headerlink" href="#hello-quat" title="Permalink to this headline">¶</a></h2>
+<p>Open the python3 shell and run the following code.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">quat.log</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">lInfo</span><span class="p">(</span><span class="s2">&quot;Hello quat&quot;</span><span class="p">)</span>
+<span class="n">lError</span><span class="p">(</span><span class="s2">&quot;an error?&quot;</span><span class="p">)</span>
+<span class="n">jprint</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>If there are no errors happening, than <cite>quat</cite> was successfully installed.</p>
+</div>
+<div class="section" id="reading-a-video">
+<h2>Reading a video<a class="headerlink" href="#reading-a-video" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">quat.log</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">quat.video</span> <span class="kn">import</span> <span class="n">iterate_by_frame</span>
+<span class="kn">from</span> <span class="nn">quat.visual.base_features</span> <span class="kn">import</span> <span class="n">SiFeatures</span>
+
+<span class="n">si</span> <span class="o">=</span> <span class="n">SiFeatures</span><span class="p">()</span>
+<span class="n">video</span> <span class="o">=</span> <span class="s2">&quot;path/to/video&quot;</span>
+<span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">iterate_by_frame</span><span class="p">(</span><span class="n">video</span><span class="p">):</span>
+    <span class="n">lInfo</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">jprint</span><span class="p">({</span><span class="s2">&quot;si&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="included-command-line-tools">
+<h2>Included command line tools<a class="headerlink" href="#included-command-line-tools" title="Permalink to this headline">¶</a></h2>
+<p>All of the following command line tools are globally available after installation of <cite>quat</cite>, see also <a class="reference internal" href="api.html#module-tools"><span class="std std-ref">module tools</span></a></p>
+<ul class="simple">
+<li><p>siti : calculation of siti feature values for a given video</p></li>
+<li><p>do_parallel : perform parallel tasks</p></li>
+<li><p>do_parallel_by_file : perform parallel tasks</p></li>
+<li><p>extract_cuts : extract scene cuts of a given video</p></li>
+<li><p>psnr : calculates psnr for a distorted and source video.</p></li>
+</ul>
+<p>All command line tools can be started with <cite>poetry run</cite>.</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="index.html"
+       title="previous chapter">← quat – video/image quality analysis</a>
+  </li>
+  <li class="next">
+    <a href="examples.html"
+       title="next chapter">Examples →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2019, Steve Göring.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>API documentation</title>
+    
+      <link rel="stylesheet" href="_static/pygments.css">
+      <link rel="stylesheet" href="_static/theme.css">
+      <link rel="stylesheet" href="_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+      
+      <script src="_static/theme-vendors.js"></script>
+      <script src="_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+  <link rel="prev" title="Examples" href="examples.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="index.html" class="home-link">
+    
+      <span class="site-name">quat</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="index.html#projects-using-quat">Contents:</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 "><a href="getting_started.html" class="reference internal ">Getting started</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="examples.html" class="reference internal ">Examples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">API documentation</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#module-quat.video" class="reference internal">video.py</a></li>
+                
+                  <li class="toctree-l2"><a href="#module-quat.log" class="reference internal">log.py</a></li>
+                
+                  <li class="toctree-l2"><a href="#module-quat.parallel" class="reference internal">parallel.py</a></li>
+                
+                  <li class="toctree-l2"><a href="#module-quat.unsorted" class="reference internal">unsorted.py</a></li>
+                
+                  <li class="toctree-l2"><a href="#module-ff" class="reference internal">module ff</a></li>
+                
+                  <li class="toctree-l2"><a href="#module-ml" class="reference internal">module ml</a></li>
+                
+                  <li class="toctree-l2"><a href="#module-tools" class="reference internal">module tools</a></li>
+                
+                  <li class="toctree-l2"><a href="#module-utils" class="reference internal">module utils</a></li>
+                
+                  <li class="toctree-l2"><a href="#module-visual" class="reference internal">module visual</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+    
+    <li>API documentation</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="examples.html"
+       title="previous chapter">← Examples</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <div class="section" id="api-documentation">
+<h1>API documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Overview of all methods included in <cite>quat</cite>.</p>
+<div class="section" id="module-quat.video">
+<span id="video-py"></span><h2>video.py<a class="headerlink" href="#module-quat.video" title="Permalink to this headline">¶</a></h2>
+<p>General video helper</p>
+<dl class="py function">
+<dt id="quat.video.advanced_pooling">
+<code class="sig-prename descclassname">quat.video.</code><code class="sig-name descname">advanced_pooling</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">parts</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">stats</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">minimal</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/video.html#advanced_pooling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.video.advanced_pooling" title="Permalink to this definition">¶</a></dt>
+<dd><p>advanced_pooling temporal pooling method,</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.video.calc_per_second_scores">
+<code class="sig-prename descclassname">quat.video.</code><code class="sig-name descname">calc_per_second_scores</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">per_frame_scores</span></em>, <em class="sig-param"><span class="n">segment_duration</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/video.html#calc_per_second_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.video.calc_per_second_scores" title="Permalink to this definition">¶</a></dt>
+<dd><p>converts per frame scores to per second scores, using mean values per second</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.video.iterate_by_frame">
+<code class="sig-prename descclassname">quat.video.</code><code class="sig-name descname">iterate_by_frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_filename</span></em>, <em class="sig-param"><span class="n">convert</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/video.html#iterate_by_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.video.iterate_by_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>iterator over all frames a video given by <cite>video_filename</cite>,
+if convert is true, than a conversion to uint will be performed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – filename of a video file</p></li>
+<li><p><strong>convert</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if true performs a 8 bit conversion of each frame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>interator for all video frames</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.video.iterate_by_frame_two_videos">
+<code class="sig-prename descclassname">quat.video.</code><code class="sig-name descname">iterate_by_frame_two_videos</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">distortedvideo</span></em>, <em class="sig-param"><span class="n">referencevideo</span></em>, <em class="sig-param"><span class="n">convert</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/video.html#iterate_by_frame_two_videos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.video.iterate_by_frame_two_videos" title="Permalink to this definition">¶</a></dt>
+<dd><p>interates over a pair of videos (distortedvideo, referencevideo) and returns pairs of frames (dis_frame, ref_frame),
+if convert is true, uint conversion will be performed,
+Important, if videos don’t have the same number of frames it will stop after min(frames(dis), frames(ref)) frames.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.video.read_videos_frame_by_frame">
+<code class="sig-prename descclassname">quat.video.</code><code class="sig-name descname">read_videos_frame_by_frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">distortedvideo</span></em>, <em class="sig-param"><span class="n">referencevideo</span></em>, <em class="sig-param"><span class="n">per_frame_function</span></em>, <em class="sig-param"><span class="n">per_frame_function_additional_params</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">stepsize</span><span class="o">=</span><span class="default_value">15</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/video.html#read_videos_frame_by_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.video.read_videos_frame_by_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>read two videos frame by frame, and perform a function with parameters on each pair of frames</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.log">
+<span id="log-py"></span><h2>log.py<a class="headerlink" href="#module-quat.log" title="Permalink to this headline">¶</a></h2>
+<p>Logging helpers</p>
+<dl class="py function">
+<dt id="quat.log.colorgreen">
+<code class="sig-prename descclassname">quat.log.</code><code class="sig-name descname">colorgreen</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">m</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/log.html#colorgreen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.log.colorgreen" title="Permalink to this definition">¶</a></dt>
+<dd><p>return m with colored green code, only for linux</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.log.colorred">
+<code class="sig-prename descclassname">quat.log.</code><code class="sig-name descname">colorred</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">m</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/log.html#colorred"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.log.colorred" title="Permalink to this definition">¶</a></dt>
+<dd><p>return m with colored red code, only for linux</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.log.jPrint">
+<code class="sig-prename descclassname">quat.log.</code><code class="sig-name descname">jPrint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/log.html#jPrint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.log.jPrint" title="Permalink to this definition">¶</a></dt>
+<dd><p>renamed version of jprint</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.log.jprint">
+<code class="sig-prename descclassname">quat.log.</code><code class="sig-name descname">jprint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/log.html#jprint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.log.jprint" title="Permalink to this definition">¶</a></dt>
+<dd><p>prints an object <cite>x</cite> as json formatted to stdout</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.log.lDbg">
+<code class="sig-prename descclassname">quat.log.</code><code class="sig-name descname">lDbg</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/log.html#lDbg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.log.lDbg" title="Permalink to this definition">¶</a></dt>
+<dd><p>prints <cite>msg</cite> as debug log message</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.log.lError">
+<code class="sig-prename descclassname">quat.log.</code><code class="sig-name descname">lError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/log.html#lError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.log.lError" title="Permalink to this definition">¶</a></dt>
+<dd><p>prints <cite>msg</cite> as error log message</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.log.lInfo">
+<code class="sig-prename descclassname">quat.log.</code><code class="sig-name descname">lInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/log.html#lInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.log.lInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>prints <cite>msg</cite> as info log message</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.log.lWarn">
+<code class="sig-prename descclassname">quat.log.</code><code class="sig-name descname">lWarn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/log.html#lWarn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.log.lWarn" title="Permalink to this definition">¶</a></dt>
+<dd><p>prints <cite>msg</cite> as warning log message</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.parallel">
+<span id="parallel-py"></span><h2>parallel.py<a class="headerlink" href="#module-quat.parallel" title="Permalink to this headline">¶</a></h2>
+<p>Helpers for parallel processing</p>
+<dl class="py function">
+<dt id="quat.parallel.run_parallel">
+<code class="sig-prename descclassname">quat.parallel.</code><code class="sig-name descname">run_parallel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">items</span></em>, <em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">arguments</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">num_cpus</span><span class="o">=</span><span class="default_value">8</span></em>, <em class="sig-param"><span class="n">multi_item</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/parallel.html#run_parallel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.parallel.run_parallel" title="Permalink to this definition">¶</a></dt>
+<dd><p>run a function call parallel, for each item</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>items</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – list of items passed to function</p></li>
+<li><p><strong>function</strong> (<em>function name</em>) – function that should be applied on each item</p></li>
+<li><p><strong>arguments</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – constant arguments that are passed to function</p></li>
+<li><p><strong>num_cpus</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of cpu’s that should be used</p></li>
+<li><p><strong>multi_item</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – in case multi_item is true, it is assumed each item is a list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>results of function performed on all items as a list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.parallel.run_parallel_by_grouping">
+<code class="sig-prename descclassname">quat.parallel.</code><code class="sig-name descname">run_parallel_by_grouping</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">items</span></em>, <em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">arguments</span></em>, <em class="sig-param"><span class="n">num_cpus</span><span class="o">=</span><span class="default_value">8</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/parallel.html#run_parallel_by_grouping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.parallel.run_parallel_by_grouping" title="Permalink to this definition">¶</a></dt>
+<dd><p>devides items to num_cpus groups and
+applies function with each group + arguments in parallel threads</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.unsorted">
+<span id="unsorted-py"></span><h2>unsorted.py<a class="headerlink" href="#module-quat.unsorted" title="Permalink to this headline">¶</a></h2>
+<p>Unsorted methods</p>
+<dl class="py function">
+<dt id="quat.unsorted.align_vectors">
+<code class="sig-prename descclassname">quat.unsorted.</code><code class="sig-name descname">align_vectors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/unsorted.html#align_vectors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.unsorted.align_vectors" title="Permalink to this definition">¶</a></dt>
+<dd><p>align the length of two vectors <cite>x</cite> and <cite>y</cite> using the min length of both</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.unsorted.create_colormap">
+<code class="sig-prename descclassname">quat.unsorted.</code><code class="sig-name descname">create_colormap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">mid</span></em>, <em class="sig-param"><span class="n">end</span></em>, <em class="sig-param"><span class="n">steps</span><span class="o">=</span><span class="default_value">256</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/unsorted.html#create_colormap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.unsorted.create_colormap" title="Permalink to this definition">¶</a></dt>
+<dd><p>creates a color map between three color points using
+<cite>steps</cite> intermediate colors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>)</em>) – defined start color as tuple (R, G, B)</p></li>
+<li><p><strong>mid</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>)</em>) – defined middle color as tuple (R, G, B)</p></li>
+<li><p><strong>end</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>)</em>) – defined end color as tuple (R, G, B)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of in total <cite>steps</cite> colors statring from start, to mid, to end</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.unsorted.jdump_file">
+<code class="sig-prename descclassname">quat.unsorted.</code><code class="sig-name descname">jdump_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">jo</span></em>, <em class="sig-param"><span class="n">printing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/unsorted.html#jdump_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.unsorted.jdump_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>dump a json file to a filename</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.unsorted.p_bar">
+<code class="sig-prename descclassname">quat.unsorted.</code><code class="sig-name descname">p_bar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em>, <em class="sig-param"><span class="n">total</span><span class="o">=</span><span class="default_value">100</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/unsorted.html#p_bar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.unsorted.p_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>progress bar
+TODO: mark that this is an internal function</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.unsorted.powerset">
+<code class="sig-prename descclassname">quat.unsorted.</code><code class="sig-name descname">powerset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/unsorted.html#powerset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.unsorted.powerset" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns powerset of an iterable,</p>
+<p>powerset([1,2,3]) –&gt; () (1) (2) (3) (1,2) (1,3) (2,3) (1,2,3)
+from: <a class="reference external" href="https://stackoverflow.com/a/16915734">https://stackoverflow.com/a/16915734</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.unsorted.progress_bar">
+<code class="sig-prename descclassname">quat.unsorted.</code><code class="sig-name descname">progress_bar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em>, <em class="sig-param"><span class="n">max</span><span class="o">=</span><span class="default_value">100</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/unsorted.html#progress_bar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.unsorted.progress_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>run progress bar on iterable</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.unsorted.timeit">
+<code class="sig-prename descclassname">quat.unsorted.</code><code class="sig-name descname">timeit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/unsorted.html#timeit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.unsorted.timeit" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the required time for a function call as information on stdout, via lInfo</p>
+<p>example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@timeit</span>
+<span class="k">def</span> <span class="nf">myfunction</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">42</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">anotherfucntion</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">23</span>
+
+<span class="n">timeit</span><span class="p">(</span><span class="n">anotherfucntion</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ff">
+<h2>module ff<a class="headerlink" href="#module-ff" title="Permalink to this headline">¶</a></h2>
+<p>ffmpeg and ffprobe related helper</p>
+<div class="section" id="module-quat.ff.segmenter">
+<span id="segmenting"></span><h3>segmenting<a class="headerlink" href="#module-quat.ff.segmenter" title="Permalink to this headline">¶</a></h3>
+<p>Tools to segment videos</p>
+<p>TODO: check dash_encoder.py</p>
+<dl class="py function">
+<dt id="quat.ff.segmenter.create_segments">
+<code class="sig-prename descclassname">quat.ff.segmenter.</code><code class="sig-name descname">create_segments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">videofilename</span></em>, <em class="sig-param"><span class="n">output_folder</span></em>, <em class="sig-param"><span class="n">segment_time</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/segmenter.html#create_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.segmenter.create_segments" title="Permalink to this definition">¶</a></dt>
+<dd><p>segment a video and store segments in a folder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>videofilename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – video filename that should be segmented</p></li>
+<li><p><strong>output_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – store segments in this folder, folder will be created if it doesn’t exists</p></li>
+<li><p><strong>segment_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – length of video segments in seconds</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a list of all generated segment filenames</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.ff.probe">
+<span id="ffprobe"></span><h3>ffprobe<a class="headerlink" href="#module-quat.ff.probe" title="Permalink to this headline">¶</a></h3>
+<p>ffprobe related helpers</p>
+<dl class="py function">
+<dt id="quat.ff.probe.ffprobe">
+<code class="sig-prename descclassname">quat.ff.probe.</code><code class="sig-name descname">ffprobe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/probe.html#ffprobe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.probe.ffprobe" title="Permalink to this definition">¶</a></dt>
+<dd><p>run ffprobe to get some information of a given video file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.probe.ffprobe_framesizes_types">
+<code class="sig-prename descclassname">quat.ff.probe.</code><code class="sig-name descname">ffprobe_framesizes_types</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/probe.html#ffprobe_framesizes_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.probe.ffprobe_framesizes_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>run ffprobe to get some frame information of a given video file</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.ff.encoder">
+<span id="encoding"></span><h3>encoding<a class="headerlink" href="#module-quat.ff.encoder" title="Permalink to this headline">¶</a></h3>
+<p>Collected python methods for building up automated ffmpeg commands</p>
+<dl class="py exception">
+<dt id="quat.ff.encoder.FFmpegMissingError">
+<em class="property">exception </em><code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">FFmpegMissingError</code><a class="reference internal" href="_modules/quat/ff/encoder.html#FFmpegMissingError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.FFmpegMissingError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt id="quat.ff.encoder.FFprobeMissingException">
+<em class="property">exception </em><code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">FFprobeMissingException</code><a class="reference internal" href="_modules/quat/ff/encoder.html#FFprobeMissingException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.FFprobeMissingException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt id="quat.ff.encoder.MissingCodecImplementationException">
+<em class="property">exception </em><code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">MissingCodecImplementationException</code><a class="reference internal" href="_modules/quat/ff/encoder.html#MissingCodecImplementationException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.MissingCodecImplementationException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt id="quat.ff.encoder.NoValidVideoFileException">
+<em class="property">exception </em><code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">NoValidVideoFileException</code><a class="reference internal" href="_modules/quat/ff/encoder.html#NoValidVideoFileException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.NoValidVideoFileException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.encoder.analyze_video_file">
+<code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">analyze_video_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/encoder.html#analyze_video_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.analyze_video_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>run ffprobe to get some information of a given video file
+TODO: check if still required</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.encoder.build_commands_to_convert_to_4k_and_lossless">
+<code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">build_commands_to_convert_to_4k_and_lossless</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">processes_video_dir</span></em>, <em class="sig-param"><span class="n">lossless_output_dir</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/encoder.html#build_commands_to_convert_to_4k_and_lossless"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.build_commands_to_convert_to_4k_and_lossless" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>read all files in processes_video_dir and create commands to convert</dt><dd><p>to 4k resolution and lossless codec</p>
+</dd>
+</dl>
+<p>TODO: check if still required</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.encoder.build_ffmpeg_command">
+<code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">build_ffmpeg_command</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pvs</span></em>, <em class="sig-param"><span class="n">output_dir</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/encoder.html#build_ffmpeg_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.build_ffmpeg_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates strings out of PVS information for running a ffmpeg instances in a separate shell
+:param pvs: complete PVS (= dict)
+:return: return built string</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.encoder.generic_two_pass">
+<code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">generic_two_pass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputfile</span></em>, <em class="sig-param"><span class="n">bitrate</span></em>, <em class="sig-param"><span class="n">resolution</span></em>, <em class="sig-param"><span class="n">framerate</span></em>, <em class="sig-param"><span class="n">outputfilename</span></em>, <em class="sig-param"><span class="n">profile</span></em>, <em class="sig-param"><span class="n">logfile</span></em>, <em class="sig-param"><span class="n">ffmpeg_base_command</span></em>, <em class="sig-param"><span class="n">codecsettings</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/encoder.html#generic_two_pass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.generic_two_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>a general two pass command building, e.g. for vp9 and h264 usable</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.encoder.h264_encoding">
+<code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">h264_encoding</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputfile</span></em>, <em class="sig-param"><span class="n">bitrate</span></em>, <em class="sig-param"><span class="n">resolution</span></em>, <em class="sig-param"><span class="n">framerate</span></em>, <em class="sig-param"><span class="n">outputfilename</span></em>, <em class="sig-param"><span class="n">profile</span></em>, <em class="sig-param"><span class="n">passes</span></em>, <em class="sig-param"><span class="n">logfile</span></em>, <em class="sig-param"><span class="n">ffmpeg_base_command</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/encoder.html#h264_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.h264_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>h264 encoding</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.encoder.hevc_encoding">
+<code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">hevc_encoding</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputfile</span></em>, <em class="sig-param"><span class="n">bitrate</span></em>, <em class="sig-param"><span class="n">resolution</span></em>, <em class="sig-param"><span class="n">framerate</span></em>, <em class="sig-param"><span class="n">outputfilename</span></em>, <em class="sig-param"><span class="n">profile</span></em>, <em class="sig-param"><span class="n">passes</span></em>, <em class="sig-param"><span class="n">logfile</span></em>, <em class="sig-param"><span class="n">ffmpeg_base_command</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/encoder.html#hevc_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.hevc_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>specific handling of hevc encoding settings</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.encoder.vp9_encoding">
+<code class="sig-prename descclassname">quat.ff.encoder.</code><code class="sig-name descname">vp9_encoding</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputfile</span></em>, <em class="sig-param"><span class="n">bitrate</span></em>, <em class="sig-param"><span class="n">resolution</span></em>, <em class="sig-param"><span class="n">framerate</span></em>, <em class="sig-param"><span class="n">outputfilename</span></em>, <em class="sig-param"><span class="n">profile</span></em>, <em class="sig-param"><span class="n">passes</span></em>, <em class="sig-param"><span class="n">logfile</span></em>, <em class="sig-param"><span class="n">ffmpeg_base_command</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/encoder.html#vp9_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.encoder.vp9_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate settings for vp9 encoding</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.ff.convert">
+<span id="converting"></span><h3>converting<a class="headerlink" href="#module-quat.ff.convert" title="Permalink to this headline">¶</a></h3>
+<p>ffmpeg methods to convert, rescale, and center crop a given video</p>
+<dl class="py function">
+<dt id="quat.ff.convert.check_ffmpeg">
+<code class="sig-prename descclassname">quat.ff.convert.</code><code class="sig-name descname">check_ffmpeg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/convert.html#check_ffmpeg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.convert.check_ffmpeg" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks if ffmpeg is installed in the system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>true if ffmpeg can be used, otherwise an Exception is thrown</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.convert.convert_to_avpvs">
+<code class="sig-prename descclassname">quat.ff.convert.</code><code class="sig-name descname">convert_to_avpvs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_file</span></em>, <em class="sig-param"><span class="n">tmp_folder</span></em>, <em class="sig-param"><span class="n">framerate</span><span class="o">=</span><span class="default_value">'60/1'</span></em>, <em class="sig-param"><span class="n">width</span><span class="o">=</span><span class="default_value">3840</span></em>, <em class="sig-param"><span class="n">height</span><span class="o">=</span><span class="default_value">- 2</span></em>, <em class="sig-param"><span class="n">pix_fmt</span><span class="o">=</span><span class="default_value">'yuv422p10le'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/convert.html#convert_to_avpvs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.convert.convert_to_avpvs" title="Permalink to this definition">¶</a></dt>
+<dd><p>converts a video to a unified resolution, framerate and pixel format,
+can be used, e.g. in case of a full reference model, to unify a distorted video with the source video</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – input video file</p></li>
+<li><p><strong>tmp_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – folder where converted video is stored</p></li>
+<li><p><strong>framerate</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – framerate of final video</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – width of final video</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – height of final video, use -2 to automatically determine height based on width</p></li>
+<li><p><strong>pix_fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – pixel format of final video</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>filename and path of the converted video</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.convert.convert_to_avpvs_and_crop">
+<code class="sig-prename descclassname">quat.ff.convert.</code><code class="sig-name descname">convert_to_avpvs_and_crop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_file</span></em>, <em class="sig-param"><span class="n">tmp_folder</span></em>, <em class="sig-param"><span class="n">framerate</span><span class="o">=</span><span class="default_value">'60/1'</span></em>, <em class="sig-param"><span class="n">width</span><span class="o">=</span><span class="default_value">3840</span></em>, <em class="sig-param"><span class="n">height</span><span class="o">=</span><span class="default_value">- 2</span></em>, <em class="sig-param"><span class="n">pix_fmt</span><span class="o">=</span><span class="default_value">'yuv422p10le'</span></em>, <em class="sig-param"><span class="n">ccheight</span><span class="o">=</span><span class="default_value">360</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/convert.html#convert_to_avpvs_and_crop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.convert.convert_to_avpvs_and_crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>converts a video to a unified resolution, framerate and pixel format and
+performs afterwards a center cropping
+can be used, e.g. in case of a full reference model, to unify a distorted video with the source video</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – input video file</p></li>
+<li><p><strong>tmp_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – folder where converted video is stored</p></li>
+<li><p><strong>framerate</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – framerate of final video</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – width of final video</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – height of final video, use -2 to automatically determine height based on width</p></li>
+<li><p><strong>pix_fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – pixel format of final video</p></li>
+<li><p><strong>ccheight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – center crop height of final crop</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>filename and path of the converted and center cropped video</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.convert.crop_video">
+<code class="sig-prename descclassname">quat.ff.convert.</code><code class="sig-name descname">crop_video</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_file</span></em>, <em class="sig-param"><span class="n">tmp_folder</span></em>, <em class="sig-param"><span class="n">ccheight</span><span class="o">=</span><span class="default_value">360</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/convert.html#crop_video"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.convert.crop_video" title="Permalink to this definition">¶</a></dt>
+<dd><p>create a center cropped version of a video</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – input video file</p></li>
+<li><p><strong>tmp_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – folder where center cropped version is store, this version gets “_cropped.mkv” as suffix</p></li>
+<li><p><strong>ccheight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – default=360, height of the center crop</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>filename and path of generated center cropped video</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ff.convert.rescale_video">
+<code class="sig-prename descclassname">quat.ff.convert.</code><code class="sig-name descname">rescale_video</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_file</span></em>, <em class="sig-param"><span class="n">tmp_folder</span></em>, <em class="sig-param"><span class="n">height</span><span class="o">=</span><span class="default_value">360</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/convert.html#rescale_video"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.convert.rescale_video" title="Permalink to this definition">¶</a></dt>
+<dd><p>rescales a given video</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.ff.recorder">
+<span id="recording"></span><h3>recording<a class="headerlink" href="#module-quat.ff.recorder" title="Permalink to this headline">¶</a></h3>
+<p>FFmpeg based screen recorder</p>
+<p># TODO: audio is ususally not synced</p>
+<dl class="py class">
+<dt id="quat.ff.recorder.Recorder">
+<em class="property">class </em><code class="sig-prename descclassname">quat.ff.recorder.</code><code class="sig-name descname">Recorder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">resultfolder</span><span class="o">=</span><span class="default_value">'tmp'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/recorder.html#Recorder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.recorder.Recorder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ffmpeg based screen recording</p>
+<dl class="py method">
+<dt id="quat.ff.recorder.Recorder.start">
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filebasename</span></em>, <em class="sig-param"><span class="n">hardwareAcceleration</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">width</span><span class="o">=</span><span class="default_value">1366</span></em>, <em class="sig-param"><span class="n">height</span><span class="o">=</span><span class="default_value">768</span></em>, <em class="sig-param"><span class="n">fps</span><span class="o">=</span><span class="default_value">24</span></em>, <em class="sig-param"><span class="n">shift</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/recorder.html#Recorder.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.recorder.Recorder.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>starts the screen record</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filebasename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – basename of recording filename (will be extended by .mkv and stored in the recordfolder)</p></li>
+<li><p><strong>hardwareAcceleration</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if true try to used hardware acceleration for intel graphics cards (TODO: experimental)</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – recording width (screen resolution must be at least having this width)</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – recording height</p></li>
+<li><p><strong>fps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – frames per second to record</p></li>
+<li><p><strong>shift</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – ffmpeg specific shift, e.g. “+100,200” TODO: explain better</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.ff.recorder.Recorder.stop">
+<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/recorder.html#Recorder.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.recorder.Recorder.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>stop recording</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-ml">
+<h2>module ml<a class="headerlink" href="#module-ml" title="Permalink to this headline">¶</a></h2>
+<p>machine learning related methods</p>
+<div class="section" id="module-quat.ml.dim_vis">
+<span id="dimension-visualization"></span><h3>dimension visualization<a class="headerlink" href="#module-quat.ml.dim_vis" title="Permalink to this headline">¶</a></h3>
+<p>Preparation for visualisation of high dimensial data using TSNE approach</p>
+<dl class="py function">
+<dt id="quat.ml.dim_vis.learn_embedding">
+<code class="sig-prename descclassname">quat.ml.dim_vis.</code><code class="sig-name descname">learn_embedding</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">dims</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/dim_vis.html#learn_embedding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.dim_vis.learn_embedding" title="Permalink to this definition">¶</a></dt>
+<dd><p>learns an embedding based on TSNE approach with <cite>dims</cite> final dimensions, using all columns of <cite>df</cite></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.ml.gen_alg">
+<span id="genetic-evolution"></span><h3>genetic evolution<a class="headerlink" href="#module-quat.ml.gen_alg" title="Permalink to this headline">¶</a></h3>
+<p>Genetic evolution experiments, uses multiprocessing</p>
+<dl class="py class">
+<dt id="quat.ml.gen_alg.GeneticEvolution">
+<em class="property">class </em><code class="sig-prename descclassname">quat.ml.gen_alg.</code><code class="sig-name descname">GeneticEvolution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">population_size</span></em>, <em class="sig-param"><span class="n">mutation_rate</span></em>, <em class="sig-param"><span class="n">max_num_generations</span></em>, <em class="sig-param"><span class="n">individual_class</span></em>, <em class="sig-param"><span class="n">cpu_count</span><span class="o">=</span><span class="default_value">8</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">live_plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">checkpoint_folder</span><span class="o">=</span><span class="default_value">'checkpoint'</span></em>, <em class="sig-param"><span class="n">checkpoint_intervall</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#GeneticEvolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.GeneticEvolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>simple base class for genetic evolution</p>
+<dl class="py method">
+<dt id="quat.ml.gen_alg.GeneticEvolution.get_number_generations">
+<code class="sig-name descname">get_number_generations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#GeneticEvolution.get_number_generations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.GeneticEvolution.get_number_generations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.GeneticEvolution.next_generation">
+<code class="sig-name descname">next_generation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#GeneticEvolution.next_generation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.GeneticEvolution.next_generation" title="Permalink to this definition">¶</a></dt>
+<dd><p>evolve the next generation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.ml.gen_alg.HelloWorld">
+<em class="property">class </em><code class="sig-prename descclassname">quat.ml.gen_alg.</code><code class="sig-name descname">HelloWorld</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number_genes</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#HelloWorld"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.HelloWorld" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#quat.ml.gen_alg.Individual" title="quat.ml.gen_alg.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">quat.ml.gen_alg.Individual</span></code></a></p>
+<p>example individual class, starting from a random string,
+evolution will get “HelloWorld”</p>
+<dl class="py method">
+<dt id="quat.ml.gen_alg.HelloWorld.calc_fitness">
+<code class="sig-name descname">calc_fitness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#HelloWorld.calc_fitness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.HelloWorld.calc_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>in this case fitness is the difference to the target string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.HelloWorld.get_genom_as_char">
+<code class="sig-name descname">get_genom_as_char</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#HelloWorld.get_genom_as_char"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.HelloWorld.get_genom_as_char" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.HelloWorld.print">
+<code class="sig-name descname">print</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#HelloWorld.print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.HelloWorld.print" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.HelloWorld.str_genom">
+<code class="sig-name descname">str_genom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#HelloWorld.str_genom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.HelloWorld.str_genom" title="Permalink to this definition">¶</a></dt>
+<dd><p>string version of genom</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="quat.ml.gen_alg.HelloWorld.target">
+<code class="sig-name descname">target</code><em class="property"> = array([ 7, 36, 43, 43, 46, 22, 46, 49, 43, 35])</em><a class="headerlink" href="#quat.ml.gen_alg.HelloWorld.target" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.ml.gen_alg.Individual">
+<em class="property">class </em><code class="sig-prename descclassname">quat.ml.gen_alg.</code><code class="sig-name descname">Individual</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number_genes</span><span class="o">=</span><span class="default_value">42</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>base class of an individual in a genetic algorithm</p>
+<dl class="py method">
+<dt id="quat.ml.gen_alg.Individual.calc_fitness">
+<code class="sig-name descname">calc_fitness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual.calc_fitness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual.calc_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate fitness of individual</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.Individual.crossover">
+<code class="sig-name descname">crossover</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual.crossover"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual.crossover" title="Permalink to this definition">¶</a></dt>
+<dd><p>combine current individual with other,
+create a new individual (copy)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.Individual.get_fitness">
+<code class="sig-name descname">get_fitness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual.get_fitness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual.get_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>return fitness value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.Individual.get_genom">
+<code class="sig-name descname">get_genom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual.get_genom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual.get_genom" title="Permalink to this definition">¶</a></dt>
+<dd><p>return genom</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.Individual.init_genom">
+<code class="sig-name descname">init_genom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual.init_genom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual.init_genom" title="Permalink to this definition">¶</a></dt>
+<dd><p>inititalize genom of individual, with random numbers, [0,1] per default</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.Individual.mutate">
+<code class="sig-name descname">mutate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mutation_rate</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual.mutate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual.mutate" title="Permalink to this definition">¶</a></dt>
+<dd><p>based on mutation rate, change some genes,
+mutation rate is the percentage of how many genes are changes
+(randomly choosen, with repetition)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.Individual.print">
+<code class="sig-name descname">print</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual.print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual.print" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="quat.ml.gen_alg.Individual.str_genom">
+<code class="sig-name descname">str_genom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual.str_genom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual.str_genom" title="Permalink to this definition">¶</a></dt>
+<dd><p>string version of genom</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.gen_alg.main">
+<code class="sig-prename descclassname">quat.ml.gen_alg.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>example usage of the GeneticEvolution classes</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.ml.mlcore">
+<span id="classification-regression"></span><h3>classification/regression<a class="headerlink" href="#module-quat.ml.mlcore" title="Permalink to this headline">¶</a></h3>
+<p>mlcore lib for machine learning experiments, collection of regression, classification approaches</p>
+<dl class="py function">
+<dt id="quat.ml.mlcore.load_serialized">
+<code class="sig-prename descclassname">quat.ml.mlcore.</code><code class="sig-name descname">load_serialized</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename_with_path</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/mlcore.html#load_serialized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.mlcore.load_serialized" title="Permalink to this definition">¶</a></dt>
+<dd><p>load a serialized model</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.mlcore.plot_confusion_matrix">
+<code class="sig-prename descclassname">quat.ml.mlcore.</code><code class="sig-name descname">plot_confusion_matrix</code><span class="sig-paren">(</span><em class="sig-param">cm</em>, <em class="sig-param">classes</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">title='Confusion matrix'</em>, <em class="sig-param">cmap=&lt;matplotlib.colors.LinearSegmentedColormap object&gt;</em>, <em class="sig-param">folder='figures'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/mlcore.html#plot_confusion_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.mlcore.plot_confusion_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function prints and plots the confusion matrix.
+Normalization can be applied by setting <cite>normalize=True</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.mlcore.plot_confusion_matrix_new">
+<code class="sig-prename descclassname">quat.ml.mlcore.</code><code class="sig-name descname">plot_confusion_matrix_new</code><span class="sig-paren">(</span><em class="sig-param">confusion_matrix</em>, <em class="sig-param">display_labels</em>, <em class="sig-param">include_values=True</em>, <em class="sig-param">values_format=None</em>, <em class="sig-param">xticks_rotation=0</em>, <em class="sig-param">pdf=None</em>, <em class="sig-param">cmap=&lt;matplotlib.colors.LinearSegmentedColormap object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/mlcore.html#plot_confusion_matrix_new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.mlcore.plot_confusion_matrix_new" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>fig = plot_confusion_matrix(</dt><dd><p>confusion_matrix=cm_norm,
+display_labels=[“1pass”, “2pass”],
+pdf=”../figures/confusion_rf_norm.pdf”</p>
+</dd>
+</dl>
+<p>)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.mlcore.print_trees">
+<code class="sig-prename descclassname">quat.ml.mlcore.</code><code class="sig-name descname">print_trees</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pipeline</span></em>, <em class="sig-param"><span class="n">feature_columns</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'trees'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/mlcore.html#print_trees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.mlcore.print_trees" title="Permalink to this definition">¶</a></dt>
+<dd><p>exports and creates pdf/dot files for trees that are part of the pipeline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pipeline</strong> (<em>scikit learn pipeline</em>) – needs to have named_steps[“regressor”] and
+named_steps[“feature_selection”] storing all data</p></li>
+<li><p><strong>feature_columns</strong> (<em>list of str</em>) – name of feature_columns</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – folder name where all trees are finally stored</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.mlcore.save_serialized">
+<code class="sig-prename descclassname">quat.ml.mlcore.</code><code class="sig-name descname">save_serialized</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">clf</span></em>, <em class="sig-param"><span class="n">filename_with_path</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/mlcore.html#save_serialized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.mlcore.save_serialized" title="Permalink to this definition">¶</a></dt>
+<dd><p>save model to a file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.mlcore.train_dummy_class">
+<code class="sig-prename descclassname">quat.ml.mlcore.</code><code class="sig-name descname">train_dummy_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/mlcore.html#train_dummy_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.mlcore.train_dummy_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>trains a dummy classifier, x is feature matrix, y target classes</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.mlcore.train_gradboost_class">
+<code class="sig-prename descclassname">quat.ml.mlcore.</code><code class="sig-name descname">train_gradboost_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">num_trees</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">'0.001*mean'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/mlcore.html#train_gradboost_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.mlcore.train_gradboost_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>trains gradient boosting classifier with feature selection step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dictionary of gradboost –&gt; ml pipeline, crossval –&gt; crossvalidation results</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.mlcore.train_rf_multi_regression">
+<code class="sig-prename descclassname">quat.ml.mlcore.</code><code class="sig-name descname">train_rf_multi_regression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">num_trees</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">'0.001*mean'</span></em>, <em class="sig-param"><span class="n">columns</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/mlcore.html#train_rf_multi_regression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.mlcore.train_rf_multi_regression" title="Permalink to this definition">¶</a></dt>
+<dd><p>train multi instance regression, so Y is not a scalar, it is a vector</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.ml.statistics">
+<span id="statistics"></span><h3>statistics<a class="headerlink" href="#module-quat.ml.statistics" title="Permalink to this headline">¶</a></h3>
+<p>Collection of statistics methods to evauluate machine learning classification and regression.</p>
+<dl class="py function">
+<dt id="quat.ml.statistics.calc_correlations">
+<code class="sig-prename descclassname">quat.ml.statistics.</code><code class="sig-name descname">calc_correlations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">Y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/statistics.html#calc_correlations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.statistics.calc_correlations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take a data frame as input and calculate ‘pearson’, ‘kendall’, ‘spearman’ correlations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dictionary with the following keys</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pearson, kendall, spearman</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.statistics.calc_regression_metrics">
+<code class="sig-prename descclassname">quat.ml.statistics.</code><code class="sig-name descname">calc_regression_metrics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">Y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/statistics.html#calc_regression_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.statistics.calc_regression_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates several regression metrics: r2, rmse, cohen_d, mean_absolute_error, median_absolute_error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary of all metric values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.statistics.cohen_d">
+<code class="sig-prename descclassname">quat.ml.statistics.</code><code class="sig-name descname">cohen_d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">Y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/statistics.html#cohen_d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.statistics.cohen_d" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates cohen’s d measure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.statistics.cos_sim">
+<code class="sig-prename descclassname">quat.ml.statistics.</code><code class="sig-name descname">cos_sim</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/statistics.html#cos_sim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.statistics.cos_sim" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates cosine similartiy between vector x and vector y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list/np.array</em>) – </p></li>
+<li><p><strong>y</strong> (<em>list/np.array</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.statistics.mean_absolute_error">
+<code class="sig-prename descclassname">quat.ml.statistics.</code><code class="sig-name descname">mean_absolute_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">Y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/statistics.html#mean_absolute_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.statistics.mean_absolute_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates mean absolute error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.statistics.median_absolute_error">
+<code class="sig-prename descclassname">quat.ml.statistics.</code><code class="sig-name descname">median_absolute_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">Y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/statistics.html#median_absolute_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.statistics.median_absolute_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates median absolute error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.statistics.r2">
+<code class="sig-prename descclassname">quat.ml.statistics.</code><code class="sig-name descname">r2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">Y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/statistics.html#r2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.statistics.r2" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates r2 measure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.ml.statistics.rmse">
+<code class="sig-prename descclassname">quat.ml.statistics.</code><code class="sig-name descname">rmse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">Y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/statistics.html#rmse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.statistics.rmse" title="Permalink to this definition">¶</a></dt>
+<dd><p>rmse caluclation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-tools">
+<h2>module tools<a class="headerlink" href="#module-tools" title="Permalink to this headline">¶</a></h2>
+<p>some useful command line tools, that are mostly independent of <cite>quat</cite>.</p>
+<div class="section" id="module-quat.tools.do_parallel">
+<span id="do-parallel-py"></span><h3>do_parallel.py<a class="headerlink" href="#module-quat.tools.do_parallel" title="Permalink to this headline">¶</a></h3>
+<p>tool for running scripts parallel</p>
+<p>example usage:
+$ ./do_parallel.py <a href="#id1"><span class="problematic" id="id2">*</span></a>.gz –script ./whatever.sh -s</p>
+<p>the script ./whatever.sh will be called with each of the <a href="#id3"><span class="problematic" id="id4">*</span></a>.gz files</p>
+</div>
+<div class="section" id="module-quat.tools.do_parallel_by_file">
+<span id="do-parallel-by-file-py"></span><h3>do_parallel_by_file.py<a class="headerlink" href="#module-quat.tools.do_parallel_by_file" title="Permalink to this headline">¶</a></h3>
+<p>tool for running scripts parallel</p>
+<p>example usage:
+$ ./do_parallel_by_file.py commands.list</p>
+<p>where in commands.list all commandas are stored</p>
+</div>
+<div class="section" id="module-quat.tools.extract_cuts">
+<span id="extract-cuts-py"></span><h3>extract_cuts.py<a class="headerlink" href="#module-quat.tools.extract_cuts" title="Permalink to this headline">¶</a></h3>
+<p>Script for automatic detection of scene cuts in a video stream</p>
+<p>Note: specifically tuned for big bucks bunny</p>
+<p>Authors: Serge Molina, Steve Göring</p>
+<dl class="py function">
+<dt id="quat.tools.extract_cuts.cuts_iterator">
+<code class="sig-prename descclassname">quat.tools.extract_cuts.</code><code class="sig-name descname">cuts_iterator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/tools/extract_cuts.html#cuts_iterator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.tools.extract_cuts.cuts_iterator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that takes an opencv video stream and yields cuts timing when detected
+The cuts detection is based on detection of peaks in the standard
+deviation of two successive frames</p>
+<p>TODO: some parts can be replaced by cuts-feature inside quat</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.tools.extract_cuts.extract_cuts">
+<code class="sig-prename descclassname">quat.tools.extract_cuts.</code><code class="sig-name descname">extract_cuts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_filename</span></em>, <em class="sig-param"><span class="n">min_cut_duration</span></em>, <em class="sig-param"><span class="n">output_dir</span></em>, <em class="sig-param"><span class="n">cmd_filename</span></em>, <em class="sig-param"><span class="n">cpu_count</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/tools/extract_cuts.html#extract_cuts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.tools.extract_cuts.extract_cuts" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract cuts for one video</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.tools.extract_cuts.main">
+<code class="sig-prename descclassname">quat.tools.extract_cuts.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/tools/extract_cuts.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.tools.extract_cuts.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>extracts cuts of a video file</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.tools.psnr">
+<span id="psnr-py"></span><h3>psnr.py<a class="headerlink" href="#module-quat.tools.psnr" title="Permalink to this headline">¶</a></h3>
+<p>measure psnr
+TODO/FIXME: use quat methods, maybe remove</p>
+<dl class="py function">
+<dt id="quat.tools.psnr.file_open">
+<code class="sig-prename descclassname">quat.tools.psnr.</code><code class="sig-name descname">file_open</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'r'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/tools/psnr.html#file_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.tools.psnr.file_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a file, and if you add bz2 to filename a compressed file will be opened</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.tools.psnr.iterate_by_frame">
+<code class="sig-prename descclassname">quat.tools.psnr.</code><code class="sig-name descname">iterate_by_frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/tools/psnr.html#iterate_by_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.tools.psnr.iterate_by_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>iterator over all frames a video_filename</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.tools.siti">
+<span id="siti-py"></span><h3>siti.py<a class="headerlink" href="#module-quat.tools.siti" title="Permalink to this headline">¶</a></h3>
+<p>tool to extract si ti values of a given video</p>
+<p>Note: the extracted values are [0,1] normalized, due
+to a float conversion of the given video frames,
+if you need values in range [0,255], just multiply
+the extracted values by 255</p>
+<dl class="py function">
+<dt id="quat.tools.siti.extract_siti">
+<code class="sig-prename descclassname">quat.tools.siti.</code><code class="sig-name descname">extract_siti</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/tools/siti.html#extract_siti"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.tools.siti.extract_siti" title="Permalink to this definition">¶</a></dt>
+<dd><p>extracts siti values of a given video
+the resulting values are [0,1] scaled</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>video</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – filename of the video that should be processed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict of per frame results and filename</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">quat.tools.siti</span> <span class="n">extract_siti</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">extract_siti</span><span class="p">(</span><span class="s2">&quot;myvideo.mkv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-utils">
+<h2>module utils<a class="headerlink" href="#module-utils" title="Permalink to this headline">¶</a></h2>
+<p>general utils, e.g. filesystem, os related</p>
+<div class="section" id="module-quat.utils.assertions">
+<span id="assertions-py"></span><h3>assertions.py<a class="headerlink" href="#module-quat.utils.assertions" title="Permalink to this headline">¶</a></h3>
+<p>Collection of assertions helper.</p>
+<dl class="py function">
+<dt id="quat.utils.assertions.assert_dir">
+<code class="sig-prename descclassname">quat.utils.assertions.</code><code class="sig-name descname">assert_dir</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directory</span></em>, <em class="sig-param"><span class="n">withassert</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/assertions.html#assert_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.assertions.assert_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks if a dir exists</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.assertions.assert_file">
+<code class="sig-prename descclassname">quat.utils.assertions.</code><code class="sig-name descname">assert_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">withassert</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/assertions.html#assert_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.assertions.assert_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks if a file is existing</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.assertions.json_assert">
+<code class="sig-prename descclassname">quat.utils.assertions.</code><code class="sig-name descname">json_assert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">json</span></em>, <em class="sig-param"><span class="n">required_keys</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/assertions.html#json_assert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.assertions.json_assert" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks if required_keys are present in json object</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.assertions.msg_assert">
+<code class="sig-prename descclassname">quat.utils.assertions.</code><code class="sig-name descname">msg_assert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cond</span></em>, <em class="sig-param"><span class="n">message_error</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">message_ok</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/assertions.html#msg_assert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.assertions.msg_assert" title="Permalink to this definition">¶</a></dt>
+<dd><p>assert with a message for error or no error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – condition to check</p></li>
+<li><p><strong>message_error</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message that is shown in case of error</p></li>
+<li><p><strong>message_ok</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message that is shown in case of ok, or if empty nothing is shown</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.utils.fileutils">
+<span id="fileutils-py"></span><h3>fileutils.py<a class="headerlink" href="#module-quat.utils.fileutils" title="Permalink to this headline">¶</a></h3>
+<p>Some collected and hopefully usefule methods for file handling</p>
+<dl class="py function">
+<dt id="quat.utils.fileutils.file_open">
+<code class="sig-prename descclassname">quat.utils.fileutils.</code><code class="sig-name descname">file_open</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'r'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/fileutils.html#file_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.fileutils.file_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a file (depending on the mode), and if you add bz2 or gz to filename a compressed file will be opened,
+file_open can replace a typical with open(filename) statement</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.fileutils.get_filename_without_extension">
+<code class="sig-prename descclassname">quat.utils.fileutils.</code><code class="sig-name descname">get_filename_without_extension</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">full_filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/fileutils.html#get_filename_without_extension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.fileutils.get_filename_without_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract the plain filename without basename and extension of a given path and full filename</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.fileutils.get_files_by_extension">
+<code class="sig-prename descclassname">quat.utils.fileutils.</code><code class="sig-name descname">get_files_by_extension</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base_dir</span></em>, <em class="sig-param"><span class="n">extension</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/fileutils.html#get_files_by_extension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.fileutils.get_files_by_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>get list of files in a base_dir with specified extension</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – dictionary to search</p></li>
+<li><p><strong>extension</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – extension to check</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of files matching the extension</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.fileutils.get_files_by_extensions">
+<code class="sig-prename descclassname">quat.utils.fileutils.</code><code class="sig-name descname">get_files_by_extensions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base_dir</span></em>, <em class="sig-param"><span class="n">extensions</span><span class="o">=</span><span class="default_value">['']</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/fileutils.html#get_files_by_extensions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.fileutils.get_files_by_extensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>get files by a list of extensions, see get_files_by_extension</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.fileutils.read_file">
+<code class="sig-prename descclassname">quat.utils.fileutils.</code><code class="sig-name descname">read_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/fileutils.html#read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.fileutils.read_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>read a text file into a string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – file to open</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>return content of the complete file as string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.fileutils.read_json">
+<code class="sig-prename descclassname">quat.utils.fileutils.</code><code class="sig-name descname">read_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/fileutils.html#read_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.fileutils.read_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>reads a json file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.fileutils.write_json">
+<code class="sig-prename descclassname">quat.utils.fileutils.</code><code class="sig-name descname">write_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">prettify</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/fileutils.html#write_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.fileutils.write_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>writes a json object j to a file</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.utils.system">
+<span id="system"></span><h3>system<a class="headerlink" href="#module-quat.utils.system" title="Permalink to this headline">¶</a></h3>
+<p>Collection of system helper functions.</p>
+<p>TODO: unify documentation (e.g. parameters)</p>
+<dl class="py function">
+<dt id="quat.utils.system.get_prog_name">
+<code class="sig-prename descclassname">quat.utils.system.</code><code class="sig-name descname">get_prog_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/system.html#get_prog_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.system.get_prog_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>return name of script, that was called on command line</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.system.get_shebang">
+<code class="sig-prename descclassname">quat.utils.system.</code><code class="sig-name descname">get_shebang</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/system.html#get_shebang"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.system.get_shebang" title="Permalink to this definition">¶</a></dt>
+<dd><p>read shebang of a file
+:file_name file to open
+:return shebang</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.system.lglob">
+<code class="sig-prename descclassname">quat.utils.system.</code><code class="sig-name descname">lglob</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_pattern</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/system.html#lglob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.system.lglob" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns list of glob results based on the given path_pattern</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.utils.system.shell_call">
+<code class="sig-prename descclassname">quat.utils.system.</code><code class="sig-name descname">shell_call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">call</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/utils/system.html#shell_call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.utils.system.shell_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a program via system call and return stdout + stderr.
+&#64;param call programm and command line parameter list, e.g shell_call(“ls /”)
+&#64;return stdout and stderr of programm call</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-visual">
+<h2>module visual<a class="headerlink" href="#module-visual" title="Permalink to this headline">¶</a></h2>
+<p>collection of image and video features</p>
+<div class="section" id="module-quat.visual.base_features">
+<span id="base-features-py"></span><h3>base_features.py<a class="headerlink" href="#module-quat.visual.base_features" title="Permalink to this headline">¶</a></h3>
+<p>Video and image no-reference based features.
+Base features can also be applied for full-ref calculations,
+using the <cite>calc_ref_dis</cite> method.</p>
+<dl class="py class">
+<dt id="quat.visual.base_features.BlockMotion">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">BlockMotion</code><a class="reference internal" href="_modules/quat/visual/base_features.html#BlockMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.BlockMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates block motion of two following frames,
+block size is estimated by 5% of the height of the input frame,
+this is done to be resolution independent and faster</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.BlockMotion.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#BlockMotion.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.BlockMotion.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.Blockiness">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">Blockiness</code><a class="reference internal" href="_modules/quat/visual/base_features.html#Blockiness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Blockiness" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate blockness of a video, assume that compression blocks have the same NxN size, where N = [8, 16, 32, 64, 128],</p>
+<p>calculation performs the following steps, explained for N=8:</p>
+<ul class="simple">
+<li><p>apply canny edge detection, K=[X,Y]-axis, normalized by num-rows/cols</p></li>
+<li><p>calculate mean for all K summed values (A)</p></li>
+<li><p>calculate for a shift (0,7) and for every 8th value of the K summed values the mean (B)
+- all shifts will be considered, and only the one with max_mean value is used</p></li>
+<li><p>assume that the distribution should differe, if blocks are there</p></li>
+<li><p>difference of A, and B is then the feature value</p></li>
+</ul>
+<p>overall blockiness value – per frame:</p>
+<ul class="simple">
+<li><p>value = <span class="math notranslate nohighlight">\(\sqrt{(|x\_mean\_diff \cdot y\_mean\_diff | / 2^{(|max\_shift_x - max\_shift_y|/N)}}\)</span></p></li>
+</ul>
+<dl class="py method">
+<dt id="quat.visual.base_features.Blockiness.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#Blockiness.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Blockiness.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.CuboidCol">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">CuboidCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#CuboidCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.CuboidCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Motion estimation using a window of 60 frames and a cuboid video of the video,
+handles only columns of the frames</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.CuboidCol.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#CuboidCol.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.CuboidCol.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.CuboidRow">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">CuboidRow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#CuboidRow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.CuboidRow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Motion estimation using a window of 60 frames and a cuboid video of the video,
+handles only rows of the frames</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.CuboidRow.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#CuboidRow.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.CuboidRow.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.CutDetectionFeatures">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">CutDetectionFeatures</code><a class="reference internal" href="_modules/quat/visual/base_features.html#CutDetectionFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.CutDetectionFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates scene cuts of a given video (approximation),
+implemented by Serge Molina</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.CutDetectionFeatures.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#CutDetectionFeatures.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.CutDetectionFeatures.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.Feature">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">Feature</code><a class="reference internal" href="_modules/quat/visual/base_features.html#Feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>abstract base class for all features,
+handles automatic storage and loading of calculated feature values</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.Feature.calc">
+<em class="property">abstract </em><code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#Feature.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Feature.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.base_features.Feature.calc_dis_ref">
+<code class="sig-name descname">calc_dis_ref</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dframe</span></em>, <em class="sig-param"><span class="n">rframe</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#Feature.calc_dis_ref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Feature.calc_dis_ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>fix for consistent naming scheme</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.base_features.Feature.calc_ref_dis">
+<code class="sig-name descname">calc_ref_dis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dframe</span></em>, <em class="sig-param"><span class="n">rframe</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#Feature.calc_ref_dis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Feature.calc_ref_dis" title="Permalink to this definition">¶</a></dt>
+<dd><p>performs a full-ref style calculation,
+where the resulting features are calculated on both frames,
+and further difference values are stored,</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dframe</strong> (<em>3d array</em>) – distorted video frame</p></li>
+<li><p><strong>rframe</strong> (<em>3d array</em>) – reference video frame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>a dict {“diff”</strong> (<em>values, “ref”: values, “dis”: values} or</em>)</p></li>
+<li><p><strong>dict {“diff_” + k</strong> (values, “<a href="#id5"><span class="problematic" id="id6">ref_</span></a>” + k: values, “<a href="#id7"><span class="problematic" id="id8">dis_</span></a>” + k: values} for all keys <cite>k</cite> in the underlying feature.)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.base_features.Feature.fullref">
+<code class="sig-name descname">fullref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#Feature.fullref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Feature.fullref" title="Permalink to this definition">¶</a></dt>
+<dd><p>used to check if it is a full reference feature</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.base_features.Feature.get_values">
+<code class="sig-name descname">get_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#Feature.get_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Feature.get_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all stored feature values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.base_features.Feature.load">
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">folder</span></em>, <em class="sig-param"><span class="n">video</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#Feature.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Feature.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>loads a feature from a feature folder <cite>folder</cite>,
+feature filename is estimated using the _feature_filename</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.base_features.Feature.store">
+<code class="sig-name descname">store</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">folder</span></em>, <em class="sig-param"><span class="n">video</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#Feature.store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Feature.store" title="Permalink to this definition">¶</a></dt>
+<dd><p>stores a feature to a feature folder <cite>folder</cite>,
+feature filename is estimated using the _feature_filename</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.ImageFeature">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">ImageFeature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img_f</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#ImageFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.ImageFeature" title="Permalink to this definition">¶</a></dt>
+<dd><p>a generic image feature class,
+ususally all methods implemented in quat.visual.images
+can be passes as argument in the constructor</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.ImageFeature.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#ImageFeature.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.ImageFeature.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.MovementFeatures">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">MovementFeatures</code><a class="reference internal" href="_modules/quat/visual/base_features.html#MovementFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.MovementFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates movement feature, using background removement,
+based on master thesis of julian zebelein</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.MovementFeatures.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#MovementFeatures.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.MovementFeatures.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.base_features.MovementFeatures.get_values">
+<code class="sig-name descname">get_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#MovementFeatures.get_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.MovementFeatures.get_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all stored feature values</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.SiFeatures">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">SiFeatures</code><a class="reference internal" href="_modules/quat/visual/base_features.html#SiFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.SiFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates SI values of a video frame
+important: SI values are finally in a 0..1 range, due to float conversion</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.SiFeatures.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#SiFeatures.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.SiFeatures.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.Staticness">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">Staticness</code><a class="reference internal" href="_modules/quat/visual/base_features.html#Staticness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Staticness" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates how static the video is</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.Staticness.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#Staticness.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.Staticness.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.StrredNoRefFeatures">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">StrredNoRefFeatures</code><a class="reference internal" href="_modules/quat/visual/base_features.html#StrredNoRefFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.StrredNoRefFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate entropy of subbands, with the feature that is used in strred, however, this feature does not
+consider a reference video, it justs calculates mean of spatial and temporal features of strred</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.StrredNoRefFeatures.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#StrredNoRefFeatures.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.StrredNoRefFeatures.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.TemporalFeatures">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">TemporalFeatures</code><a class="reference internal" href="_modules/quat/visual/base_features.html#TemporalFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.TemporalFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>A temporal feature, using RMSE of consecutive frames,
+somehow similar to TI, but not applied on gray frames</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.TemporalFeatures.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#TemporalFeatures.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.TemporalFeatures.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.TiFeatures">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">TiFeatures</code><a class="reference internal" href="_modules/quat/visual/base_features.html#TiFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.TiFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates TI values
+important: TI values are finally in a 0..1 range, due to float conversion</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.TiFeatures.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#TiFeatures.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.TiFeatures.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.base_features.UHDSIM2HD">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.base_features.</code><code class="sig-name descname">UHDSIM2HD</code><a class="reference internal" href="_modules/quat/visual/base_features.html#UHDSIM2HD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.UHDSIM2HD" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates similarity of UHD input resolution to HD,
+if input frame is not UHD resolution, it takes half of the height and width</p>
+<dl class="py method">
+<dt id="quat.visual.base_features.UHDSIM2HD.calc">
+<code class="sig-name descname">calc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/base_features.html#UHDSIM2HD.calc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.base_features.UHDSIM2HD.calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform feature calculation for a single frame</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.visual.fullref">
+<span id="fullref-py"></span><h3>fullref.py<a class="headerlink" href="#module-quat.visual.fullref" title="Permalink to this headline">¶</a></h3>
+<p>Full reference features.</p>
+<p>All full-reference features share a common interface,
+e.g. in case of SSIM,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">ssim</span> <span class="o">=</span> <span class="n">SSIM</span><span class="p">()</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">ssim</span><span class="o">.</span><span class="n">calc_ref_dis</span><span class="p">(</span><span class="n">dis_frame</span><span class="p">,</span> <span class="n">ref_frame</span><span class="p">)</span>
+<span class="c1"># will return the calculated ssim value in `v`</span>
+</pre></div>
+</div>
+<p>TODO: add references to metrics</p>
+<dl class="py class">
+<dt id="quat.visual.fullref.FramerateEstimator">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.fullref.</code><code class="sig-name descname">FramerateEstimator</code><a class="reference internal" href="_modules/quat/visual/fullref.html#FramerateEstimator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.FramerateEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>based on frame differences of src and distorted video estimate framerate of distorted video</p>
+<p>TODO: check: could be also an no-reference feature</p>
+<dl class="py method">
+<dt id="quat.visual.fullref.FramerateEstimator.calc_ref_dis">
+<code class="sig-name descname">calc_ref_dis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dis</span></em>, <em class="sig-param"><span class="n">ref</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#FramerateEstimator.calc_ref_dis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.FramerateEstimator.calc_ref_dis" title="Permalink to this definition">¶</a></dt>
+<dd><p>tries to esimate fps</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.fullref.FramerateEstimator.fullref">
+<code class="sig-name descname">fullref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#FramerateEstimator.fullref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.FramerateEstimator.fullref" title="Permalink to this definition">¶</a></dt>
+<dd><p>used to check if it is a full reference feature</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.fullref.FramerateEstimator.get_values">
+<code class="sig-name descname">get_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#FramerateEstimator.get_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.FramerateEstimator.get_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all stored feature values</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.fullref.PSNR">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.fullref.</code><code class="sig-name descname">PSNR</code><a class="reference internal" href="_modules/quat/visual/fullref.html#PSNR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.PSNR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Caclulate PSNR</p>
+<dl class="py method">
+<dt id="quat.visual.fullref.PSNR.calc_ref_dis">
+<code class="sig-name descname">calc_ref_dis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dis</span></em>, <em class="sig-param"><span class="n">ref</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#PSNR.calc_ref_dis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.PSNR.calc_ref_dis" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates psnr score</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.fullref.PSNR.fullref">
+<code class="sig-name descname">fullref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#PSNR.fullref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.PSNR.fullref" title="Permalink to this definition">¶</a></dt>
+<dd><p>used to check if it is a full reference feature</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.fullref.ResolutionSimilarities">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.fullref.</code><code class="sig-name descname">ResolutionSimilarities</code><a class="reference internal" href="_modules/quat/visual/fullref.html#ResolutionSimilarities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.ResolutionSimilarities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tries to estimate resolution of the distorted video</p>
+<dl class="py method">
+<dt id="quat.visual.fullref.ResolutionSimilarities.calc_ref_dis">
+<code class="sig-name descname">calc_ref_dis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dis</span></em>, <em class="sig-param"><span class="n">ref</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#ResolutionSimilarities.calc_ref_dis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.ResolutionSimilarities.calc_ref_dis" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates resoltion based on similarity measurement</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.fullref.ResolutionSimilarities.fullref">
+<code class="sig-name descname">fullref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#ResolutionSimilarities.fullref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.ResolutionSimilarities.fullref" title="Permalink to this definition">¶</a></dt>
+<dd><p>used to check if it is a full reference feature</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.fullref.SSIM">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.fullref.</code><code class="sig-name descname">SSIM</code><a class="reference internal" href="_modules/quat/visual/fullref.html#SSIM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.SSIM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate SSIM</p>
+<dl class="py method">
+<dt id="quat.visual.fullref.SSIM.calc_ref_dis">
+<code class="sig-name descname">calc_ref_dis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dis</span></em>, <em class="sig-param"><span class="n">ref</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#SSIM.calc_ref_dis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.SSIM.calc_ref_dis" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates ssim score</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.fullref.SSIM.fullref">
+<code class="sig-name descname">fullref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#SSIM.fullref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.SSIM.fullref" title="Permalink to this definition">¶</a></dt>
+<dd><p>used to check if it is a full reference feature</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="quat.visual.fullref.VIFP">
+<em class="property">class </em><code class="sig-prename descclassname">quat.visual.fullref.</code><code class="sig-name descname">VIFP</code><a class="reference internal" href="_modules/quat/visual/fullref.html#VIFP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.VIFP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Caclulate multi scale (4 scales) VIFP</p>
+<dl class="py method">
+<dt id="quat.visual.fullref.VIFP.calc_ref_dis">
+<code class="sig-name descname">calc_ref_dis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dis</span></em>, <em class="sig-param"><span class="n">ref</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#VIFP.calc_ref_dis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.VIFP.calc_ref_dis" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates ms-vifp scores</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="quat.visual.fullref.VIFP.fullref">
+<code class="sig-name descname">fullref</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/fullref.html#VIFP.fullref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.fullref.VIFP.fullref" title="Permalink to this definition">¶</a></dt>
+<dd><p>used to check if it is a full reference feature</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.visual.image">
+<span id="image"></span><h3>image<a class="headerlink" href="#module-quat.visual.image" title="Permalink to this headline">¶</a></h3>
+<p>Purely image based features</p>
+<dl class="py function">
+<dt id="quat.visual.image.calc_blur_features">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">calc_blur_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#calc_blur_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.calc_blur_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>estimates blurriness using Laplacian filter,</p>
+<p>based on julian zebelein’s master thesis</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.image.calc_brisque_features">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">calc_brisque_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">gray</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#calc_brisque_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.calc_brisque_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>calcualte brisque no-reference features,</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>scikit-video</p></li>
+<li><p>Mittal, A. K. Moorthy and A. C. Bovik, “No-Reference Image Quality Assessment in the Spatial Domain”
+In: IEEE Transactions on Image Processing, 2012.</p></li>
+<li><p>Mittal, A. K. Moorthy and A. C. Bovik, “Referenceless Image Spatial Quality Evaluation Engine,”
+In: 45th Asilomar Conference on Signals, Systems and Computers , November 2011.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.image.calc_contrast_features">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">calc_contrast_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#calc_contrast_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.calc_contrast_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates contrast based on histogram equalization,</p>
+<p>based on julan zebelein’s master thesis</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.image.calc_fft_features">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">calc_fft_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#calc_fft_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.calc_fft_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates fft feature,</p>
+<p>based on julan zebelein’s master thesis</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>I. Katsavounidis et al. “Native resolution detection of video sequences”.
+In: Annual Technical Conference and Exhibition, SMPTE 2015. SMPTE. 2015, pp. 1–20.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.image.calc_niqe_features">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">calc_niqe_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">gray</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#calc_niqe_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.calc_niqe_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate niqe features</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>scikit-video</p></li>
+<li><p>Mittal, Anish, Rajiv Soundararajan, and Alan C. Bovik. “Making a ‘completely blind’ image quality analyzer.”
+In: IEEE Signal Processing Letters 20.3 (2013): 209-212.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.image.calc_noise">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">calc_noise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#calc_noise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.calc_noise" title="Permalink to this definition">¶</a></dt>
+<dd><p>calcualtes noise std based on skimage.restoration.estimate_sigma
+“Robust wavelet-based estimator of the (Gaussian) noise standard deviation.”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>mean value of all channels for std value of noise assuming that the noise has a Gaussian distribution</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.image.calc_saturation_features">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">calc_saturation_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#calc_saturation_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.calc_saturation_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates saturation of a given image,</p>
+<p>re-implemented by Serge Molina</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>T. O. Aydın, A. Smolic, and M. Gross. “Automated aesthetic analysis of photographic images”.
+In: IEEE transactions on visualization and computer graphics 21.1 2015, pp. 31–42.””</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.image.calc_tone_features">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">calc_tone_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">gray</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#calc_tone_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.calc_tone_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate tone feature,</p>
+<p>re-implemented by Serge Molina</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>T. O. Aydın, A. Smolic, and M. Gross. “Automated aesthetic analysis of photographic images”.
+In: IEEE transactions on visualization and computer graphics 21.1 (2015), pp. 31–42.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.image.ceiq">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">ceiq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">gray</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#ceiq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.ceiq" title="Permalink to this definition">¶</a></dt>
+<dd><p>re-implemented and extended version of <a class="reference external" href="https://github.com/mtobeiyf/CEIQ/blob/master/CEIQ.m">https://github.com/mtobeiyf/CEIQ/blob/master/CEIQ.m</a>
+features for “No-Reference Quality Assessment of Contrast-Distorted Images using Contrast Enhancement”</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Jia Yan, Jie Li, Xin Fu: “No-Reference Quality Assessment of Contrast-Distorted Images using Contrast Enhancement”,
+In: Journal of Visual Communication and Image Representation, 2018</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.image.color_fulness_features">
+<code class="sig-prename descclassname">quat.visual.image.</code><code class="sig-name descname">color_fulness_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image_rgb</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/image.html#color_fulness_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.image.color_fulness_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculates color fullness</p>
+<p>re-implementated by Serge Molina</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Hasler, David, and Sabine E. Suesstrunk. “Measuring colorfulness in natural images.”
+In: Human vision and electronic imaging VIII. Vol. 5007. International Society for Optics and Photonics, 2003.</p></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quat.visual.sseq">
+<span id="sseq"></span><h3>sseq<a class="headerlink" href="#module-quat.visual.sseq" title="Permalink to this headline">¶</a></h3>
+<p>Re-implementation of sseq features based on matlab version and the research paper, see</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Lixiong Liu, Bao Liu, Hua Huang, and Alan Conrad Bovik, “No-reference Image Quality Assessment Based on Spatial and Spectral Entropies”,
+In: Signal Processing: Image Communication, Vol. 29, No. 8, pp. 856-863, Sep. 2014.</p></li>
+<li><p>Lixiong Liu, Bao Liu, Hua Huang, and Alan Conrad Bovik, “SSEQ Software Release”,
+URL: <a class="reference external" href="http://live.ece.utexas.edu/research/quality/SSEQ_release.zip">http://live.ece.utexas.edu/research/quality/SSEQ_release.zip</a>, 2014</p></li>
+</ul>
+<dl class="py function">
+<dt id="quat.visual.sseq.calc_sseq_features">
+<code class="sig-prename descclassname">quat.visual.sseq.</code><code class="sig-name descname">calc_sseq_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">gray</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/sseq.html#calc_sseq_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.sseq.calc_sseq_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate sseq features of an images with several scales</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.sseq.main">
+<code class="sig-prename descclassname">quat.visual.sseq.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/sseq.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.sseq.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract image features</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.sseq.per_block">
+<code class="sig-prename descclassname">quat.visual.sseq.</code><code class="sig-name descname">per_block</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">block_shape</span><span class="o">=</span><span class="default_value">8, 8</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/sseq.html#per_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.sseq.per_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>truncate image size to multiple of block_shape,
+otherwise view_as_blocks will not work</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="quat.visual.sseq.sseq_features">
+<code class="sig-prename descclassname">quat.visual.sseq.</code><code class="sig-name descname">sseq_features</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image_filename</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/visual/sseq.html#sseq_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.visual.sseq.sseq_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>sseq features of an image file</p>
+</dd></dl>
+
+</div>
+<div class="section" id="vifp-check">
+<h3>vifp – CHECK<a class="headerlink" href="#vifp-check" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="other-video-quality-metrics">
+<h3>Other Video Quality Metrics<a class="headerlink" href="#other-video-quality-metrics" title="Permalink to this headline">¶</a></h3>
+<p>For other video quality metrics or methods see <a class="reference external" href="http://www.scikit-video.org/stable/">scikit-video</a> or <a class="reference external" href="https://sporco.readthedocs.io/en/latest/install.html">sporco</a></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="examples.html"
+       title="previous chapter">← Examples</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2019, Steve Göring.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

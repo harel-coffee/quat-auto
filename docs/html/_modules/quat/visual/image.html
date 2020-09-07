@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>quat.visual.image</title>
+    
+      <link rel="stylesheet" href="../../../_static/pygments.css">
+      <link rel="stylesheet" href="../../../_static/theme.css">
+      <link rel="stylesheet" href="../../../_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+      
+      <script src="../../../_static/theme-vendors.js"></script>
+      <script src="../../../_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="../../../genindex.html" />
+  <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../../index.html" class="home-link">
+    
+      <span class="site-name">quat</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+<div class="nav-item">
+  <a href="https://github.com/Telecommunication-Telemedia-Assessment/quat"
+     class="nav-link external">
+       Github <outboundlink/>
+  </a>
+</div>
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../../index.html#projects-using-quat">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../../getting_started.html" class="reference internal ">Getting started</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples.html" class="reference internal ">Examples</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../api.html" class="reference internal ">API documentation</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="../../index.html">Module code</a> &raquo;</li>
+    
+    <li>quat.visual.image</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <h1>Source code for quat.visual.image</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Purely image based features</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This file is part of quat.</span>
+<span class="sd">    quat is free software: you can redistribute it and/or modify</span>
+<span class="sd">    it under the terms of the GNU General Public License as published by</span>
+<span class="sd">    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd">    (at your option) any later version.</span>
+<span class="sd">    quat is distributed in the hope that it will be useful,</span>
+<span class="sd">    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="sd">    GNU General Public License for more details.</span>
+<span class="sd">    You should have received a copy of the GNU General Public License</span>
+<span class="sd">    along with quat. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">    Author: Steve Göring</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">skimage.metrics</span>
+<span class="kn">import</span> <span class="nn">skimage.restoration</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">img_as_ubyte</span>
+<span class="kn">import</span> <span class="nn">skimage.color</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
+<span class="kn">import</span> <span class="nn">skvideo.measure</span>
+
+
+<div class="viewcode-block" id="color_fulness_features"><a class="viewcode-back" href="../../../api.html#quat.visual.image.color_fulness_features">[docs]</a><span class="k">def</span> <span class="nf">color_fulness_features</span><span class="p">(</span><span class="n">image_rgb</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculates color fullness</span>
+
+<span class="sd">    re-implementated by Serge Molina</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Hasler, David, and Sabine E. Suesstrunk. &quot;Measuring colorfulness in natural images.&quot;</span>
+<span class="sd">      In: Human vision and electronic imaging VIII. Vol. 5007. International Society for Optics and Photonics, 2003.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_rgb</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+
+    <span class="n">rg</span> <span class="o">=</span> <span class="p">(</span><span class="n">image_rgb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">image_rgb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">yb</span> <span class="o">=</span> <span class="p">(</span><span class="n">image_rgb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">image_rgb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">image_rgb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+    <span class="n">rg_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">rg</span><span class="p">)</span>
+    <span class="n">yb_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">yb</span><span class="p">)</span>
+
+    <span class="n">rg_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">rg</span><span class="p">)</span>
+    <span class="n">yb_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yb</span><span class="p">)</span>
+
+    <span class="n">trigo_len_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">rg_std</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">yb_std</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">neutral_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">rg_mean</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">yb_mean</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">trigo_len_std</span> <span class="o">+</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">neutral_dist</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="calc_tone_features"><a class="viewcode-back" href="../../../api.html#quat.visual.image.calc_tone_features">[docs]</a><span class="k">def</span> <span class="nf">calc_tone_features</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gray</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculate tone feature,</span>
+
+<span class="sd">    re-implemented by Serge Molina</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - T. O. Aydın, A. Smolic, and M. Gross. &quot;Automated aesthetic analysis of photographic images&quot;.</span>
+<span class="sd">      In: IEEE transactions on visualization and computer graphics 21.1 (2015), pp. 31–42.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">gray</span><span class="p">:</span>
+        <span class="n">image_gray</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">image_gray</span> <span class="o">=</span> <span class="n">image</span>
+
+    <span class="n">image_1d</span> <span class="o">=</span> <span class="n">image_gray</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">percentile05_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">image_1d</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">percentile95_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">image_1d</span><span class="p">,</span> <span class="mi">95</span><span class="p">)</span>
+
+    <span class="n">percentile30_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">image_1d</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="n">percentile70_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">image_1d</span><span class="p">,</span> <span class="mi">70</span><span class="p">)</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+    <span class="n">c_u</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">percentile95_value</span> <span class="o">-</span> <span class="n">percentile70_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">u</span>
+    <span class="n">c_o</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">percentile30_value</span> <span class="o">-</span> <span class="n">percentile05_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">o</span>
+
+    <span class="k">return</span> <span class="n">c_u</span> <span class="o">*</span> <span class="n">c_o</span> <span class="o">*</span> <span class="p">(</span><span class="n">percentile95_value</span> <span class="o">-</span> <span class="n">percentile05_value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="calc_contrast_features"><a class="viewcode-back" href="../../../api.html#quat.visual.image.calc_contrast_features">[docs]</a><span class="k">def</span> <span class="nf">calc_contrast_features</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculates contrast based on histogram equalization,</span>
+
+<span class="sd">    based on julan zebelein&#39;s master thesis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">img_as_ubyte</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">1024</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1024</span><span class="p">])</span>
+    <span class="n">cdf</span> <span class="o">=</span> <span class="n">hist</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">cdf_normalized</span> <span class="o">=</span> <span class="n">cdf</span> <span class="o">*</span> <span class="n">hist</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="n">cdf</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+    <span class="n">cdf_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_equal</span><span class="p">(</span><span class="n">cdf</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">cdf_m</span> <span class="o">=</span> <span class="p">(</span><span class="n">cdf_m</span> <span class="o">-</span> <span class="n">cdf_m</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">/</span> <span class="p">(</span><span class="n">cdf_m</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">cdf_m</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+    <span class="n">cdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">filled</span><span class="p">(</span><span class="n">cdf_m</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
+    <span class="n">img2</span> <span class="o">=</span> <span class="n">cdf</span><span class="p">[</span><span class="n">frame</span><span class="p">]</span>
+
+    <span class="n">hist2</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">img2</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">1024</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1024</span><span class="p">])</span>
+    <span class="n">cdf2</span> <span class="o">=</span> <span class="n">hist2</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">cdf2_normalized</span> <span class="o">=</span> <span class="n">cdf2</span> <span class="o">*</span> <span class="n">hist2</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="n">cdf2</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+    <span class="n">sumAverageDifCDF</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
+        <span class="n">histValue</span> <span class="o">=</span> <span class="n">cdf_normalized</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="n">perfectHistValue</span> <span class="o">=</span> <span class="n">cdf2_normalized</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+        <span class="n">histValuePercent</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">histValue</span><span class="p">)</span> <span class="o">/</span> <span class="n">perfectHistValue</span>
+        <span class="n">difPercent</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">histValuePercent</span> <span class="o">-</span> <span class="mi">100</span><span class="p">)</span>
+
+        <span class="n">sumAverageDifCDF</span> <span class="o">+=</span> <span class="n">difPercent</span>
+
+    <span class="n">avgDif</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="n">sumAverageDifCDF</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">cdf_normalized</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">avgDif</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="calc_fft_features"><a class="viewcode-back" href="../../../api.html#quat.visual.image.calc_fft_features">[docs]</a><span class="k">def</span> <span class="nf">calc_fft_features</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculates fft feature,</span>
+
+<span class="sd">    based on julan zebelein&#39;s master thesis</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - I. Katsavounidis et al. &quot;Native resolution detection of video sequences&quot;.</span>
+<span class="sd">      In: Annual Technical Conference and Exhibition, SMPTE 2015. SMPTE. 2015, pp. 1–20.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">radial_profile</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">center</span><span class="p">):</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+        <span class="n">tbin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">data</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+        <span class="n">nr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+        <span class="n">radialprofile</span> <span class="o">=</span> <span class="n">tbin</span> <span class="o">/</span> <span class="n">nr</span>
+        <span class="k">return</span> <span class="n">radialprofile</span>
+
+    <span class="c1"># start video</span>
+    <span class="n">file_width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">file_height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+    <span class="n">prefinal</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="p">(</span><span class="n">file_width</span><span class="p">,</span> <span class="n">file_height</span><span class="p">))</span>
+    <span class="c1"># final = cv2.GaussianBlur(prefinal,(5,5),0)</span>
+    <span class="n">final</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">prefinal</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">75</span><span class="p">)</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
+    <span class="n">fshift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">magnitude_spectrum</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.00000001</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fshift</span><span class="p">))</span>
+
+    <span class="n">file_height</span><span class="p">,</span> <span class="n">file_width</span> <span class="o">=</span> <span class="n">magnitude_spectrum</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">CurrentCenter</span> <span class="o">=</span> <span class="p">(</span><span class="n">file_width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">file_height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># calculate the azimuthally averaged 1D power spectrum</span>
+    <span class="n">psf1D</span> <span class="o">=</span> <span class="n">radial_profile</span><span class="p">(</span><span class="n">magnitude_spectrum</span><span class="p">,</span> <span class="n">CurrentCenter</span><span class="p">)</span>
+    <span class="n">lowFreqInd</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">psf1D</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="n">psf1D_onlyHighFreq</span> <span class="o">=</span> <span class="n">psf1D</span><span class="p">[</span><span class="n">lowFreqInd</span><span class="p">:]</span>
+    <span class="n">sum_of_high_frequencies</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">psf1D_onlyHighFreq</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">sum_of_high_frequencies</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="calc_saturation_features"><a class="viewcode-back" href="../../../api.html#quat.visual.image.calc_saturation_features">[docs]</a><span class="k">def</span> <span class="nf">calc_saturation_features</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculates saturation of a given image,</span>
+
+<span class="sd">    re-implemented by Serge Molina</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - T. O. Aydın, A. Smolic, and M. Gross. &quot;Automated aesthetic analysis of photographic images&quot;.</span>
+<span class="sd">      In: IEEE transactions on visualization and computer graphics 21.1 2015, pp. 31–42.&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">file_height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+    <span class="n">hsv</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2HSV</span><span class="p">)</span>
+
+    <span class="n">average_hsvValue</span> <span class="o">=</span> <span class="n">hsv</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">file_width</span> <span class="o">*</span> <span class="n">file_height</span><span class="p">)</span>
+    <span class="n">averageSaturationCurrentFrame</span> <span class="o">=</span> <span class="p">(</span><span class="n">average_hsvValue</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="mi">256</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">averageSaturationCurrentFrame</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="calc_blur_features"><a class="viewcode-back" href="../../../api.html#quat.visual.image.calc_blur_features">[docs]</a><span class="k">def</span> <span class="nf">calc_blur_features</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    estimates blurriness using Laplacian filter,</span>
+
+<span class="sd">    based on julian zebelein&#39;s master thesis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">variance_of_laplacian</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+        <span class="c1"># compute the Laplacian of the image and then return the focus</span>
+        <span class="c1"># measure, which is simply the variance of the Laplacian</span>
+        <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Laplacian</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CV_64F</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+
+    <span class="n">file_width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">file_height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+    <span class="n">prefinal</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="p">(</span><span class="n">file_width</span><span class="p">,</span> <span class="n">file_height</span><span class="p">))</span>
+    <span class="c1"># final = cv2.GaussianBlur(prefinal,(5,5),0)</span>
+    <span class="n">final</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">prefinal</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">75</span><span class="p">)</span>
+    <span class="n">fm</span> <span class="o">=</span> <span class="n">variance_of_laplacian</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">fm</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="calc_brisque_features"><a class="viewcode-back" href="../../../api.html#quat.visual.image.calc_brisque_features">[docs]</a><span class="k">def</span> <span class="nf">calc_brisque_features</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gray</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calcualte brisque no-reference features,</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - scikit-video</span>
+<span class="sd">    - Mittal, A. K. Moorthy and A. C. Bovik, &quot;No-Reference Image Quality Assessment in the Spatial Domain&quot;</span>
+<span class="sd">      In: IEEE Transactions on Image Processing, 2012.</span>
+<span class="sd">    - Mittal, A. K. Moorthy and A. C. Bovik, &quot;Referenceless Image Spatial Quality Evaluation Engine,&quot;</span>
+<span class="sd">      In: 45th Asilomar Conference on Signals, Systems and Computers , November 2011.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">gray</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">brisque_features</span> <span class="o">=</span> <span class="n">skvideo</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">brisque_features</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">brisque_features</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span></div>
+
+
+<div class="viewcode-block" id="calc_niqe_features"><a class="viewcode-back" href="../../../api.html#quat.visual.image.calc_niqe_features">[docs]</a><span class="k">def</span> <span class="nf">calc_niqe_features</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gray</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculate niqe features</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - scikit-video</span>
+<span class="sd">    - Mittal, Anish, Rajiv Soundararajan, and Alan C. Bovik. &quot;Making a ‘completely blind’ image quality analyzer.&quot;</span>
+<span class="sd">      In: IEEE Signal Processing Letters 20.3 (2013): 209-212.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">gray</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">niqe</span> <span class="o">=</span> <span class="n">skvideo</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">niqe</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">niqe</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="ceiq"><a class="viewcode-back" href="../../../api.html#quat.visual.image.ceiq">[docs]</a><span class="k">def</span> <span class="nf">ceiq</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gray</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    re-implemented and extended version of https://github.com/mtobeiyf/CEIQ/blob/master/CEIQ.m</span>
+<span class="sd">    features for &quot;No-Reference Quality Assessment of Contrast-Distorted Images using Contrast Enhancement&quot;</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Jia Yan, Jie Li, Xin Fu: &quot;No-Reference Quality Assessment of Contrast-Distorted Images using Contrast Enhancement&quot;,</span>
+<span class="sd">      In: Journal of Visual Communication and Image Representation, 2018</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">gray</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="c1"># equalization</span>
+    <span class="n">image_eq</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">equalize_hist</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="c1"># calculate similarity feature</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">structural_similarity</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">image_eq</span><span class="p">)</span>
+
+    <span class="c1"># create histograms</span>
+    <span class="n">h1</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+    <span class="n">h2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">image_eq</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+
+    <span class="c1"># normalize histograms</span>
+    <span class="n">h1</span> <span class="o">=</span> <span class="n">h1</span> <span class="o">/</span> <span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">h2</span> <span class="o">=</span> <span class="n">h2</span> <span class="o">/</span> <span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># select only positive values</span>
+    <span class="n">selection</span> <span class="o">=</span> <span class="p">(</span><span class="n">h1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">h2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">h1</span> <span class="o">=</span> <span class="n">h1</span><span class="p">[</span><span class="n">selection</span><span class="p">]</span>
+    <span class="n">h2</span> <span class="o">=</span> <span class="n">h2</span><span class="p">[</span><span class="n">selection</span><span class="p">]</span>
+
+    <span class="c1"># calculate logs</span>
+    <span class="n">log_h1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">h1</span><span class="p">)</span>
+    <span class="n">log_h2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">h2</span><span class="p">)</span>
+
+    <span class="c1"># these features are somehow entropy</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">h1</span> <span class="o">*</span> <span class="n">log_h1</span><span class="p">)</span>
+    <span class="n">f3</span> <span class="o">=</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">h2</span> <span class="o">*</span> <span class="n">log_h2</span><span class="p">)</span>
+    <span class="n">f4</span> <span class="o">=</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">h1</span> <span class="o">*</span> <span class="n">log_h2</span><span class="p">)</span>
+    <span class="n">f5</span> <span class="o">=</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">h2</span> <span class="o">*</span> <span class="n">log_h1</span><span class="p">)</span>
+
+    <span class="c1"># additional features, that are not in the paper and added by stg7</span>
+    <span class="n">add1</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">peak_signal_noise_ratio</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">image_eq</span><span class="p">)</span>
+    <span class="n">hd</span> <span class="o">=</span> <span class="n">h1</span> <span class="o">-</span> <span class="n">h2</span>
+    <span class="n">add2</span> <span class="o">=</span> <span class="n">hd</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">add3</span> <span class="o">=</span> <span class="n">hd</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="n">add4</span> <span class="o">=</span> <span class="n">hd</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">add5</span> <span class="o">=</span> <span class="n">hd</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">,</span> <span class="n">f4</span><span class="p">,</span> <span class="n">f5</span><span class="p">,</span> <span class="n">add1</span><span class="p">,</span> <span class="n">add2</span><span class="p">,</span> <span class="n">add3</span><span class="p">,</span> <span class="n">add4</span><span class="p">,</span> <span class="n">add5</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">res</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="calc_noise"><a class="viewcode-back" href="../../../api.html#quat.visual.image.calc_noise">[docs]</a><span class="k">def</span> <span class="nf">calc_noise</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calcualtes noise std based on skimage.restoration.estimate_sigma</span>
+<span class="sd">    &quot;Robust wavelet-based estimator of the (Gaussian) noise standard deviation.&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mean value of all channels for std value of noise assuming that the noise has a Gaussian distribution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">skimage</span><span class="o">.</span><span class="n">restoration</span><span class="o">.</span><span class="n">estimate_sigma</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">average_sigmas</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">multichannel</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2019, Steve Göring.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

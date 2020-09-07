@@ -8,6 +8,6 @@ pip3 install -U sphinx sphinx_press_theme
 after this you can run
 
 ```
-make html
+sphinx-build source/ .
 ```
 

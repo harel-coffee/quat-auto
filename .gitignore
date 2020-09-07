@@ -6,3 +6,6 @@ tmp/
 doctrees
 /quat.egg-info/
 videos
+docs/.doctrees/
+docs/_sources/
+docs/objects.inv

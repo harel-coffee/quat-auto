@@ -61,7 +61,6 @@ Projects using `quat`
    :caption: Contents:
 
    getting_started.rst
-   examples.rst
    api.rst
 
 

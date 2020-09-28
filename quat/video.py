@@ -68,7 +68,7 @@ def iterate_by_frame_two_videos(distortedvideo, referencevideo, convert=True):
             yield (x, y)
     except Exception as e:
         pass
-    raise StopIteration
+    return
 
 
 def read_videos_frame_by_frame(

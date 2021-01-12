@@ -33,13 +33,13 @@ If you use `quat` in any research related project, please cite one of the follow
       ISSN={2472-7814},
       url={https://ieeexplore.ieee.org/document/8743262},
     }
-    @article{goering2020pixel,
-      title={Pixel based Video Quality Models for 4K},
+    @article{goering2021pixel,
+      title={Modular Framework and Instances of Pixel-based Video Quality Models for UHD-1/4K},
       author={Steve G\"oring and Rakesh {Rao Ramachandra Rao} and Bernhard Feiten and Alexander Raake},
       journal={IEEE Access},
       volume={},
       pages={},
-      year={2020},
+      year={2021},
       publisher={IEEE},
       note={to appear}
     }

@@ -3,7 +3,7 @@
 collection of python methods and tools as a libary for video/image quality analysis.
 
 
-## requirements and setup
+## Requirements and Setup
 
 first you need:
 
@@ -38,7 +38,7 @@ You can also use `quat` as a dependency in a poetry project, e.g. adding the fol
 quat = {git="git@github.com:stg7/quat.git", branch="master"}
 ```
 
-## tools
+## Tools
 There are some tools included in `quat`, please checkout the documentation or the command line help:
 ```bash
 poetry run siti --help
@@ -50,9 +50,40 @@ poetry run brisque_niqe --help
 ```
 
 
-## note
+## Note
 `quat` is currently not tested under windows, some system specific calls are not working under windows.
 
-## local ffmpeg
-to use a local installed ffmpeg/ffprobe version, please ..
 
+## Acknowledgments
+
+If you use this software in your research, please include a link to the repository and reference the following papers.
+
+```
+@inproceedings{goering2019qomex,
+  author={Steve {G{\"o}ring} and Rakesh Rao {Ramachandra Rao} and Alexander Raake},
+  title="nofu - A Lightweight {No-Reference} Pixel Based Video Quality Model for
+  Gaming Content",
+  BOOKTITLE="2019 Eleventh International Conference on Quality of Multimedia Experience
+  (QoMEX) (QoMEX 2019)",
+  address="Berlin, Germany",
+  days=4,
+  month=jun,
+  year=2019,
+  doi={10.1109/QoMEX.2019.8743262},
+  ISSN={2472-7814},
+  url={https://ieeexplore.ieee.org/document/8743262},
+}
+@article{goering2021pixel,
+  title={Modular Framework and Instances of Pixel-based Video Quality Models for UHD-1/4K},
+  author={Steve G\"oring and Rakesh {Rao Ramachandra Rao} and Bernhard Feiten and Alexander Raake},
+  journal={IEEE Access},
+  volume={},
+  pages={},
+  year={2021},
+  publisher={IEEE},
+  note={to appear}
+}
+```
+
+## License
+GNU General Public License v3. See [LICENSE.md](./LICENSE.md) file in this repository.

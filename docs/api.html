@@ -169,8 +169,8 @@ if convert is true, than a conversion to uint will be performed</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>video_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – filename of a video file</p></li>
-<li><p><strong>convert</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if true performs a 8 bit conversion of each frame</p></li>
+<li><p><strong>video_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – filename of a video file</p></li>
+<li><p><strong>convert</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if true performs a 8 bit conversion of each frame</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -259,11 +259,11 @@ Important, if videos don’t have the same number of frames it will stop after m
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>items</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – list of items passed to function</p></li>
+<li><p><strong>items</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – list of items passed to function</p></li>
 <li><p><strong>function</strong> (<em>function name</em>) – function that should be applied on each item</p></li>
-<li><p><strong>arguments</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – constant arguments that are passed to function</p></li>
-<li><p><strong>num_cpus</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of cpu’s that should be used</p></li>
-<li><p><strong>multi_item</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – in case multi_item is true, it is assumed each item is a list</p></li>
+<li><p><strong>arguments</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – constant arguments that are passed to function</p></li>
+<li><p><strong>num_cpus</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of cpu’s that should be used</p></li>
+<li><p><strong>multi_item</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – in case multi_item is true, it is assumed each item is a list</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -300,9 +300,9 @@ applies function with each group + arguments in parallel threads</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>start</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>)</em>) – defined start color as tuple (R, G, B)</p></li>
-<li><p><strong>mid</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>)</em>) – defined middle color as tuple (R, G, B)</p></li>
-<li><p><strong>end</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>)</em>) – defined end color as tuple (R, G, B)</p></li>
+<li><p><strong>start</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>)</em>) – defined start color as tuple (R, G, B)</p></li>
+<li><p><strong>mid</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>)</em>) – defined middle color as tuple (R, G, B)</p></li>
+<li><p><strong>end</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>)</em>) – defined end color as tuple (R, G, B)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -375,9 +375,9 @@ from: <a class="reference external" href="https://stackoverflow.com/a/16915734">
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>videofilename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – video filename that should be segmented</p></li>
-<li><p><strong>output_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – store segments in this folder, folder will be created if it doesn’t exists</p></li>
-<li><p><strong>segment_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – length of video segments in seconds</p></li>
+<li><p><strong>videofilename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – video filename that should be segmented</p></li>
+<li><p><strong>output_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – store segments in this folder, folder will be created if it doesn’t exists</p></li>
+<li><p><strong>segment_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – length of video segments in seconds</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -504,12 +504,12 @@ can be used, e.g. in case of a full reference model, to unify a distorted video 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – input video file</p></li>
-<li><p><strong>tmp_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – folder where converted video is stored</p></li>
-<li><p><strong>framerate</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – framerate of final video</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – width of final video</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – height of final video, use -2 to automatically determine height based on width</p></li>
-<li><p><strong>pix_fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – pixel format of final video</p></li>
+<li><p><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – input video file</p></li>
+<li><p><strong>tmp_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – folder where converted video is stored</p></li>
+<li><p><strong>framerate</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – framerate of final video</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – width of final video</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – height of final video, use -2 to automatically determine height based on width</p></li>
+<li><p><strong>pix_fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – pixel format of final video</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -530,13 +530,13 @@ can be used, e.g. in case of a full reference model, to unify a distorted video 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – input video file</p></li>
-<li><p><strong>tmp_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – folder where converted video is stored</p></li>
-<li><p><strong>framerate</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – framerate of final video</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – width of final video</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – height of final video, use -2 to automatically determine height based on width</p></li>
-<li><p><strong>pix_fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – pixel format of final video</p></li>
-<li><p><strong>ccheight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – center crop height of final crop</p></li>
+<li><p><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – input video file</p></li>
+<li><p><strong>tmp_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – folder where converted video is stored</p></li>
+<li><p><strong>framerate</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – framerate of final video</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – width of final video</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – height of final video, use -2 to automatically determine height based on width</p></li>
+<li><p><strong>pix_fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – pixel format of final video</p></li>
+<li><p><strong>ccheight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – center crop height of final crop</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -555,9 +555,9 @@ can be used, e.g. in case of a full reference model, to unify a distorted video 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – input video file</p></li>
-<li><p><strong>tmp_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – folder where center cropped version is store, this version gets “_cropped.mkv” as suffix</p></li>
-<li><p><strong>ccheight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – default=360, height of the center crop</p></li>
+<li><p><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – input video file</p></li>
+<li><p><strong>tmp_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – folder where center cropped version is store, this version gets “_cropped.mkv” as suffix</p></li>
+<li><p><strong>ccheight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – default=360, height of the center crop</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -583,7 +583,7 @@ can be used, e.g. in case of a full reference model, to unify a distorted video 
 <dl class="py class">
 <dt id="quat.ff.recorder.Recorder">
 <em class="property">class </em><code class="sig-prename descclassname">quat.ff.recorder.</code><code class="sig-name descname">Recorder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">resultfolder</span><span class="o">=</span><span class="default_value">'tmp'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ff/recorder.html#Recorder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ff.recorder.Recorder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>ffmpeg based screen recording</p>
 <dl class="py method">
 <dt id="quat.ff.recorder.Recorder.start">
@@ -592,12 +592,12 @@ can be used, e.g. in case of a full reference model, to unify a distorted video 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>filebasename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – basename of recording filename (will be extended by .mkv and stored in the recordfolder)</p></li>
-<li><p><strong>hardwareAcceleration</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if true try to used hardware acceleration for intel graphics cards (TODO: experimental)</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – recording width (screen resolution must be at least having this width)</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – recording height</p></li>
-<li><p><strong>fps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – frames per second to record</p></li>
-<li><p><strong>shift</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – ffmpeg specific shift, e.g. “+100,200” TODO: explain better</p></li>
+<li><p><strong>filebasename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – basename of recording filename (will be extended by .mkv and stored in the recordfolder)</p></li>
+<li><p><strong>hardwareAcceleration</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if true try to used hardware acceleration for intel graphics cards (TODO: experimental)</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – recording width (screen resolution must be at least having this width)</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – recording height</p></li>
+<li><p><strong>fps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – frames per second to record</p></li>
+<li><p><strong>shift</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – ffmpeg specific shift, e.g. “+100,200” TODO: explain better</p></li>
 </ul>
 </dd>
 </dl>
@@ -632,7 +632,7 @@ can be used, e.g. in case of a full reference model, to unify a distorted video 
 <dl class="py class">
 <dt id="quat.ml.gen_alg.GeneticEvolution">
 <em class="property">class </em><code class="sig-prename descclassname">quat.ml.gen_alg.</code><code class="sig-name descname">GeneticEvolution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">population_size</span></em>, <em class="sig-param"><span class="n">mutation_rate</span></em>, <em class="sig-param"><span class="n">max_num_generations</span></em>, <em class="sig-param"><span class="n">individual_class</span></em>, <em class="sig-param"><span class="n">cpu_count</span><span class="o">=</span><span class="default_value">8</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">live_plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">checkpoint_folder</span><span class="o">=</span><span class="default_value">'checkpoint'</span></em>, <em class="sig-param"><span class="n">checkpoint_intervall</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#GeneticEvolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.GeneticEvolution" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>simple base class for genetic evolution</p>
 <dl class="py method">
 <dt id="quat.ml.gen_alg.GeneticEvolution.get_number_generations">
@@ -685,7 +685,7 @@ evolution will get “HelloWorld”</p>
 <dl class="py class">
 <dt id="quat.ml.gen_alg.Individual">
 <em class="property">class </em><code class="sig-prename descclassname">quat.ml.gen_alg.</code><code class="sig-name descname">Individual</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number_genes</span><span class="o">=</span><span class="default_value">42</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quat/ml/gen_alg.html#Individual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quat.ml.gen_alg.Individual" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>base class of an individual in a genetic algorithm</p>
 <dl class="py method">
 <dt id="quat.ml.gen_alg.Individual.calc_fitness">
@@ -784,7 +784,7 @@ pdf=”../figures/confusion_rf_norm.pdf”</p>
 <li><p><strong>pipeline</strong> (<em>scikit learn pipeline</em>) – needs to have named_steps[“regressor”] and
 named_steps[“feature_selection”] storing all data</p></li>
 <li><p><strong>feature_columns</strong> (<em>list of str</em>) – name of feature_columns</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – folder name where all trees are finally stored</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – folder name where all trees are finally stored</p></li>
 </ul>
 </dd>
 </dl>
@@ -834,8 +834,8 @@ named_steps[“feature_selection”] storing all data</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
-<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
-<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Y column to be used</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -855,8 +855,8 @@ named_steps[“feature_selection”] storing all data</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
-<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
-<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Y column to be used</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -876,8 +876,8 @@ named_steps[“feature_selection”] storing all data</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
-<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
-<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Y column to be used</p></li>
 </ul>
 </dd>
 </dl>
@@ -905,8 +905,8 @@ named_steps[“feature_selection”] storing all data</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
-<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
-<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Y column to be used</p></li>
 </ul>
 </dd>
 </dl>
@@ -920,8 +920,8 @@ named_steps[“feature_selection”] storing all data</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
-<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
-<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Y column to be used</p></li>
 </ul>
 </dd>
 </dl>
@@ -935,8 +935,8 @@ named_steps[“feature_selection”] storing all data</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
-<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
-<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Y column to be used</p></li>
 </ul>
 </dd>
 </dl>
@@ -950,8 +950,8 @@ named_steps[“feature_selection”] storing all data</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pandas dataframe</em>) – stores all data</p></li>
-<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – X column to be used</p></li>
-<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Y column to be used</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – X column to be used</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Y column to be used</p></li>
 </ul>
 </dd>
 </dl>
@@ -1034,7 +1034,7 @@ the extracted values by 255</p>
 the resulting values are [0,1] scaled</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>video</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – filename of the video that should be processed</p>
+<dd class="field-odd"><p><strong>video</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – filename of the video that should be processed</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -1083,9 +1083,9 @@ the resulting values are [0,1] scaled</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – condition to check</p></li>
-<li><p><strong>message_error</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message that is shown in case of error</p></li>
-<li><p><strong>message_ok</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message that is shown in case of ok, or if empty nothing is shown</p></li>
+<li><p><strong>cond</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – condition to check</p></li>
+<li><p><strong>message_error</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – message that is shown in case of error</p></li>
+<li><p><strong>message_ok</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – message that is shown in case of ok, or if empty nothing is shown</p></li>
 </ul>
 </dd>
 </dl>
@@ -1115,8 +1115,8 @@ file_open can replace a typical with open(filename) statement</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – dictionary to search</p></li>
-<li><p><strong>extension</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – extension to check</p></li>
+<li><p><strong>base_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – dictionary to search</p></li>
+<li><p><strong>extension</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – extension to check</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1140,7 +1140,7 @@ file_open can replace a typical with open(filename) statement</p>
 <dd><p>read a text file into a string</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – file to open</p>
+<dd class="field-odd"><p><strong>file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – file to open</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>

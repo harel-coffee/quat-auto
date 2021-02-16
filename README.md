@@ -22,6 +22,8 @@ pip3 install --user poetry
 then you can install `quat` using pip via:
 
 ```bash
+poetry install
+
 poetry build
 pip3 install dist/*.whl
 ```

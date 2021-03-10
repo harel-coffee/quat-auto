@@ -37,7 +37,7 @@ poetry run siti --help
 You can also use `quat` as a dependency in a poetry project, e.g. adding the following to your projects `pyproject.toml`:
 
 ```ini
-quat = {git="git@github.com:stg7/quat.git", branch="master"}
+quat = {git="https://github.com/Telecommunication-Telemedia-Assessment/quat.git", branch="master"}
 ```
 
 ## Tools

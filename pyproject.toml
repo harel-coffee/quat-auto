@@ -10,13 +10,15 @@ authors = [ "Steve <stg7@gmx.de>",]
 license = "GPL 3"
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
-numpy = "^1.18.2"
-pandas = "^1.0.3"
-scipy = "^1.4.1"
-scikit-image = "^0.16.2"
-scikit-learn = "^0.22.2"
-opencv-python = "^4.2.0"
+python = ">=3.8,<3.11"
+numpy = "^1.22.3"
+pandas = "^1.4.2"
+scipy = "^1.8.0"
+scikit-image = "^0.19.2"
+scikit-learn = "^1.0.2"
+opencv-python = "^4.5.5"
+
+
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

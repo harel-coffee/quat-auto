@@ -28,6 +28,15 @@ poetry build
 pip3 install dist/*.whl
 ```
 
+Hint: In case poetry is not capable of installing some of the dependencies, you may need to install the following:
+```bash
+sudo apt install build-essential  # to compile c++/c 
+sudo apt install libjpeg-dev zlib1g-dev   # for pillow 
+sudo apt-get install libblas-dev liblapack-dev libatlas-base-dev gfortran  # for scipy/numpy
+```
+
+Furthermore, a `poetry update` may also help, e.g. when some dependencies are not compiling.
+
 For development you can also just stay in the poetry environment and run specifc parts, e.g. with
 ```bash
 poetry run siti --help

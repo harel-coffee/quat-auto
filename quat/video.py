@@ -116,14 +116,42 @@ def read_videos_frame_by_frame(
     return results
 
 
+def unnest_values(values):
+    """
+    input a list with dicts where each dict has keys with a list
+    e.g. values = [{"diff": [1,2] , "ref": [2,3]}, {"diff": [1,2] , "ref": [2,3]}]
+    output: [{'diff_0': 1, 'diff_1': 2, 'ref_0': 2, 'ref_1': 3}, {'diff_0': 1, 'diff_1': 2, 'ref_0': 2, 'ref_1': 3}]
+    """
+    if not(len(values) > 0 and type(values[0]) == dict and  type(values[0][list(values[0].keys())[0]]) == list):
+        # this method is only allowed for the specific nesting type of values, otherwise it does nothing
+        return values
+
+    new_values = []
+    for dict_v in values:
+        res = {}
+        for key in dict_v.keys():
+            r = {}
+            for i, v in enumerate(dict_v[key]):
+                numbered_key = key + "_" + str(i)
+                r[numbered_key] = v
+            res = dict(res, **r)
+        new_values.append(res)
+    return new_values
+
+
 def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
     """ advanced_pooling temporal pooling method,
     """
-    # in case x is a list and the elements are lists or dictionaries, the advanced_pooling pooling method "element wise",
+    x = unnest_values(x)  # applies only for specific nested structures a simplification
+
+    # in case x is a list and the elements are lists or dictionaries
+    # the advanced_pooling pooling method is applied "element wise",
     # and the results are prefixed, e.g.
-    # x = [{"a": [1,2], "b": [2,3]}], name "test"  --> returns {"test_a": advanced_pooling(x[ all values for a]) , .. }
-    # if the first element is a list, then the indixes are used
-    # # x = [[1,2], [2,3]], name "test"  --> returns {"test_0": advanced_pooling(x[all values with index 0]), ...}
+    # x = [{"a": [1,2], "b": [2,3]}], name "test"
+    #   --> performs advanced_pooling(x[ all values for a], name="test_a"), ... , for each column results are added as one dictionary
+    # if the first element is a list, then the list indixes are used
+    # x = [[1,2], [2,3]], name "test"
+    #   --> performs advanced_pooling(x[all values with index 0], name="test_0"), ... for each index results are added in the dictionary
     if len(x) > 0 and type(x[0]) in [dict, list]:
         res = {}
         df = pd.DataFrame(x)
@@ -179,6 +207,7 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
                 np.percentile(values, 100 * quantile)
             )
     return res
+
 
 
 def calc_per_second_scores(per_frame_scores, segment_duration):

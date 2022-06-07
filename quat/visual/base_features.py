@@ -99,7 +99,7 @@ class Feature:
                 res["dis_" + k] = v1[k]
                 res["ref_" + k] = v2[k]
         elif type(v1) == list:
-            res["diff"] = np.array(v1) - np.array(v2)
+            res["diff"] = (np.array(v1) - np.array(v2)).tolist()
             res["dis"] = v1
             res["ref"] = v2
         else:

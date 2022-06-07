@@ -39,7 +39,7 @@ from quat.visual.image import calc_brisque_features, calc_niqe_features
 from quat.visual.base_features import ImageFeature
 from quat.utils.fileutils import get_filename_without_extension
 from quat.utils.fileutils import write_json
-
+from quat.video import advanced_pooling
 
 def extract_brisque_niqe(video):
     """
@@ -75,7 +75,17 @@ def extract_brisque_niqe(video):
         results.append(r)
         jprint(r)
         frame_number += 1
-    return {"video": video, "values": results}
+        if frame_number > 3:
+            break
+    pooled = {}
+    for f in features:
+        pooled = dict(pooled, **advanced_pooling(features[f].get_values(), f))
+
+    return {
+        "video": video,
+        "values": results,
+        "pooled": pooled
+    }
 
 
 def main(_=[]):

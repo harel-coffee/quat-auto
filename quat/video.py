@@ -115,10 +115,29 @@ def read_videos_frame_by_frame(
         lInfo("reached end")
     return results
 
+import pdb
+import sys
+
+class ForkedPdb(pdb.Pdb):
+    """A Pdb subclass that may be used
+    from a forked multiprocessing child
+
+    """
+    def interaction(self, *args, **kwargs):
+        _stdin = sys.stdin
+        try:
+            sys.stdin = open('/dev/stdin')
+            pdb.Pdb.interaction(self, *args, **kwargs)
+        finally:
+            sys.stdin = _stdin
+
+
+
 
 def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
     """ advanced_pooling temporal pooling method,
     """
+    ForkedPdb().set_trace()
     if len(x) > 0 and type(x[0]) in [dict, list]:
         res = {}
         df = pd.DataFrame(x)

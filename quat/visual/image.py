@@ -376,4 +376,4 @@ def calc_noise(frame):
     -------
     mean value of all channels for std value of noise assuming that the noise has a Gaussian distribution
     """
-    return float(skimage.restoration.estimate_sigma(frame, average_sigmas=True, multichannel=True))
+    return float(skimage.restoration.estimate_sigma(frame, average_sigmas=True, channel_axis=2))

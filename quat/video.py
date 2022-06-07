@@ -139,10 +139,11 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
         values = np.array([np.finfo(np.float32).max - 1])
 
     last_value = values[-1]
-    first_value = values[-1]
-    _max = values.max() if values.max() != 0 else 1
+    first_value = values[0]
+    _max = values.max()
     """
-    values = values / _max
+    _max_norm =  if values.max() != 0 else 1
+    values = values / _max_norm
     """
     res = {
         f"{name}_mean": float(values.mean()),

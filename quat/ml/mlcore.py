@@ -231,7 +231,7 @@ def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
             (
                 "regressor",
                 RandomForestRegressor(
-                    n_estimators=num_trees, n_jobs=-1, criterion="mse"
+                    n_estimators=num_trees, n_jobs=-1, criterion="squared_error"
                 ),
             ),
         ]
@@ -279,7 +279,7 @@ def train_rf_multi_regression(x, y, num_trees=10, threshold="0.001*mean", column
             (
                 "regressor",
                 RandomForestRegressor(
-                    n_estimators=num_trees, n_jobs=-1, criterion="mse"
+                    n_estimators=num_trees, n_jobs=-1, criterion="squared_error"
                 ),
             ),
         ]
@@ -313,7 +313,7 @@ def train_rf_regression_param_optimization(x, y, threshold="0.001*mean", num_tre
             (
                 "regressor",
                 RandomForestRegressor(
-                    n_estimators=num_trees, n_jobs=-1, criterion="mse"
+                    n_estimators=num_trees, n_jobs=-1, criterion="squared_error"
                 ),
             ),
         ]

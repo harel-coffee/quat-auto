@@ -53,7 +53,7 @@ def extract_brisque_niqe(video):
 
     Returns
     -------
-    dict of per frame results and filename
+    dict of per frame results, filename and temporally pooled feature values
 
     Examples
     --------

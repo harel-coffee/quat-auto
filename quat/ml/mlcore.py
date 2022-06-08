@@ -540,7 +540,7 @@ def eval_plots_regression(truth, pred, title="", folder="", plotname=""):
         title=title + "\n" + metrics_str,
     )
 
-    ax.plot(bounds, bounds, "k--", lw=2, color="gray")
+    ax.plot(bounds, bounds, "k--", lw=2)
     ax.text(
         -0.5,
         -0.5,

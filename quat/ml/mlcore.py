@@ -119,7 +119,6 @@ def train_dummy_class(x, y):
     trains a dummy classifier, x is feature matrix, y target classes
     """
     X = x.copy()
-    X = X.values
     Y = y.values.astype(np.int32)
 
     dummy_clf = DummyClassifier()
@@ -138,7 +137,6 @@ def train_gradboost_class(x, y, num_trees=10, threshold="0.001*mean"):
     """
     X = x.copy()
     columns = X.columns
-    X = X.values
     Y = y.values
     # TODO: rename "regressor?!"
     pipeline = Pipeline(
@@ -160,7 +158,6 @@ def train_gradboost_class(x, y, num_trees=10, threshold="0.001*mean"):
 
 def train_rf_class(x, y, num_trees=10, threshold="0.001*mean", n_splits=10):
     X = x.copy()
-    X = X.values
     Y = y.values  # .astype(np.int32)
 
     pipeline = Pipeline(
@@ -190,9 +187,6 @@ def train_rf_class(x, y, num_trees=10, threshold="0.001*mean", n_splits=10):
 
 def train_knn_class(x, y):
     X = x.copy()
-
-    X = X.values
-
     Y = y.values  # .astype(np.int32)
 
     pipeline = Pipeline(
@@ -214,13 +208,8 @@ def train_knn_class(x, y):
 
 
 def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
-    try:
-        X = x.replace([np.inf, -np.inf], np.nan).fillna(0).values
-        Y = y.values
-        columns = x.columns
-    except:
-        X = x
-        Y = y
+    X = x.copy()
+    Y = y.values
 
     pipeline = Pipeline(
         [
@@ -300,7 +289,7 @@ def train_rf_multi_regression(x, y, num_trees=10, threshold="0.001*mean", column
 
 
 def train_rf_regression_param_optimization(x, y, threshold="0.001*mean", num_trees=25):
-    X = x.replace([np.inf, -np.inf], np.nan).fillna(0).values
+    X = x.copy()
     Y = y.values
     columns = x.columns
 
@@ -360,7 +349,6 @@ def train_gradboost_regression(x, y, num_trees=10, threshold="0.001*mean"):
     X = x.copy()
     columns = X.columns
     print(columns)
-    X = X.values
     Y = y.values
 
     pipeline = Pipeline(

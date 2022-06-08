@@ -75,8 +75,7 @@ def extract_brisque_niqe(video):
         results.append(r)
         jprint(r)
         frame_number += 1
-        if frame_number > 3:
-            break
+
     pooled = {}
     for f in features:
         pooled = dict(pooled, **advanced_pooling(features[f].get_values(), f))

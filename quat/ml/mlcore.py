@@ -210,6 +210,7 @@ def train_knn_class(x, y):
 def train_rf_regression(x, y, num_trees=10, threshold="0.001*mean", columns=[]):
     X = x.copy()
     Y = y.values
+    columns = x.columns
 
     pipeline = Pipeline(
         [
@@ -263,6 +264,7 @@ def train_rf_multi_regression(x, y, num_trees=10, threshold="0.001*mean", column
     """
     X = x.copy()
     Y = y.copy()
+
     pipeline = Pipeline(
         [
             (
@@ -348,7 +350,6 @@ def train_rf_regression_param_optimization(x, y, threshold="0.001*mean", num_tre
 def train_gradboost_regression(x, y, num_trees=10, threshold="0.001*mean"):
     X = x.copy()
     columns = X.columns
-    print(columns)
     Y = y.values
 
     pipeline = Pipeline(

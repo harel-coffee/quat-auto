@@ -372,7 +372,7 @@ class BlockMotion(Feature):
                 "blkm.ones": blk_motion_ones,
                 "blkm.minusones": blk_motion_minusones,
             }
-            self._values.append(per_frame_values)
+        self._values.append(per_frame_values)
         self._last_frame = frame
         return per_frame_values
 

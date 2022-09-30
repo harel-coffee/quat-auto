@@ -19,6 +19,7 @@ General video helper
 """
 
 import time
+from warnings import warn
 
 import skvideo.io
 from skimage import img_as_uint
@@ -27,11 +28,22 @@ import scipy.stats
 import numpy as np
 import pandas as pd
 import numpy as np
-
+import cv2
 from quat.log import *
 
 
-def iterate_by_frame(video_filename, convert=True):
+def iterate_by_frame(video_filename, convert=True, openCV=False):
+    if openCV:
+        return iterate_by_frame_cv2(video_filename, convert)
+    warn(
+        'This method is deprecated and should be replaced with iterate_by_frame_cv2 in future versions.',
+        DeprecationWarning,
+        stacklevel=2
+    )
+    return iterate_by_frame_skvideo(video_filename, convert)
+
+
+def iterate_by_frame_skvideo(video_filename, convert=True):
     """ iterator over all frames a video given by `video_filename`,
     if convert is true, than a conversion to uint will be performed
 
@@ -51,6 +63,22 @@ def iterate_by_frame(video_filename, convert=True):
             yield img_as_uint(frame)
         else:
             yield frame
+
+
+def iterate_by_frame_cv2(video_filename, convert=True):
+    cap = cv2.VideoCapture(video_filename)
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if ret != True:
+            break
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        if convert:
+            yield img_as_uint(rgb_frame)
+        else:
+            yield rgb_frame
+
+    cap.release()
+    cv2.destroyAllWindows()
 
 
 def iterate_by_frame_two_videos(distortedvideo, referencevideo, convert=True):

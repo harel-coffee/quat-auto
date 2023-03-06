@@ -39,6 +39,20 @@ from scipy import ndimage
 from ..log import *
 
 
+def psnr(referenceVideoData, distortedVideoData, bitdepth=8):
+    """ a minimal adjusted variant of psnr from scikit video """
+    bitdepth = np.int64(bitdepth)
+    maxvalue = np.int64(2**bitdepth - 1)
+    maxsq = maxvalue**2
+
+    referenceFrame = referenceVideoData.astype(np.float64)
+    distortedFrame = distortedVideoData.astype(np.float64)
+
+    mse = np.mean((referenceFrame - distortedFrame)**2)
+    psnr = 10 * np.log10(maxsq / mse)
+    return psnr
+
+
 class Feature:
     """
     abstract base class for all features,
@@ -480,7 +494,7 @@ class UHDSIM2HD(Feature):
             dsize=(frame_gray.shape[1], frame_gray.shape[0]),
             interpolation=cv2.INTER_CUBIC,
         )
-        v = float(skvideo.measure.psnr(frame_gray, frame_gray_hd)[0])
+        v = float(psnr(frame_gray, frame_gray_hd))
         if np.isinf(v):
             v = 1000
         self._values.append(v)

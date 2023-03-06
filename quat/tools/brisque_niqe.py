@@ -62,7 +62,7 @@ def extract_brisque_niqe(video):
     """
     features = {
         "brisque": ImageFeature(calc_brisque_features),
-        "niqe": ImageFeature(calc_niqe_features)
+        "niqe": ImageFeature(calc_niqe_features),
     }
     results = []
     frame_number = 1

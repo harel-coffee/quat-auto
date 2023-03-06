@@ -81,14 +81,14 @@ def iterate_by_frame_cv2(video_filename, convert=True):
     cv2.destroyAllWindows()
 
 
-def iterate_by_frame_two_videos(distortedvideo, referencevideo, convert=True):
+def iterate_by_frame_two_videos(distortedvideo, referencevideo, convert=True, openCV=False):
     """
     interates over a pair of videos (distortedvideo, referencevideo) and returns pairs of frames (dis_frame, ref_frame),
     if convert is true, uint conversion will be performed,
     Important, if videos don't have the same number of frames it will stop after min(frames(dis), frames(ref)) frames.
     """
-    dis_it = iterate_by_frame(distortedvideo, convert)
-    ref_it = iterate_by_frame(referencevideo, convert)
+    dis_it = iterate_by_frame(distortedvideo, convert, openCV=openCV)
+    ref_it = iterate_by_frame(referencevideo, convert, openCV=openCV)
     try:
         while True:
             x = next(dis_it)
@@ -110,8 +110,8 @@ def read_videos_frame_by_frame(
     """read two videos frame by frame, and perform a function with parameters on each pair of frames
     """
     lInfo("handle : {} and {}".format(distortedvideo, referencevideo))
-    distortedvideo_it = iterate_by_frame(distortedvideo)
-    referencevideo_it = iterate_by_frame(referencevideo)
+    distortedvideo_it = iterate_by_frame(distortedvideo, openCV=True)
+    referencevideo_it = iterate_by_frame(referencevideo, openCV=True)
     k = 0
     results = []
     last_x = None

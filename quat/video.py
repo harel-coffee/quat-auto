@@ -169,7 +169,7 @@ def unnest_values(values):
 
 def _nan_replacement(func, values):
     res = func(values)
-    if res == np.NaN:
+    if np.isnan(res):
         return values[0]
     return res
 

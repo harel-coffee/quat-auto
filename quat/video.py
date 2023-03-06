@@ -167,6 +167,13 @@ def unnest_values(values):
     return new_values
 
 
+def _nan_replacement(func, values):
+    res = func(values)
+    if res == np.NaN:
+        return values[0]
+    return res
+
+
 def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
     """ advanced_pooling temporal pooling method,
     """
@@ -217,8 +224,8 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
             **{
                 f"{name}_last_value": float(last_value),
                 f"{name}_max": float(_max),
-                f"{name}_skew": float(scipy.stats.skew(values)),
-                f"{name}_kurtosis": float(scipy.stats.kurtosis(values)),
+                f"{name}_skew": float(_nan_replacement(scipy.stats.skew, values)),
+                f"{name}_kurtosis": float(_nan_replacement(scipy.stats.kurtosis, values)),
                 f"{name}_iqr": float(scipy.stats.iqr(values)),
             },
         )

@@ -60,11 +60,24 @@ class SSIM(Feature):
 class PSNR(Feature):
     """ Caclulate PSNR """
 
+    def psnr(self, referenceVideoData, distortedVideoData, bitdepth=8):
+        """ a minimal adjusted variant of psnr from scikit video """
+        bitdepth = np.int64(bitdepth)
+        maxvalue = np.int64(2**bitdepth - 1)
+        maxsq = maxvalue**2
+
+        referenceFrame = referenceVideoData.astype(np.float64)
+        distortedFrame = distortedVideoData.astype(np.float64)
+
+        mse = np.mean((referenceFrame - distortedFrame)**2)
+        psnr = 10 * np.log10(maxsq / mse)
+        return psnr
+
     def calc_ref_dis(self, dis, ref):
         """ calculates psnr score """
         x_g = skimage.color.rgb2gray(ref)
         y_g = skimage.color.rgb2gray(dis)
-        v = float(skvideo.measure.psnr(x_g, y_g, bitdepth=10))
+        v = float(self.psnr(x_g, y_g, bitdepth=10))
         self._values.append(v)
         return v
 

@@ -31,6 +31,8 @@ from skimage import exposure
 import skvideo.measure
 import scipy
 
+from .scikit_video_fix import *
+
 
 def color_fulness_features(image_rgb):
     """

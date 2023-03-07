@@ -41,6 +41,7 @@ from quat.utils.fileutils import get_filename_without_extension
 from quat.utils.fileutils import write_json
 from quat.video import advanced_pooling
 
+
 def extract_brisque_niqe(video):
     """
     extracts brisque niqe feature values of a given video
@@ -62,7 +63,7 @@ def extract_brisque_niqe(video):
     """
     features = {
         "brisque": ImageFeature(calc_brisque_features),
-        "niqe": ImageFeature(calc_niqe_features),
+        "niqe": ImageFeature(calc_niqe_features)
     }
     results = []
     frame_number = 1
@@ -75,6 +76,8 @@ def extract_brisque_niqe(video):
         results.append(r)
         jprint(r)
         frame_number += 1
+        if frame_number == 5:
+            break
 
     pooled = {}
     for f in features:

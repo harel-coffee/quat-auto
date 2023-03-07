@@ -41,6 +41,8 @@ from skimage import img_as_ubyte
 from .base_features import Feature, psnr
 from .vifp import vifp_mscale
 
+from .scikit_video_fix import *
+
 
 class SSIM(Feature):
     """ Calculate SSIM """

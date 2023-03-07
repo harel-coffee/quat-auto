@@ -170,7 +170,9 @@ def unnest_values(values):
 def _nan_replacement(func, values):
     res = func(values)
     if np.isnan(res):
-        return values[0]
+        if len(values) > 0:
+            return values[0]
+        return -1
     return res
 
 
@@ -214,8 +216,8 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
     values = values / _max_norm
     """
     res = {
-        f"{name}_mean": float(values.mean()),
-        f"{name}_std": float(values.std()),
+        f"{name}_mean": float(_nan_replacement(np.mean, values)),
+        f"{name}_std": float(_nan_replacement(np.std, values)),
         f"{name}_first_value": float(first_value),
     }
     if not minimal:
@@ -233,8 +235,8 @@ def advanced_pooling(x, name, parts=3, stats=True, minimal=False):
     # split values in `parts` groups, and calculate mean, std
     groups = np.array_split(values, parts)
     for i in range(len(groups)):
-        res[f"{name}_p{i}.mean"] = groups[i].mean()
-        res[f"{name}_p{i}.std"] = groups[i].std()
+        res[f"{name}_p{i}.mean"] = _nan_replacement(np.mean, groups[i])
+        res[f"{name}_p{i}.std"] = _nan_replacement(np.std, groups[i])
     if stats:
         for i in range(11):
             quantile = round(0.1 * i, 1)

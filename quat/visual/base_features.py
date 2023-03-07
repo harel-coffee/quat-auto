@@ -38,19 +38,7 @@ from scipy import ndimage
 
 from ..log import *
 
-
-def psnr(referenceVideoData, distortedVideoData, bitdepth=8):
-    """ a minimal adjusted variant of psnr from scikit video """
-    bitdepth = np.int64(bitdepth)
-    maxvalue = np.int64(2**bitdepth - 1)
-    maxsq = maxvalue**2
-
-    referenceFrame = referenceVideoData.astype(np.float64)
-    distortedFrame = distortedVideoData.astype(np.float64)
-
-    mse = np.mean((referenceFrame - distortedFrame)**2)
-    psnr = 10 * np.log10(maxsq / mse)
-    return psnr
+from .scikit_video_fix import *
 
 
 class Feature:
